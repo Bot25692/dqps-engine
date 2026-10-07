@@ -1,3 +1,4 @@
+export const dynamic = 'force-dynamic';
 import { PageHeader } from "@/components/page-header";
 import { MainContent } from "@/components/main-content";
 import { StatCard } from "@/components/stat-card";

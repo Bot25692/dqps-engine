@@ -1,3 +1,4 @@
+export const dynamic = 'force-dynamic';
 /**
  * Learning page — predicted vs actual simulated contribution profit.
  *

@@ -1,3 +1,4 @@
+export const dynamic = 'force-dynamic';
 /**
  * Recommendations page — wires Builder A's real recommendation output.
  *
