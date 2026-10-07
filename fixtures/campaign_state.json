@@ -1,0 +1,20 @@
+[
+  {
+    "campaign_id": "c-sneaker",
+    "daily_budget": 1000,
+    "status": "active",
+    "updated_at": "2026-09-20T18:00:00Z"
+  },
+  {
+    "campaign_id": "c-premium",
+    "daily_budget": 2500,
+    "status": "active",
+    "updated_at": "2026-09-20T18:00:00Z"
+  },
+  {
+    "campaign_id": "c-hoodie",
+    "daily_budget": 1500,
+    "status": "active",
+    "updated_at": "2026-09-20T18:00:00Z"
+  }
+]

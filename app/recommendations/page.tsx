@@ -1,96 +1,63 @@
+/**
+ * Recommendations page — wires Builder A's real recommendation output.
+ *
+ * Data flow:
+ *   Fixture data (fixtures/*.json) → FixtureRepo → /api/analysis GET
+ *   → RecommendationsClient displays recommendation + Approve/Reject controls
+ *   → Approve/Reject → POST /api/decide
+ *   → Approved → Simulate → POST /api/decide { action: "simulate" }
+ *   → Simulation result → /learning page
+ *
+ * No business logic in this file. All numbers from code.
+ */
+
+export const instant = false;
+
 import { PageHeader } from "@/components/page-header";
 import { MainContent } from "@/components/main-content";
+import { createRepo } from "@/lib/db/data-source";
+import { ANALYSIS_AS_OF } from "@/lib/run-analysis";
+import { RecommendationDetail } from "@/components/recommendations/recommendation-detail";
 
-/* ─── Recommendations page (/recommendations) ─────────────────────────────── */
-/* Gate G0 shell — no recommendation logic, no optimizer, no LLM.              */
-/* Real content: up to 5 profit-aware budget moves (lib/analysis → app/api/decide). */
-export default function RecommendationsPage() {
+export default async function RecommendationsPage() {
+  // Fetch from fixture repo (server component — safe)
+  const repo = createRepo();
+  const [recommendations, anomalies, campaigns, skus, metrics, inventory] =
+    await Promise.all([
+      repo.getRecommendations(),
+      repo.getAnomalies(),
+      repo.getCampaigns(),
+      repo.getSkus(),
+      repo.getMetrics("2026-10-01", ANALYSIS_AS_OF),
+      repo.getInventory("2026-10-01", ANALYSIS_AS_OF),
+    ]);
+
+  const topRec =
+    recommendations.find((r) => r.status === "pending") ??
+    recommendations[0] ??
+    null;
+
+  const stockAnomalies = anomalies
+    .filter((a) => a.metric === "stock_runway")
+    .sort((a, b) => b.z_score - a.z_score)
+    .slice(0, 5);
+
   return (
-    <div className="flex flex-col min-h-full">
+    <>
       <PageHeader
         title="Recommendations"
-        subtitle="Profit-aware budget moves · Up to 5 per run · ≥ ₹300/day expected gain"
+        subtitle={`Budget reallocation recommendations — as of ${ANALYSIS_AS_OF}`}
       />
       <MainContent>
-        {/* Placeholder: move list */}
-        <section aria-label="Pending recommendations">
-          <h3 className="text-sm font-semibold text-gray-500 uppercase tracking-wide mb-3">
-            Pending Moves
-          </h3>
-          <div
-            className="rounded-lg border bg-white shadow-sm divide-y"
-            style={{ borderColor: "var(--border)" }}
-          >
-            {/* Placeholder rows — replaced by real data in Gate G1/G2 */}
-            {[
-              {
-                id: "REC-001",
-                from: "TikTok / TEE-BSC",
-                to: "Meta / TEE-PRM",
-                amount: "₹4,200/day",
-                reason: "Marginal profit negative (E4). Receiver has positive margin.",
-                status: "Pending approval",
-              },
-              {
-                id: "REC-002",
-                from: "Google (all)",
-                to: "Hold",
-                amount: "₹8,400/day ↓",
-                reason: "CPM +40% from day 36 (E3). Reduce to 60% floor.",
-                status: "Pending approval",
-              },
-              {
-                id: "REC-003",
-                from: "Meta / HOOD-01",
-                to: "Hold",
-                amount: "₹9,600/day ↓ 30%",
-                reason: "CTR fatigue detected from day 22 (E2). Flag new creative.",
-                status: "Pending approval",
-              },
-            ].map((rec) => (
-              <div key={rec.id} className="flex items-start justify-between px-5 py-4 gap-4">
-                <div className="flex-1 min-w-0">
-                  <div className="flex items-center gap-2 flex-wrap">
-                    <span className="text-xs font-mono text-gray-400">{rec.id}</span>
-                    <span className="text-sm font-medium text-gray-900">{rec.from}</span>
-                    <span className="text-gray-400 text-xs">→</span>
-                    <span className="text-sm font-medium text-gray-900">{rec.to}</span>
-                    <span
-                      className="text-sm font-semibold"
-                      style={{ color: "var(--color-warning)" }}
-                    >
-                      {rec.amount}
-                    </span>
-                  </div>
-                  <p className="mt-1 text-xs text-gray-500">{rec.reason}</p>
-                </div>
-                <span
-                  className="shrink-0 rounded-full px-2.5 py-0.5 text-xs font-medium"
-                  style={{ backgroundColor: "var(--muted)", color: "var(--muted-foreground)" }}
-                >
-                  {rec.status}
-                </span>
-              </div>
-            ))}
-          </div>
-        </section>
-
-        {/* Placeholder: explanation panel */}
-        <section aria-label="LLM explanation" className="mt-8">
-          <h3 className="text-sm font-semibold text-gray-500 uppercase tracking-wide mb-3">
-            Plain-English Explanation
-          </h3>
-          <div
-            className="rounded-lg border bg-white shadow-sm p-5"
-            style={{ borderColor: "var(--border)" }}
-          >
-            <p className="text-sm text-gray-400 italic">
-              LLM-generated or template explanation renders here — Gate G2.
-              Numbers always come from the pipeline, never from the LLM.
-            </p>
-          </div>
-        </section>
+        <RecommendationDetail
+          recommendation={topRec}
+          stockAnomalies={stockAnomalies}
+          campaigns={campaigns}
+          skus={skus}
+          metrics={metrics}
+          inventory={inventory}
+        />
       </MainContent>
-    </div>
+    </>
   );
 }

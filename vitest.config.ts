@@ -3,7 +3,7 @@ import { resolve } from "path";
 
 /**
  * Vitest configuration for A.D.A.P.T.
- * Runs only lib/simulation tests — no browser tests, no UI tests.
+ * Runs lib/simulation and lib/integration tests.
  * The `@/*` alias mirrors tsconfig.json paths so imports resolve correctly.
  */
 export default defineConfig({
