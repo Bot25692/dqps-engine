@@ -75,7 +75,7 @@ export async function runAnalysis(repo: Repo, options: {
   try {
     plan = (options.allocatePlan ?? allocate)(state);
     assertGuardrails(plan);
-  } catch { throw new AnalysisGuardrailError(); }
+  } catch (e) { throw new AnalysisGuardrailError(); }
   const recommendations: Recommendation[] = RecommendationSchema.array().parse(plan.moves.length ? [{
     id: `analysis:${ANALYSIS_AS_OF}:budget_reallocation`, created_at: `${ANALYSIS_AS_OF}T00:00:00.000Z`,
     type: 'budget_reallocation', moves: plan.moves,

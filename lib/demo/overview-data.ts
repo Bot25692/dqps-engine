@@ -6,6 +6,9 @@ export function overviewData(data: { campaigns: Campaign[]; skus: Sku[]; metrics
   const skuMap = new Map(data.skus.map(sku => [sku.id, sku]));
   const campaignMap = new Map(data.campaigns.map(campaign => [campaign.id, campaign]));
   const dates = [...new Set(data.metrics.map(row => row.date))].sort();
+  if (dates.length === 0) {
+    throw new Error("No metrics found for the requested date range");
+  }
   const latest = dates.at(-1)!;
   const daily = dates.map(date => {
     const rows = data.metrics.filter(row => row.date === date);
