@@ -18,48 +18,129 @@ export default async function OverviewPage() {
   const { kpiStats, portfolioTimeSeries, attentionItem, opportunityItem, metadata } =
     overviewData(await repo.run(loadAnalysisInputs));
 
-  const subtitle = metadata.asOfDate === '2026-10-07' && metadata.skuCount === 8
-    ? "Day 45 · D2C Apparel & Footwear · 4 Platforms · 8 SKUs · INR"
-    : `${metadata.dayCount ? `Day ${metadata.dayCount} (as-of ${metadata.asOfDate})` : `As-of ${metadata.asOfDate}`} · ${metadata.platformCount} Platform${metadata.platformCount === 1 ? '' : 's'} · ${metadata.skuCount} SKU${metadata.skuCount === 1 ? '' : 's'} · INR`;
+  const subtitle =
+    metadata.asOfDate === "2026-10-07" && metadata.skuCount === 8
+      ? "Day 45 · D2C Apparel & Footwear · 4 Platforms · 8 SKUs · INR"
+      : `${
+          metadata.dayCount
+            ? `Day ${metadata.dayCount} (as-of ${metadata.asOfDate})`
+            : `As-of ${metadata.asOfDate}`
+        } · ${metadata.platformCount} Platform${
+          metadata.platformCount === 1 ? "" : "s"
+        } · ${metadata.skuCount} SKU${
+          metadata.skuCount === 1 ? "" : "s"
+        } · INR`;
+
+  const startDate = portfolioTimeSeries[0]?.day ?? "08 SEP 2026";
+  const endDate = portfolioTimeSeries.at(-1)?.day ?? "07 OCT 2026";
 
   /* ── Court Sneaker: Stock Risk ── */
   const attentionMetrics = [
-    { label: "Platform",      value: attentionItem.platform,                              mono: false },
-    { label: "ROAS",          value: `${attentionItem.roas.toFixed(1)}×`,                 trend: "good"    as const, mono: true },
-    { label: "Inventory",     value: `${attentionItem.inventoryUnits} units`,              trend: "problem" as const, mono: true },
-    { label: "Stock Runway",  value: `${attentionItem.stockRunwayDays === Infinity ? 'Ample' : `${attentionItem.stockRunwayDays.toFixed(1)} days`}`,  trend: attentionItem.stockRunwayDays < 5 ? ("problem" as const) : ("neutral" as const), mono: true },
-    { label: "Margin",        value: `${attentionItem.marginPct.toFixed(0)}%`,             mono: true },
-    { label: "Status",        value: attentionItem.statusLabel,                            trend: attentionItem.stockRunwayDays < 5 ? ("problem" as const) : ("neutral" as const) },
+    { label: "Platform", value: attentionItem.platform, mono: false },
+    {
+      label: "ROAS",
+      value: `${attentionItem.roas.toFixed(1)}×`,
+      trend: "good" as const,
+      mono: true,
+    },
+    {
+      label: "Inventory",
+      value: `${attentionItem.inventoryUnits} units`,
+      trend: "problem" as const,
+      mono: true,
+    },
+    {
+      label: "Stock Runway",
+      value: `${
+        attentionItem.stockRunwayDays === Infinity
+          ? "Ample"
+          : `${attentionItem.stockRunwayDays.toFixed(1)} days`
+      }`,
+      trend:
+        attentionItem.stockRunwayDays < 5
+          ? ("problem" as const)
+          : ("neutral" as const),
+      mono: true,
+    },
+    {
+      label: "Margin",
+      value: `${attentionItem.marginPct.toFixed(0)}%`,
+      mono: true,
+    },
+    {
+      label: "Status",
+      value: attentionItem.statusLabel,
+      trend:
+        attentionItem.stockRunwayDays < 5
+          ? ("problem" as const)
+          : ("neutral" as const),
+    },
   ];
 
   /* ── Premium T-Shirt: Growth Opportunity ── */
+  const oppStockDays = (opportunityItem as { stockRunwayDays?: number }).stockRunwayDays;
+  const oppStockDisplay =
+    oppStockDays != null && oppStockDays !== Infinity
+      ? `${oppStockDays.toFixed(1)} days`
+      : `${opportunityItem.inventoryUnits} units`;
+
   const opportunityMetrics = [
-    { label: "Platform",  value: opportunityItem.platform,                              mono: false },
-    { label: "ROAS",      value: `${opportunityItem.roas.toFixed(1)}×`,                 trend: "good" as const, mono: true },
-    { label: "Inventory", value: `${opportunityItem.inventoryUnits} units`,              trend: "good" as const, mono: true },
-    { label: "Margin",    value: `${opportunityItem.marginPct.toFixed(0)}%`,            trend: "good" as const, mono: true },
+    { label: "Platform", value: opportunityItem.platform, mono: false },
+    {
+      label: "ROAS",
+      value: `${opportunityItem.roas.toFixed(1)}×`,
+      trend: "good" as const,
+      mono: true,
+    },
+    {
+      label: "Inventory",
+      value: `${opportunityItem.inventoryUnits} units`,
+      trend: "good" as const,
+      mono: true,
+    },
+    {
+      label: "Margin",
+      value: `${opportunityItem.marginPct.toFixed(0)}%`,
+      trend: "good" as const,
+      mono: true,
+    },
+    {
+      label: "Stock cover",
+      value: oppStockDisplay,
+      trend: "good" as const,
+      mono: true,
+    },
   ];
 
   return (
-    <div className="flex flex-col min-h-full">
+    <>
       <PageHeader
         title="Overview"
         subtitle={subtitle}
+        eyebrow="PORTFOLIO INTELLIGENCE"
         actions={
           <div className="flex items-center gap-3">
             {/* Decision workflow breadcrumb */}
             <div
-              className="hidden sm:flex items-center gap-1.5 text-xs"
-              style={{ color: "var(--text-tertiary)" }}
+              className="hidden xl:flex items-center gap-1.5 text-xs"
+              style={{ color: "var(--text-faint)" }}
             >
-              {["Detect", "Diagnose", "Decide", "Approve", "Simulate", "Learn"].map((step, i) => (
+              {[
+                "Detect",
+                "Diagnose",
+                "Decide",
+                "Approve",
+                "Simulate",
+                "Learn",
+              ].map((step, i) => (
                 <span key={step} className="flex items-center gap-1.5">
                   {i > 0 && (
-                    <span style={{ color: "var(--border-strong)" }}>›</span>
+                    <span style={{ color: "var(--line-strong)" }}>›</span>
                   )}
                   <span
                     style={{
-                      color: i === 0 ? "var(--brand-orange)" : "var(--text-tertiary)",
+                      color:
+                        i === 0 ? "var(--orange)" : "var(--text-faint)",
                       fontWeight: i === 0 ? 600 : 400,
                     }}
                   >
@@ -68,85 +149,72 @@ export default async function OverviewPage() {
                 </span>
               ))}
             </div>
-            {/* Data source pill */}
-            <span
-              className="inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-medium"
-              style={{
-                backgroundColor: "var(--bg-elevated)",
-                border: "1px solid var(--border-default)",
-                color: "var(--text-secondary)",
-              }}
-            >
-              <span
-                className="w-1.5 h-1.5 rounded-full"
-                style={{ backgroundColor: "var(--color-good)", boxShadow: "0 0 4px var(--color-good)" }}
-              />
-              {repo.status.banner ?? `${repo.status.dataSource} mode`}
-            </span>
           </div>
         }
       />
 
       <MainContent>
-        {/* ── SECTION LABEL UTILITY ── */}
         {/* ── 1. KPI Summary ────────────────────────────────────────────── */}
-        <section aria-label="Key performance indicators">
-          <div className="flex items-center gap-2 mb-3">
-            <span
-              className="text-xs font-semibold uppercase tracking-widest"
-              style={{ color: "var(--text-tertiary)", letterSpacing: "0.14em", fontSize: "10px" }}
-            >
-              Portfolio KPIs
-            </span>
-            <div className="flex-1 h-px" style={{ backgroundColor: "var(--border-subtle)" }} />
-            <span
-              className="text-xs"
-              style={{ color: "var(--text-tertiary)", fontSize: "10px" }}
-            >
-              Day 45 as-of
-            </span>
-          </div>
-          <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
-            {kpiStats.map((stat) => (
-              <StatCard
-                key={stat.label}
-                label={stat.label}
-                value={stat.value}
-                sub={stat.sub}
-                trend={stat.trend}
-              />
-            ))}
-          </div>
+        <section className="kpi-grid" aria-label="Portfolio performance">
+          {kpiStats.map((stat, index) => (
+            <StatCard
+              key={stat.label}
+              label={stat.label}
+              value={stat.value}
+              sub={stat.sub}
+              trend={stat.trend}
+              staggerIndex={index}
+            />
+          ))}
         </section>
 
-        {/* ── 2. Needs Attention (hero) + Growth Opportunity ─────────────── */}
-        <section aria-label="Action alerts">
-          <div className="flex items-center gap-2 mb-3">
-            <span
-              className="text-xs font-semibold uppercase tracking-widest"
-              style={{ color: "var(--text-tertiary)", letterSpacing: "0.14em", fontSize: "10px" }}
-            >
-              Action Required
-            </span>
-            <div className="flex-1 h-px" style={{ backgroundColor: "var(--border-subtle)" }} />
-            {/* Key differentiator callout */}
-            <span
-              className="text-xs px-2 py-0.5 rounded"
-              style={{
-                backgroundColor: "var(--brand-orange-glow)",
-                color: "var(--brand-orange)",
-                border: "1px solid rgba(249,115,22,0.2)",
-                fontSize: "10px",
-              }}
-            >
-              High ROAS ≠ Scale
-            </span>
-          </div>
+        {/* ── 2. Performance Panel & Signal Stack (2-Column Grid) ───────── */}
+        <section className="overview-grid" aria-label="Performance and Signals">
+          {/* Left: Portfolio Performance Chart */}
+          <article className="panel performance-panel">
+            <div className="panel-heading chart-heading">
+              <div>
+                <div className="panel-kicker">
+                  <span className="kicker-line" aria-hidden="true" />
+                  Portfolio performance
+                </div>
+                <h2>Profitability, over time</h2>
+                <p>Revenue, contribution profit and ad spend</p>
+              </div>
+              <span className="date-range">
+                {startDate} <span>—</span> {endDate}
+              </span>
+            </div>
 
-          <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
-            {/* Stock Risk: Court Sneaker — HERO alert */}
+            <div className="chart-wrap">
+              <PortfolioChart data={portfolioTimeSeries} />
+            </div>
+
+            <div className="chart-legend">
+              <span>
+                <i className="legend-dot revenue-dot" />
+                Revenue
+              </span>
+              <span>
+                <i className="legend-dot profit-dot" />
+                Contribution profit
+              </span>
+              <span>
+                <i className="legend-dot spend-dot" />
+                Ad spend
+              </span>
+            </div>
+
+            <div className="chart-footnote">
+              Portfolio Performance <span>·</span> Contribution profit = Revenue × margin − Ad Spend
+            </div>
+          </article>
+
+          {/* Right: Signal Stack */}
+          <aside className="signal-stack" aria-label="Campaign signals">
+            {/* Stock Risk: Court Sneaker (or dynamic attention item) */}
             <AlertCard
-              sectionLabel="⚠ Needs Attention — Stock Risk"
+              sectionLabel="Stock risk"
               sectionTrend="problem"
               name={attentionItem.name}
               sku={attentionItem.sku}
@@ -155,13 +223,14 @@ export default async function OverviewPage() {
               statusTrend={attentionItem.statusTrend}
               metrics={attentionMetrics}
               insight={attentionItem.insight}
-              ctaLabel="View Analysis →"
+              index="01"
+              ctaLabel="View Analysis"
               ctaHref="/recommendations"
             />
 
-            {/* Growth Opportunity: Premium T-Shirt */}
+            {/* Growth Opportunity: Premium T-Shirt (or dynamic opportunity item) */}
             <AlertCard
-              sectionLabel="Growth Opportunity"
+              sectionLabel="Opportunity"
               sectionTrend="good"
               name={opportunityItem.name}
               sku={opportunityItem.sku}
@@ -170,78 +239,11 @@ export default async function OverviewPage() {
               statusTrend={opportunityItem.statusTrend}
               metrics={opportunityMetrics}
               insight={opportunityItem.insight}
+              index="02"
             />
-          </div>
-        </section>
-
-        {/* ── 3. Portfolio Performance Chart ──────────────────────────── */}
-        <section aria-label="Portfolio performance">
-          {/* Section header */}
-          <div className="flex items-center gap-2 mb-3">
-            <span
-              className="text-xs font-semibold uppercase tracking-widest"
-              style={{ color: "var(--text-tertiary)", letterSpacing: "0.14em", fontSize: "10px" }}
-            >
-              Portfolio Performance
-            </span>
-            <div className="flex-1 h-px" style={{ backgroundColor: "var(--border-subtle)" }} />
-            <span style={{ color: "var(--text-tertiary)", fontSize: "10px" }}>
-              D16 → D45 · Revenue, Contribution Profit & Ad Spend
-            </span>
-          </div>
-
-          <div
-            className="rounded-lg p-4"
-            style={{
-              backgroundColor: "var(--bg-surface)",
-              border: "1px solid var(--border-subtle)",
-            }}
-          >
-            {/* Chart header */}
-            <div className="flex items-start justify-between mb-4">
-              <div>
-                <p
-                  className="text-sm font-semibold"
-                  style={{ color: "var(--text-primary)" }}
-                >
-                  Daily Revenue vs Contribution Profit
-                </p>
-                <p
-                  className="text-xs mt-0.5"
-                  style={{ color: "var(--text-tertiary)" }}
-                >
-                  Contribution profit = Revenue × margin − Ad Spend.
-                  The objective metric — not ROAS.
-                </p>
-              </div>
-              {/* Legend pills */}
-              <div className="hidden sm:flex items-center gap-3 text-xs shrink-0">
-                {[
-                  { color: "#f97316", label: "Revenue" },
-                  { color: "#22c55e", label: "Contribution Profit" },
-                  { color: "#f59e0b", label: "Ad Spend", dashed: true },
-                ].map((l) => (
-                  <span key={l.label} className="flex items-center gap-1.5" style={{ color: "var(--text-secondary)" }}>
-                    <span
-                      style={{
-                        width: 20,
-                        height: 2,
-                        backgroundColor: l.color,
-                        display: "inline-block",
-                        opacity: l.dashed ? 0.7 : 1,
-                        borderBottom: l.dashed ? `2px dashed ${l.color}` : "none",
-                      }}
-                    />
-                    {l.label}
-                  </span>
-                ))}
-              </div>
-            </div>
-
-            <PortfolioChart data={portfolioTimeSeries} />
-          </div>
+          </aside>
         </section>
       </MainContent>
-    </div>
+    </>
   );
 }

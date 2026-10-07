@@ -1,5 +1,5 @@
 /* ─── MainContent wrapper ───────────────────────────────────────────────────
-   Scrollable padded content area on the dark surface.
+   Content block wrapper for page routes.
    ─────────────────────────────────────────────────────────────────────────── */
 
 interface MainContentProps {
@@ -8,12 +8,5 @@ interface MainContentProps {
 }
 
 export function MainContent({ children, className = "" }: MainContentProps) {
-  return (
-    <main
-      className={`flex-1 px-6 py-5 space-y-5 ${className}`}
-      style={{ backgroundColor: "var(--bg-base)" }}
-    >
-      {children}
-    </main>
-  );
+  return <div className={`space-y-6 ${className}`}>{children}</div>;
 }

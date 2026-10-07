@@ -7,20 +7,9 @@ import type { Campaign, Sku, MetricRow, InventoryRow } from "@/lib/types";
 
 export const instant = false;
 
-/* ─── Platform badge colours ─────────────────────────────────────────────── */
-const platformStyle: Record<string, { color: string; bg: string; border: string; label: string }> = {
-  meta:    { color: "#818cf8", bg: "rgba(129,140,248,0.1)", border: "rgba(129,140,248,0.25)", label: "Meta" },
-  google:  { color: "#34d399", bg: "rgba(52,211,153,0.1)",  border: "rgba(52,211,153,0.25)",  label: "Google" },
-  tiktok:  { color: "#fb7185", bg: "rgba(251,113,133,0.1)", border: "rgba(251,113,133,0.25)", label: "TikTok" },
-  amazon:  { color: "#fbbf24", bg: "rgba(251,191,36,0.1)",  border: "rgba(251,191,36,0.25)",  label: "Amazon" },
-};
-
 /* ─── Format helpers ─────────────────────────────────────────────────────── */
 function fmtINR(n: number): string {
   return "₹" + n.toLocaleString("en-IN", { maximumFractionDigits: 0 });
-}
-function fmtPct(n: number): string {
-  return `${(n * 100).toFixed(0)}%`;
 }
 
 /* ─── Build campaign rows from fixture data ──────────────────────────────── */
@@ -39,7 +28,7 @@ function buildCampaignRows(
   campaigns: Campaign[],
   skus: Sku[],
   metrics: MetricRow[],
-  inventory: InventoryRow[],
+  inventory: InventoryRow[]
 ): CampaignRow[] {
   const skuMap = new Map(skus.map((s) => [s.id, s]));
 
@@ -47,61 +36,72 @@ function buildCampaignRows(
   const dates = [...new Set(metrics.map((m) => m.date))].sort();
   const last7Dates = new Set(dates.slice(-7));
 
-  return campaigns.map((c) => {
-    const sku = skuMap.get(c.sku_id)!;
-    const recentMetrics = metrics.filter((m) => m.campaign_id === c.id && last7Dates.has(m.date));
-    const totalSpend = recentMetrics.reduce((s, m) => s + m.spend, 0);
-    const totalRevenue = recentMetrics.reduce((s, m) => s + m.revenue, 0);
-    const days = recentMetrics.length || 1;
-    const avgDailySpend = totalSpend / days;
-    const avgDailyRevenue = totalRevenue / days;
-    const roas = avgDailySpend > 0 ? avgDailyRevenue / avgDailySpend : 0;
+  return campaigns
+    .map((c) => {
+      const sku = skuMap.get(c.sku_id)!;
+      const recentMetrics = metrics.filter(
+        (m) => m.campaign_id === c.id && last7Dates.has(m.date)
+      );
+      const totalSpend = recentMetrics.reduce((s, m) => s + m.spend, 0);
+      const totalRevenue = recentMetrics.reduce((s, m) => s + m.revenue, 0);
+      const days = recentMetrics.length || 1;
+      const avgDailySpend = totalSpend / days;
+      const avgDailyRevenue = totalRevenue / days;
+      const roas = avgDailySpend > 0 ? avgDailyRevenue / avgDailySpend : 0;
 
-    // Latest inventory snapshot for this SKU
-    const skuInventory = inventory
-      .filter((inv) => inv.sku_id === c.sku_id)
-      .sort((a, b) => b.date.localeCompare(a.date));
-    const latestInv = skuInventory[0];
-    const inventoryUnits = latestInv?.units_on_hand ?? 0;
-    const avgDailySold = skuInventory.slice(0, 7).reduce((s, i) => s + i.units_sold, 0) / 7;
-    const stockRunwayDays = avgDailySold > 0 ? inventoryUnits / avgDailySold : 999;
+      // Latest inventory snapshot for this SKU
+      const skuInventory = inventory
+        .filter((inv) => inv.sku_id === c.sku_id)
+        .sort((a, b) => b.date.localeCompare(a.date));
+      const latestInv = skuInventory[0];
+      const inventoryUnits = latestInv?.units_on_hand ?? 0;
+      const avgDailySold =
+        skuInventory.slice(0, 7).reduce((s, i) => s + i.units_sold, 0) / 7;
+      const stockRunwayDays =
+        avgDailySold > 0 ? inventoryUnits / avgDailySold : 999;
 
-    // Break-even ROAS = 1 / margin_rate
-    const breakEvenRoas = sku ? 1 / sku.margin_rate : 2;
-    const flag: CampaignRow["flag"] =
-      stockRunwayDays < 3 ? "stock-critical" :
-      stockRunwayDays < 5 ? "stock-low" :
-      roas < breakEvenRoas ? "negative-margin" : "none";
+      // Break-even ROAS = 1 / margin_rate
+      const breakEvenRoas = sku ? 1 / sku.margin_rate : 2;
+      const flag: CampaignRow["flag"] =
+        stockRunwayDays < 3
+          ? "stock-critical"
+          : stockRunwayDays < 5
+          ? "stock-low"
+          : roas < breakEvenRoas
+          ? "negative-margin"
+          : "none";
 
-    return {
-      campaign: c,
-      sku: sku ?? { id: c.sku_id, name: c.sku_id, margin_rate: 0.5 },
-      avgDailySpend,
-      avgDailyRevenue,
-      roas,
-      stockRunwayDays,
-      inventoryUnits,
-      flag,
-    };
-  }).sort((a, b) => {
-    // Critical first, then by spend descending
-    const urgency = { "stock-critical": 0, "stock-low": 1, "negative-margin": 2, none: 3 };
-    if (urgency[a.flag] !== urgency[b.flag]) return urgency[a.flag] - urgency[b.flag];
-    return b.avgDailySpend - a.avgDailySpend;
-  });
+      return {
+        campaign: c,
+        sku: sku ?? { id: c.sku_id, name: c.sku_id, margin_rate: 0.5 },
+        avgDailySpend,
+        avgDailyRevenue,
+        roas,
+        stockRunwayDays,
+        inventoryUnits,
+        flag,
+      };
+    })
+    .sort((a, b) => {
+      // Critical first, then by spend descending
+      const urgency = {
+        "stock-critical": 0,
+        "stock-low": 1,
+        "negative-margin": 2,
+        none: 3,
+      };
+      if (urgency[a.flag] !== urgency[b.flag])
+        return urgency[a.flag] - urgency[b.flag];
+      return b.avgDailySpend - a.avgDailySpend;
+    });
 }
-
-const flagConfig: Record<CampaignRow["flag"], { label: string; color: string; bg: string; border: string } | null> = {
-  "stock-critical": { label: "STOCK RISK",      color: "var(--color-problem)", bg: "var(--color-problem-dim)", border: "var(--color-problem-muted)" },
-  "stock-low":      { label: "STOCK LOW",        color: "var(--color-warning)", bg: "var(--color-warning-dim)", border: "var(--color-warning-muted)" },
-  "negative-margin":{ label: "SUB-BREAKEVEN",   color: "var(--color-warning)", bg: "var(--color-warning-dim)", border: "var(--color-warning-muted)" },
-  "none":           null,
-};
 
 export default async function CampaignsPage() {
   await connection();
   const repo = await getRuntimeRepo();
-  const { campaigns, skus, metrics, inventory } = await repo.run(loadAnalysisInputs);
+  const { campaigns, skus, metrics, inventory } = await repo.run(
+    loadAnalysisInputs
+  );
   const rows = buildCampaignRows(campaigns, skus, metrics, inventory);
   const criticalCount = rows.filter((r) => r.flag !== "none").length;
 
@@ -110,28 +110,35 @@ export default async function CampaignsPage() {
   const asOf = dates.at(-1) ?? "2026-10-07";
   const dayCount = dates.length;
 
-  const subtitle = asOf === "2026-10-07" && dayCount === 45
-    ? `${campaigns.length} campaigns · 4 platforms · INR · Day 45 as-of`
-    : `${campaigns.length} campaigns · ${platforms} platform${platforms === 1 ? '' : 's'} · INR · ${dayCount ? `Day ${dayCount} (as-of ${asOf})` : `as-of ${asOf}`}`;
+  const subtitle =
+    asOf === "2026-10-07" && dayCount === 45
+      ? `${campaigns.length} campaigns · 4 platforms · INR · Day 45 as-of`
+      : `${campaigns.length} campaigns · ${platforms} platform${
+          platforms === 1 ? "" : "s"
+        } · INR · ${dayCount ? `Day ${dayCount} (as-of ${asOf})` : `as-of ${asOf}`}`;
 
   return (
-    <div className="flex flex-col min-h-full">
+    <>
       <PageHeader
         title="Campaigns"
         subtitle={subtitle}
+        eyebrow="CAMPAIGN PORTFOLIO"
         actions={
           criticalCount > 0 ? (
             <span
               className="inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-semibold"
               style={{
-                color: "var(--color-problem)",
-                backgroundColor: "var(--color-problem-dim)",
-                border: "1px solid var(--color-problem-muted)",
+                color: "#ef9991",
+                backgroundColor: "rgba(237,125,117,0.12)",
+                border: "1px solid rgba(237,125,117,0.25)",
               }}
             >
               <span
                 className="w-1.5 h-1.5 rounded-full"
-                style={{ backgroundColor: "var(--color-problem)", boxShadow: "0 0 4px var(--color-problem)" }}
+                style={{
+                  backgroundColor: "var(--red)",
+                  boxShadow: "0 0 4px var(--red)",
+                }}
               />
               {criticalCount} flagged
             </span>
@@ -140,178 +147,156 @@ export default async function CampaignsPage() {
       />
 
       <MainContent>
-        {/* Section label */}
-        <div className="flex items-center gap-2 mb-3">
-          <span
-            className="text-xs font-semibold uppercase tracking-widest"
-            style={{ color: "var(--text-tertiary)", letterSpacing: "0.14em", fontSize: "10px" }}
-          >
-            Campaign Portfolio Matrix
-          </span>
-          <div className="flex-1 h-px" style={{ backgroundColor: "var(--border-subtle)" }} />
-          <span style={{ color: "var(--text-tertiary)", fontSize: "10px" }}>
-            7-day average · sorted by urgency
-          </span>
-        </div>
+        <section className="panel campaigns-panel">
+          <div className="table-topline">
+            <div>
+              <div className="panel-kicker">
+                <span className="kicker-line" aria-hidden="true" />
+                Portfolio allocation
+              </div>
+              <h2>Active campaigns</h2>
+            </div>
+            <span className="table-count">{rows.length} campaigns</span>
+          </div>
 
-        {/* Campaign table */}
-        <section aria-label="Campaign table">
           <div
-            className="rounded-lg overflow-hidden"
-            style={{
-              backgroundColor: "var(--bg-surface)",
-              border: "1px solid var(--border-subtle)",
-            }}
+            className="table-scroll"
+            role="region"
+            aria-label="Campaign portfolio table"
+            tabIndex={0}
           >
-            <div className="overflow-x-auto">
-            <table className="min-w-full text-sm" style={{ borderCollapse: "collapse" }}>
+            <table className="campaign-table">
               <thead>
-                <tr style={{ borderBottom: "1px solid var(--border-subtle)" }}>
-                  {["Campaign", "Platform", "Daily Spend", "Daily Revenue", "ROAS", "Stock Runway", "Margin", "Flag"].map((col) => (
-                    <th
-                      key={col}
-                      className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wider"
-                      style={{
-                        color: "var(--text-tertiary)",
-                        letterSpacing: "0.1em",
-                        backgroundColor: "var(--bg-elevated)",
-                        whiteSpace: "nowrap",
-                      }}
-                    >
-                      {col}
-                    </th>
-                  ))}
+                <tr>
+                  <th scope="col">Campaign name</th>
+                  <th scope="col">Platform</th>
+                  <th scope="col">SKU</th>
+                  <th scope="col" className="numeric-col">Avg Spend</th>
+                  <th scope="col" className="numeric-col">ROAS</th>
+                  <th scope="col" className="numeric-col">Stock Runway</th>
+                  <th scope="col">Status</th>
+                  <th scope="col" className="numeric-col">Daily budget</th>
                 </tr>
               </thead>
               <tbody>
-                {rows.map((row, i) => {
-                  const plt = platformStyle[row.campaign.platform] ?? platformStyle.meta;
-                  const fc = flagConfig[row.flag];
-                  const breakEvenRoas = 1 / row.sku.margin_rate;
-                  const roasGood = row.roas >= breakEvenRoas;
-                  const runwayColor =
-                    row.stockRunwayDays < 3
-                      ? "var(--color-problem)"
-                      : row.stockRunwayDays < 5
-                        ? "var(--color-warning)"
-                        : "var(--color-good)";
-                  const isHighlighted = row.flag === "stock-critical";
+                {rows.map((r, index) => {
+                  const pKey = r.campaign.platform.toLowerCase();
+                  const isCritical = r.flag === "stock-critical";
+                  const isLow = r.flag === "stock-low";
 
                   return (
                     <tr
-                      key={row.campaign.id}
-                      style={{
-                        borderBottom: i < rows.length - 1 ? "1px solid var(--border-subtle)" : "none",
-                        backgroundColor: isHighlighted ? "rgba(239,68,68,0.04)" : "transparent",
-                        transition: "background-color 0.12s",
-                      }}
-                      onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.backgroundColor = "var(--bg-hover)"; }}
-                      onMouseLeave={(e) => {
-                        (e.currentTarget as HTMLElement).style.backgroundColor =
-                          isHighlighted ? "rgba(239,68,68,0.04)" : "transparent";
-                      }}
+                      key={r.campaign.id}
+                      style={{ "--row-index": index } as React.CSSProperties}
                     >
-                      {/* Campaign name */}
-                      <td className="px-4 py-3">
-                        <p className="font-medium" style={{ color: "var(--text-primary)" }}>
-                          {row.campaign.name}
-                        </p>
-                        <p className="text-xs mt-0.5 font-mono-num" style={{ color: "var(--text-tertiary)" }}>
-                          {row.campaign.id} · SKU {row.sku.id}
-                        </p>
+                      <td data-label="Campaign name">
+                        <span className="row-indicator" aria-hidden="true" />
+                        <span className="campaign-name">{r.campaign.name}</span>
                       </td>
 
-                      {/* Platform badge */}
-                      <td className="px-4 py-3">
+                      <td data-label="Platform">
+                        <span className={`platform-badge platform-${pKey}`}>
+                          <span aria-hidden="true" />
+                          {r.campaign.platform}
+                        </span>
+                      </td>
+
+                      <td data-label="SKU">
+                        <span className="sku-name">{r.sku.id}</span>
+                      </td>
+
+                      <td data-label="Avg Spend" className="numeric-col">
+                        <span className="font-mono-num" style={{ color: "var(--text-secondary)" }}>
+                          {fmtINR(r.avgDailySpend)}
+                        </span>
+                      </td>
+
+                      <td data-label="ROAS" className="numeric-col">
                         <span
-                          className="inline-flex items-center rounded px-2 py-0.5 text-xs font-semibold"
+                          className="font-mono-num font-semibold"
                           style={{
-                            color: plt.color,
-                            backgroundColor: plt.bg,
-                            border: `1px solid ${plt.border}`,
-                            letterSpacing: "0.05em",
+                            color: r.roas >= 3.0 ? "var(--green)" : "var(--text-secondary)",
                           }}
                         >
-                          {plt.label}
+                          {r.roas.toFixed(1)}×
                         </span>
                       </td>
 
-                      {/* Daily Spend */}
-                      <td className="px-4 py-3 text-right font-mono-num" style={{ color: "var(--text-secondary)" }}>
-                        {row.avgDailySpend > 0 ? fmtINR(row.avgDailySpend) : "—"}
-                      </td>
-
-                      {/* Daily Revenue */}
-                      <td className="px-4 py-3 text-right font-mono-num" style={{ color: "var(--text-secondary)" }}>
-                        {row.avgDailyRevenue > 0 ? fmtINR(row.avgDailyRevenue) : "—"}
-                      </td>
-
-                      {/* ROAS */}
-                      <td className="px-4 py-3 text-right">
+                      <td data-label="Stock Runway" className="numeric-col">
                         <span
-                          className="font-semibold font-mono-num"
-                          style={{ color: roasGood ? "var(--color-good)" : "var(--color-problem)" }}
+                          className="font-mono-num font-semibold"
+                          style={{
+                            color:
+                              isCritical
+                                ? "var(--amber)"
+                                : isLow
+                                ? "var(--amber)"
+                                : "var(--text-secondary)",
+                          }}
                         >
-                          {row.roas > 0 ? `${row.roas.toFixed(2)}×` : "—"}
+                          {r.stockRunwayDays > 90
+                            ? "Ample"
+                            : `${r.stockRunwayDays.toFixed(1)} d`}
                         </span>
-                        <p className="text-xs" style={{ color: "var(--text-tertiary)" }}>
-                          B/E: {breakEvenRoas.toFixed(2)}×
-                        </p>
                       </td>
 
-                      {/* Stock Runway */}
-                      <td className="px-4 py-3 text-right">
-                        <span
-                          className="font-semibold font-mono-num"
-                          style={{ color: runwayColor }}
-                        >
-                          {row.stockRunwayDays < 900 ? `${row.stockRunwayDays.toFixed(1)}d` : "∞"}
-                        </span>
-                        <p className="text-xs font-mono-num" style={{ color: "var(--text-tertiary)" }}>
-                          {row.inventoryUnits} units
-                        </p>
-                      </td>
-
-                      {/* Margin */}
-                      <td className="px-4 py-3 text-right font-mono-num" style={{ color: "var(--text-secondary)" }}>
-                        {fmtPct(row.sku.margin_rate)}
-                      </td>
-
-                      {/* Flag */}
-                      <td className="px-4 py-3">
-                        {fc ? (
+                      <td data-label="Status">
+                        {isCritical ? (
                           <span
-                            className="inline-flex items-center gap-1 rounded px-2 py-0.5 text-xs font-bold"
+                            className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded text-xs font-semibold"
                             style={{
-                              color: fc.color,
-                              backgroundColor: fc.bg,
-                              border: `1px solid ${fc.border}`,
-                              letterSpacing: "0.06em",
+                              color: "#e8bf72",
+                              backgroundColor: "rgba(228,179,90,0.1)",
+                              border: "1px solid rgba(228,179,90,0.3)",
+                              fontSize: 9,
                             }}
                           >
-                            {fc.label}
+                            <span className="risk-dot" style={{ width: 5, height: 5 }} />
+                            STOCK RISK
+                          </span>
+                        ) : isLow ? (
+                          <span
+                            className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded text-xs font-semibold"
+                            style={{
+                              color: "var(--amber)",
+                              backgroundColor: "rgba(228,179,90,0.08)",
+                              border: "1px solid rgba(228,179,90,0.2)",
+                              fontSize: 9,
+                            }}
+                          >
+                            LOW STOCK
                           </span>
                         ) : (
-                          <span style={{ color: "var(--text-tertiary)" }}>—</span>
+                          <span
+                            className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded text-xs"
+                            style={{
+                              color: "var(--text-faint)",
+                              fontSize: 9,
+                            }}
+                          >
+                            ACTIVE
+                          </span>
                         )}
+                      </td>
+
+                      <td data-label="Daily budget" className="numeric-col">
+                        <span className="budget-value">
+                          {fmtINR(r.campaign.daily_budget)}
+                        </span>
                       </td>
                     </tr>
                   );
                 })}
               </tbody>
             </table>
-            </div>
           </div>
 
-          {/* Table footnote */}
-          <p
-            className="mt-2 text-xs"
-            style={{ color: "var(--text-tertiary)" }}
-          >
-            ROAS = Revenue ÷ Ad Spend · Break-even ROAS = 1 ÷ margin_rate · Runway = Inventory ÷ Avg daily units sold · All values from fixture data
-          </p>
+          <div className="table-caption">
+            <span className="caption-dot" aria-hidden="true" />
+            <span>Daily budgets & performance metrics · INR</span>
+          </div>
         </section>
       </MainContent>
-    </div>
+    </>
   );
 }

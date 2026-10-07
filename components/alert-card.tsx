@@ -1,9 +1,7 @@
 import Link from "next/link";
 
 /* ─── AlertCard component ────────────────────────────────────────────────────
-   Dark enterprise insight card for STOCK RISK / OPPORTUNITY signals.
-   Semantic colours: red=problem/critical, green=good/opportunity, amber=warning.
-   No business logic — values pre-computed upstream.
+   Enterprise signal card matching Manus UI design for STOCK RISK & OPPORTUNITY.
    ─────────────────────────────────────────────────────────────────────────── */
 
 type Trend = "good" | "problem" | "warning" | "neutral" | "info";
@@ -25,20 +23,12 @@ interface AlertCardProps {
   statusTrend: Trend;
   metrics: Metric[];
   insight: string;
+  index?: string;
   ctaLabel?: string;
   ctaHref?: string;
 }
 
-const trendToken: Record<Trend, { color: string; bg: string; border: string; strip: string }> = {
-  good:    { color: "var(--color-good)",    bg: "var(--color-good-dim)",    border: "var(--color-good-muted)",    strip: "#22c55e" },
-  problem: { color: "var(--color-problem)", bg: "var(--color-problem-dim)", border: "var(--color-problem-muted)", strip: "#ef4444" },
-  warning: { color: "var(--color-warning)", bg: "var(--color-warning-dim)", border: "var(--color-warning-muted)", strip: "#f59e0b" },
-  info:    { color: "var(--color-info)",    bg: "var(--color-info-dim)",    border: "var(--color-info-muted)",    strip: "#22d3ee" },
-  neutral: { color: "var(--text-secondary)",bg: "var(--bg-elevated)",       border: "var(--border-default)",      strip: "#475569" },
-};
-
 export function AlertCard({
-  sectionLabel,
   sectionTrend,
   name,
   sku,
@@ -47,132 +37,126 @@ export function AlertCard({
   statusTrend,
   metrics,
   insight,
+  index,
   ctaLabel,
   ctaHref,
 }: AlertCardProps) {
-  const st = trendToken[sectionTrend];
-  const badge = trendToken[statusTrend];
+  const isRisk = sectionTrend === "problem" || statusTrend === "problem";
+  const cardIndex = index ?? (isRisk ? "01" : "02");
+
+  const roasMetric = metrics.find((m) => m.label.toLowerCase() === "roas");
+  const roasDisplay = roasMetric ? roasMetric.value : "—";
+
+  const stockMetric = metrics.find(
+    (m) =>
+      m.label.toLowerCase().includes("runway") ||
+      m.label.toLowerCase().includes("cover")
+  );
+  const stockDisplay = stockMetric ? stockMetric.value : "—";
+
+  const marginMetric = metrics.find((m) =>
+    m.label.toLowerCase().includes("margin")
+  );
+  const marginDisplay = marginMetric ? marginMetric.value : "—";
 
   return (
-    <div
-      className="rounded-lg overflow-hidden flex flex-col"
-      style={{
-        backgroundColor: "var(--bg-surface)",
-        border: `1px solid var(--border-subtle)`,
-        borderLeft: `3px solid ${st.strip}`,
-      }}
-    >
-      {/* ── Section label strip ────────────────────────────────────────── */}
-      <div
-        className="px-4 py-1.5 flex items-center gap-2"
-        style={{
-          backgroundColor: st.bg,
-          borderBottom: `1px solid var(--border-subtle)`,
-        }}
-      >
-        {/* Pulse dot for critical alerts */}
-        {sectionTrend === "problem" && (
-          <span
-            className="w-1.5 h-1.5 rounded-full shrink-0"
-            style={{ backgroundColor: st.strip, boxShadow: `0 0 6px ${st.strip}` }}
-          />
-        )}
-        <span
-          className="text-xs font-semibold uppercase tracking-widest"
-          style={{ color: st.color, letterSpacing: "0.12em" }}
-        >
-          {sectionLabel}
+    <article className={`signal-card ${isRisk ? "signal-risk" : "signal-growth"}`}>
+      <div className="signal-card-top">
+        <span className="signal-badge">
+          <span className={isRisk ? "risk-dot" : "growth-dot"} aria-hidden="true" />
+          {statusLabel}
+        </span>
+        <span className="signal-index">{cardIndex}</span>
+      </div>
+
+      <div className="signal-title-row">
+        <div>
+          <p className="signal-product-meta">
+            {sku} <span>·</span> {platform}
+          </p>
+          <h2>{name}</h2>
+        </div>
+        <span className="signal-roas">
+          {roasDisplay}
+          <small>ROAS</small>
         </span>
       </div>
 
-      {/* ── Body ──────────────────────────────────────────────────────── */}
-      <div className="px-4 py-4 flex-1 flex flex-col gap-4">
-        {/* Header: name + status badge */}
-        <div className="flex items-start justify-between gap-3">
-          <div>
-            <h4
-              className="text-base font-semibold leading-tight"
-              style={{ color: "var(--text-primary)" }}
+      {isRisk ? (
+        <div className="risk-statement">
+          <span className="risk-mark" aria-hidden="true">
+            <svg
+              className="risk-icon"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.7"
+              strokeLinecap="round"
+              strokeLinejoin="round"
             >
-              {name}
-            </h4>
-            <p
-              className="text-xs mt-0.5 font-mono-num"
-              style={{ color: "var(--text-tertiary)" }}
-            >
-              {sku} · {platform}
-            </p>
-          </div>
-          <span
-            className="shrink-0 inline-flex items-center rounded px-2 py-0.5 text-xs font-bold tracking-wide"
-            style={{
-              color: badge.color,
-              backgroundColor: badge.bg,
-              border: `1px solid ${badge.border}`,
-              letterSpacing: "0.08em",
-            }}
-          >
-            {statusLabel}
+              <path d="m10.3 3.9-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.7-3.1l-8-14a2 2 0 0 0-3.4 0Z" />
+              <path d="M12 9v4M12 17h.01" />
+            </svg>
+          </span>
+          <span>
+            Strong media return. <strong>{insight}</strong>
           </span>
         </div>
-
-        {/* Metric grid */}
-        <dl className="grid grid-cols-2 gap-x-4 gap-y-3 sm:grid-cols-4">
-          {metrics.map((m) => {
-            const mt = m.trend ? trendToken[m.trend] : null;
-            return (
-              <div key={m.label}>
-                <dt
-                  className="text-xs uppercase tracking-wide"
-                  style={{ color: "var(--text-tertiary)", fontSize: "10px", letterSpacing: "0.08em" }}
-                >
-                  {m.label}
-                </dt>
-                <dd
-                  className={`mt-0.5 text-sm font-semibold ${m.mono ? "font-mono-num" : ""}`}
-                  style={{ color: mt ? mt.color : "var(--text-primary)" }}
-                >
-                  {m.value}
-                </dd>
-              </div>
-            );
-          })}
-        </dl>
-
-        {/* Insight */}
-        <p
-          className="text-sm leading-relaxed border-t pt-3"
-          style={{ color: "var(--text-secondary)", borderColor: "var(--border-subtle)" }}
-        >
-          {insight}
-        </p>
-
-        {/* CTA */}
-        {ctaLabel && ctaHref && (
-          <div>
-            <Link
-              href={ctaHref}
-              className="inline-flex items-center gap-1.5 text-sm font-semibold rounded px-3 py-1.5 transition-all duration-150"
-              style={{
-                color: "#ffffff",
-                backgroundColor: "var(--brand-orange)",
-                border: "1px solid transparent",
-              }}
-              onMouseEnter={(e) => {
-                (e.currentTarget as HTMLAnchorElement).style.backgroundColor = "#ea580c";
-                (e.currentTarget as HTMLAnchorElement).style.boxShadow = "0 0 12px rgba(249,115,22,0.3)";
-              }}
-              onMouseLeave={(e) => {
-                (e.currentTarget as HTMLAnchorElement).style.backgroundColor = "var(--brand-orange)";
-                (e.currentTarget as HTMLAnchorElement).style.boxShadow = "none";
-              }}
+      ) : (
+        <div className="growth-note">
+          <span className="growth-mark" aria-hidden="true">
+            <svg
+              className="growth-icon"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.7"
+              strokeLinecap="round"
+              strokeLinejoin="round"
             >
-              {ctaLabel}
-              <span aria-hidden="true">→</span>
-            </Link>
-          </div>
-        )}
+              <path d="M7 17 17 7M7 7h10v10" />
+            </svg>
+          </span>
+          <span>{insight}</span>
+        </div>
+      )}
+
+      <div className="signal-metrics">
+        <div>
+          <span>Stock cover</span>
+          <strong>{stockDisplay}</strong>
+        </div>
+        <div>
+          <span>Margin</span>
+          <strong>{marginDisplay}</strong>
+        </div>
       </div>
-    </div>
+
+      {isRisk && (
+        <div className="signal-bottom">
+          <span>High ROAS ≠ automatically scale</span>
+          {ctaHref && (
+            <Link
+              className="text-link"
+              href={ctaHref}
+            >
+              {ctaLabel ?? "View Analysis"}{" "}
+              <svg
+                className="link-arrow"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.7"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                aria-hidden="true"
+              >
+                <path d="M5 12h14M13 6l6 6-6 6" />
+              </svg>
+            </Link>
+          )}
+        </div>
+      )}
+    </article>
   );
 }

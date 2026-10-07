@@ -1,77 +1,88 @@
 /* ─── StatCard component ────────────────────────────────────────────────────
-   Premium dark KPI metric card.
-   Semantic colour rules from CONTEXT.md: green=good, red=problem, amber=warning.
-   No business logic — all values pre-computed upstream.
+   Enterprise KPI metric card matching Manus UI design.
    ─────────────────────────────────────────────────────────────────────────── */
 
-type Trend = "good" | "problem" | "warning" | "neutral" | "info";
+type KpiTone = "orange" | "cyan" | "green" | "neutral";
 
 interface StatCardProps {
   label: string;
   value: string;
   change?: string;
   sub?: string;
-  trend?: Trend;
-  /** Optional top-left icon */
+  trend?: "good" | "problem" | "warning" | "neutral" | "info";
+  tone?: KpiTone;
+  staggerIndex?: number;
   icon?: React.ReactNode;
 }
 
-const trendToken: Record<Trend, { color: string; bg: string; border: string }> = {
-  good:    { color: "var(--color-good)",    bg: "var(--color-good-dim)",    border: "var(--color-good-muted)" },
-  problem: { color: "var(--color-problem)", bg: "var(--color-problem-dim)", border: "var(--color-problem-muted)" },
-  warning: { color: "var(--color-warning)", bg: "var(--color-warning-dim)", border: "var(--color-warning-muted)" },
-  info:    { color: "var(--color-info)",    bg: "var(--color-info-dim)",    border: "var(--color-info-muted)" },
-  neutral: { color: "var(--text-secondary)",bg: "var(--bg-elevated)",       border: "var(--border-default)" },
+const defaultIcons: Record<string, string> = {
+  revenue: "M3 5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5zm4 4h.01M17 15h.01M9 10h6M9 14h6",
+  spend: "M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6",
+  profit: "M5 7h14M5 12h14M5 17h14M8 4v16M16 4v16",
+  roas: "M12 21a9 9 0 1 0 0-18 9 9 0 0 0 0 18zm0-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6zM12 3v2M21 12h-2M12 21v-2M3 12h2",
 };
 
-export function StatCard({ label, value, change, sub, trend = "neutral", icon }: StatCardProps) {
-  const t = trendToken[trend];
-  const secondary = sub ?? change;
+function getIconPath(label: string): string {
+  const l = label.toLowerCase();
+  if (l.includes("revenue")) return defaultIcons.revenue;
+  if (l.includes("spend")) return defaultIcons.spend;
+  if (l.includes("profit")) return defaultIcons.profit;
+  return defaultIcons.roas;
+}
+
+function getTone(label: string, trend?: string): KpiTone {
+  const l = label.toLowerCase();
+  if (l.includes("revenue")) return "orange";
+  if (l.includes("spend")) return "cyan";
+  if (l.includes("profit")) return "green";
+  if (trend === "good") return "green";
+  return "neutral";
+}
+
+export function StatCard({
+  label,
+  value,
+  sub,
+  change,
+  trend = "neutral",
+  tone,
+  staggerIndex = 0,
+  icon,
+}: StatCardProps) {
+  const cardTone = tone ?? getTone(label, trend);
+  const note = sub ?? change;
+  const iconPath = getIconPath(label);
+
   return (
-    <div
-      className="rounded-lg px-4 py-4 flex flex-col gap-2"
-      style={{
-        backgroundColor: "var(--bg-surface)",
-        border: "1px solid var(--border-subtle)",
-        transition: "border-color 0.15s",
-      }}
-      onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.borderColor = "var(--border-strong)"; }}
-      onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.borderColor = "var(--border-subtle)"; }}
+    <article
+      className={`kpi-card kpi-${cardTone}`}
+      style={{ "--stagger": staggerIndex } as React.CSSProperties}
     >
-      {/* Label row */}
-      <div className="flex items-center justify-between gap-2">
-        <p
-          className="text-xs font-medium uppercase tracking-wider"
-          style={{ color: "var(--text-tertiary)", letterSpacing: "0.1em" }}
-        >
-          {label}
-        </p>
-        {icon && (
-          <span style={{ color: "var(--text-tertiary)", opacity: 0.7 }}>{icon}</span>
-        )}
-      </div>
-
-      {/* Primary value */}
-      <p
-        className="text-2xl font-bold leading-none font-mono-num"
-        style={{ color: "var(--text-primary)" }}
-      >
-        {value}
-      </p>
-
-      {/* Change / sub label */}
-      {secondary && (
-        <span
-          className="inline-flex items-center self-start text-xs font-semibold rounded px-1.5 py-0.5"
-          style={{
-            color: t.color,
-            backgroundColor: t.bg,
-            border: `1px solid ${t.border}`,
-          }}
-        >
-          {secondary}
+      <div className="kpi-top">
+        <span className="kpi-label">{label.toUpperCase()}</span>
+        <span className="kpi-icon" aria-hidden="true">
+          {icon ?? (
+            <svg
+              className="kpi-svg"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.7"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            >
+              <path d={iconPath} />
+            </svg>
+          )}
         </span>
+      </div>
+      <div className="kpi-value">{value}</div>
+      {note && (
+        <div className="kpi-note">
+          <span className="note-line" aria-hidden="true" />
+          <span>{note}</span>
+        </div>
       )}
-    </div>
+    </article>
   );
 }
