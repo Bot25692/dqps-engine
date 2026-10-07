@@ -178,7 +178,7 @@ export function Sidebar() {
             Decision Engine Ready
           </span>
         </div>
-        <p style={{ fontSize: "10px" }}>Day 45 · INR · Fixtures</p>
+        <p style={{ fontSize: "10px" }}>Active Baseline · INR · Multi-channel</p>
         <p style={{ fontSize: "10px", marginTop: 2 }}>DataQuest 3.0 · Team M.A.R.K.A.N.</p>
       </div>
     </aside>

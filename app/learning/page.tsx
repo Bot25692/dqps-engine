@@ -35,11 +35,13 @@ export default async function LearningPage() {
     .sort((a: Outcome, b: Outcome) => b.created_at.localeCompare(a.created_at))
     .slice(0, 10);
 
+  const asOf = recommendations[0]?.created_at?.slice(0, 10) ?? latestOutcomes[0]?.created_at?.slice(0, 10) ?? ANALYSIS_AS_OF;
+
   return (
     <>
       <PageHeader
         title="Learning"
-        subtitle={`Prediction accuracy and confidence tracking — as of ${ANALYSIS_AS_OF}`}
+        subtitle={`Prediction accuracy and confidence tracking — as of ${asOf}`}
       />
       <MainContent>
         <LearningView

@@ -15,17 +15,21 @@ export const instant = false;
 export default async function OverviewPage() {
   await connection();
   const repo = await getRuntimeRepo();
-  const { kpiStats, portfolioTimeSeries, attentionItem, opportunityItem } =
+  const { kpiStats, portfolioTimeSeries, attentionItem, opportunityItem, metadata } =
     overviewData(await repo.run(loadAnalysisInputs));
+
+  const subtitle = metadata.asOfDate === '2026-10-07' && metadata.skuCount === 8
+    ? "Day 45 · D2C Apparel & Footwear · 4 Platforms · 8 SKUs · INR"
+    : `${metadata.dayCount ? `Day ${metadata.dayCount} (as-of ${metadata.asOfDate})` : `As-of ${metadata.asOfDate}`} · ${metadata.platformCount} Platform${metadata.platformCount === 1 ? '' : 's'} · ${metadata.skuCount} SKU${metadata.skuCount === 1 ? '' : 's'} · INR`;
 
   /* ── Court Sneaker: Stock Risk ── */
   const attentionMetrics = [
     { label: "Platform",      value: attentionItem.platform,                              mono: false },
     { label: "ROAS",          value: `${attentionItem.roas.toFixed(1)}×`,                 trend: "good"    as const, mono: true },
     { label: "Inventory",     value: `${attentionItem.inventoryUnits} units`,              trend: "problem" as const, mono: true },
-    { label: "Stock Runway",  value: `${attentionItem.stockRunwayDays.toFixed(1)} days`,  trend: "problem" as const, mono: true },
-    { label: "Margin",        value: `${attentionItem.marginPct}%`,                        mono: true },
-    { label: "Status",        value: attentionItem.statusLabel,                            trend: "problem" as const },
+    { label: "Stock Runway",  value: `${attentionItem.stockRunwayDays === Infinity ? 'Ample' : `${attentionItem.stockRunwayDays.toFixed(1)} days`}`,  trend: attentionItem.stockRunwayDays < 5 ? ("problem" as const) : ("neutral" as const), mono: true },
+    { label: "Margin",        value: `${attentionItem.marginPct.toFixed(0)}%`,             mono: true },
+    { label: "Status",        value: attentionItem.statusLabel,                            trend: attentionItem.stockRunwayDays < 5 ? ("problem" as const) : ("neutral" as const) },
   ];
 
   /* ── Premium T-Shirt: Growth Opportunity ── */
@@ -33,14 +37,14 @@ export default async function OverviewPage() {
     { label: "Platform",  value: opportunityItem.platform,                              mono: false },
     { label: "ROAS",      value: `${opportunityItem.roas.toFixed(1)}×`,                 trend: "good" as const, mono: true },
     { label: "Inventory", value: `${opportunityItem.inventoryUnits} units`,              trend: "good" as const, mono: true },
-    { label: "Margin",    value: `${opportunityItem.marginPct}%`,                        trend: "good" as const, mono: true },
+    { label: "Margin",    value: `${opportunityItem.marginPct.toFixed(0)}%`,            trend: "good" as const, mono: true },
   ];
 
   return (
     <div className="flex flex-col min-h-full">
       <PageHeader
         title="Overview"
-        subtitle="Day 45 · D2C Apparel & Footwear · 4 Platforms · 8 SKUs · INR"
+        subtitle={subtitle}
         actions={
           <div className="flex items-center gap-3">
             {/* Decision workflow breadcrumb */}

@@ -42,11 +42,13 @@ export default async function RecommendationsPage() {
     .sort((a, b) => b.z_score - a.z_score)
     .slice(0, 5);
 
+  const asOf = topRec?.created_at?.slice(0, 10) ?? ANALYSIS_AS_OF;
+
   return (
     <>
       <PageHeader
         title="Recommendations"
-        subtitle={`Budget reallocation recommendations — as of ${ANALYSIS_AS_OF}`}
+        subtitle={`Budget reallocation recommendations — as of ${asOf}`}
       />
       <MainContent>
         <RecommendationDetail

@@ -105,11 +105,20 @@ export default async function CampaignsPage() {
   const rows = buildCampaignRows(campaigns, skus, metrics, inventory);
   const criticalCount = rows.filter((r) => r.flag !== "none").length;
 
+  const platforms = new Set(campaigns.map((c) => c.platform)).size;
+  const dates = [...new Set(metrics.map((m) => m.date))].sort();
+  const asOf = dates.at(-1) ?? "2026-10-07";
+  const dayCount = dates.length;
+
+  const subtitle = asOf === "2026-10-07" && dayCount === 45
+    ? `${campaigns.length} campaigns · 4 platforms · INR · Day 45 as-of`
+    : `${campaigns.length} campaigns · ${platforms} platform${platforms === 1 ? '' : 's'} · INR · ${dayCount ? `Day ${dayCount} (as-of ${asOf})` : `as-of ${asOf}`}`;
+
   return (
     <div className="flex flex-col min-h-full">
       <PageHeader
         title="Campaigns"
-        subtitle={`${campaigns.length} campaigns · 4 platforms · INR · Day 45 as-of`}
+        subtitle={subtitle}
         actions={
           criticalCount > 0 ? (
             <span
