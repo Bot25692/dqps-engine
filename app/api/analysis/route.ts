@@ -8,12 +8,14 @@
  * Full re-run is via POST /api/run-analysis.
  */
 
-import { createRepo } from "@/lib/db/data-source";
+import { getRuntimeRepo } from "@/lib/db/runtime-repo";
 import { ANALYSIS_AS_OF } from "@/lib/run-analysis";
+import { connection } from "next/server";
 
 export async function GET(): Promise<Response> {
+  await connection();
   try {
-    const repo = createRepo();
+    const repo = await getRuntimeRepo();
     const [recommendations, anomalies, campaigns, skus] = await Promise.all([
       repo.getRecommendations(),
       repo.getAnomalies(),

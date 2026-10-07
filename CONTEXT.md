@@ -130,3 +130,8 @@ Seeded brand: D2C apparel and footwear, 4 platforms, 8 SKUs, about 10 campaigns,
   - Tests: 32/32 passed · Build: ✓ exit code 0 · TypeScript: 0 errors
   - /api/decide listed as ƒ (Dynamic) in build output
 - Next: Gate G0 (Builder A — types, Repo interface, fixtures). Gate G2 after both G0 tasks merge.
+
+- **[Integration hardening, 2026-10-08]** Shared seed-1 runtime, authoritative approved decisions, saved outcomes/confidence/actions, fitted A beta mapping, signed M4 changes and stock caps, fresh Learning and reset/replay.
+  - Existing 52 tests retained; 11 focused tests added: 63/63 passing. TypeScript zero errors; lint zero errors, two existing warnings.
+  - Production build and HTTP Golden Path smoke passed using temporary build/ output because OneDrive locked .next. Configuration restored.
+  - Fixture persistence and decision serialization are process-local. Live Supabase and distributed deployment are unverified.

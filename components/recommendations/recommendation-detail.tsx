@@ -15,8 +15,9 @@
  */
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
-import type { Recommendation, Anomaly, Campaign, Sku, MetricRow, InventoryRow } from "@/lib/types";
+import type { Recommendation, Anomaly, Campaign, Sku } from "@/lib/types";
 import type { SimulationResult } from "@/lib/simulation/types";
 
 interface Props {
@@ -24,8 +25,6 @@ interface Props {
   stockAnomalies: Anomaly[];
   campaigns: Campaign[];
   skus: Sku[];
-  metrics: MetricRow[];
-  inventory: InventoryRow[];
 }
 
 type WorkflowStatus = "idle" | "registered" | "approved" | "rejected" | "simulating" | "simulated" | "error";
@@ -61,10 +60,9 @@ export function RecommendationDetail({
   stockAnomalies,
   campaigns,
   skus,
-  metrics,
-  inventory,
 }: Props) {
-  const [status, setStatus] = useState<WorkflowStatus>("idle");
+  const router = useRouter();
+  const [status, setStatus] = useState<WorkflowStatus>(recommendation?.status === "executed" ? "simulated" : recommendation?.status === "approved" ? "approved" : recommendation?.status === "rejected" ? "rejected" : "idle");
   const [simResult, setSimResult] = useState<SimulateResponse | null>(null);
   const [error, setError] = useState<string | null>(null);
 
@@ -74,20 +72,6 @@ export function RecommendationDetail({
   // ── Build campaign lookup maps ──────────────────────────────────────────────
   const campaignMap = new Map(campaigns.map((c) => [c.id, c]));
   const skuMap = new Map(skus.map((s) => [s.id, s]));
-
-  // Latest metric row per campaign (last date in the 45-day window)
-  const latestMetricMap = new Map<string, MetricRow>();
-  for (const row of metrics) {
-    const existing = latestMetricMap.get(row.campaign_id);
-    if (!existing || row.date > existing.date) latestMetricMap.set(row.campaign_id, row);
-  }
-
-  // Latest inventory per SKU
-  const latestInventoryMap = new Map<string, InventoryRow>();
-  for (const row of inventory) {
-    const existing = latestInventoryMap.get(row.sku_id);
-    if (!existing || row.date > existing.date) latestInventoryMap.set(row.sku_id, row);
-  }
 
   // ── API calls ───────────────────────────────────────────────────────────────
   async function callDecide(action: string, extra: Record<string, unknown> = {}) {
@@ -136,34 +120,9 @@ export function RecommendationDetail({
     setStatus("simulating");
     setError(null);
 
-    // Build enrichment from fixture data for each campaign in the recommendation
-    const enrichment = rec.moves.map((move) => {
-      const campaign = campaignMap.get(move.campaign_id);
-      const sku = campaign ? skuMap.get(campaign.sku_id) : undefined;
-      const metric = latestMetricMap.get(move.campaign_id);
-      const inv = campaign ? latestInventoryMap.get(campaign.sku_id) : undefined;
-      const skuInventory = inventory.filter((i) => i.sku_id === campaign?.sku_id);
-      const avgDailySold = skuInventory.length > 0
-        ? skuInventory.reduce((s, i) => s + i.units_sold, 0) / skuInventory.length
-        : 0;
-
-      return {
-        campaign_id: move.campaign_id,
-        revenue: metric?.revenue ?? move.old_budget * 4,
-        spend: metric?.spend ?? move.old_budget,
-        margin_rate: sku?.margin_rate ?? 0.5,
-        inventory_units: inv?.units_on_hand ?? 100,
-        avg_daily_units_sold: avgDailySold,
-        beta_est: 0.7,
-      };
-    });
-
     try {
       const res: SimulateResponse = await callDecide("simulate", {
         seed: SEED,
-        recommendation: rec,
-        enrichment,
-        currentConfidence: rec.confidence,
       });
 
       setSimResult(res);
@@ -176,7 +135,9 @@ export function RecommendationDetail({
   }
 
   async function handleReset() {
-    await callDecide("reset");
+    const result = await callDecide("reset");
+    if (!result.ok) { setError(result.error ?? "Reset failed"); return; }
+    router.refresh();
     setStatus("idle");
     setSimResult(null);
     setError(null);
@@ -322,6 +283,9 @@ export function RecommendationDetail({
         </div>
       )}
 
+      {status === "error" && <button onClick={handleSimulate} className="text-blue-600 underline">Retry Simulated execution</button>}
+      {status === "simulated" && !simResult && <div>Simulated outcome saved. <Link href="/learning" prefetch={false}>View Learning</Link> · <button onClick={handleReset}>Reset Demo</button></div>}
+
       {status === "idle" && (
         <div className="flex gap-3">
           <button
@@ -442,7 +406,7 @@ export function RecommendationDetail({
           {/* Navigation */}
           <div className="flex gap-3 pt-2">
             <Link
-              href="/learning"
+              href="/learning" prefetch={false}
               className="px-4 py-2 bg-blue-600 text-white rounded font-medium text-sm hover:bg-blue-700 transition-colors"
             >
               View Learning →

@@ -29,7 +29,7 @@ function explainRecommendation(plan: ReturnType<typeof allocate>): string {
 }
 
 // Fit campaign curves using current all-channel stock and price inferred from observed sales.
-function allocationState({ skus, campaigns, metrics, inventory }: Inputs): AllocationState {
+export function allocationState({ skus, campaigns, metrics, inventory }: Inputs): AllocationState {
   return { campaigns: campaigns.map(campaign => {
     const sku = skus.find(row => row.id === campaign.sku_id);
     if (!sku) throw new Error('Missing campaign SKU');

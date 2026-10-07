@@ -11,7 +11,7 @@
  * CONTEXT.md locked rules applied here:
  *   - beta_est clamped 0.4–0.9 (default 0.7 per CONTEXT)
  *   - margin_rate is a fraction 0–1 (already enforced by Builder A's zod)
- *   - predictedGainPerDay = expected_profit_gain_per_day / moves.length (per-move allocation)
+ *   - Prediction stays portfolio-wide; it is never divided arbitrarily among moves.
  */
 
 import type { Recommendation, Move } from "@/lib/types";
@@ -27,6 +27,7 @@ import type { BudgetMove } from "@/lib/simulation/types";
  * fixture campaigns.json and metrics.json at the call site.
  */
 export interface CampaignEnrichment {
+  sku_id?: string;
   campaign_id: string;
   /** Current daily revenue (INR) — from latest metrics */
   revenue: number;
@@ -52,17 +53,17 @@ export interface CampaignEnrichment {
  *   - If new_budget < old_budget → this is the DONOR
  *   - If new_budget > old_budget → this is the RECEIVER
  *
- * For simulation purposes, Builder B simulates the RECEIVER campaign's
- * outcome. Donor campaigns are referenced by ID for tracking only.
+ * Signed changes include both donors and receivers so actual and predicted
+ * gains cover the same set of campaigns. Legacy receiver field names are retained.
  */
 export function mapMoveToSimulation(
   move: Move,
   allMoves: Move[],
   enrichment: Map<string, CampaignEnrichment>,
-  totalExpectedGainPerDay: number
+  _totalExpectedGainPerDay: number
 ): BudgetMove | null {
-  const isReceiver = move.new_budget > move.old_budget;
-  if (!isReceiver) return null; // Donors are not simulated directly
+  void _totalExpectedGainPerDay; // Retained call signature; predictions are portfolio-wide.
+  if (move.new_budget === move.old_budget) return null;
 
   const data = enrichment.get(move.campaign_id);
   if (!data) return null;
@@ -75,10 +76,11 @@ export function mapMoveToSimulation(
   const amountPerDay = move.new_budget - move.old_budget;
 
   return {
-    donorCampaignId: donor?.campaign_id ?? "held-back",
+    receiverSkuId: data.sku_id,
+    donorCampaignId: move.new_budget < move.old_budget ? move.campaign_id : donor?.campaign_id ?? "held-back",
     receiverCampaignId: move.campaign_id,
     amountPerDay,
-    betaEst: Math.max(0.4, Math.min(0.9, data.beta_est)),
+    betaEst: Number.isFinite(data.beta_est) ? Math.max(0.4, Math.min(0.9, data.beta_est)) : 0.7,
     receiverRevenue: data.revenue,
     receiverSpend: data.spend,
     receiverMarginRate: data.margin_rate,
@@ -89,7 +91,7 @@ export function mapMoveToSimulation(
 
 /**
  * Map a full Recommendation into a list of BudgetMoves for simulation.
- * Returns only receiver-side moves (donors are tracked by ID, not simulated).
+ * Returns every changed campaign, including donors.
  */
 export function mapRecommendationToSimulation(
   rec: Recommendation,
@@ -113,7 +115,8 @@ export function buildDefaultEnrichment(
   campaigns: Array<{ id: string; sku_id: string; daily_budget: number }>,
   skus: Array<{ id: string; margin_rate: number }>,
   metricsSnapshot: Array<{ campaign_id: string; revenue: number; spend: number }>,
-  inventorySnapshot: Array<{ sku_id: string; units_on_hand: number; units_sold: number }>
+  inventorySnapshot: Array<{ sku_id: string; units_on_hand: number; units_sold: number }>,
+  fittedBetas: ReadonlyMap<string, number> = new Map()
 ): Map<string, CampaignEnrichment> {
   const skuMap = new Map(skus.map((s) => [s.id, s]));
   const metricMap = new Map(metricsSnapshot.map((m) => [m.campaign_id, m]));
@@ -128,15 +131,18 @@ export function buildDefaultEnrichment(
       ? inv.reduce((s, i) => s + i.units_sold, 0) / inv.length
       : 0;
     const latestInv = inv.at(-1);
+    // Missing financial/stock observations cannot safely be invented for a simulation.
+    if (!sku || !metric || !latestInv) continue;
 
     map.set(campaign.id, {
+      sku_id: campaign.sku_id,
       campaign_id: campaign.id,
-      revenue: metric?.revenue ?? campaign.daily_budget * 4, // fallback: 4× ROAS
-      spend: metric?.spend ?? campaign.daily_budget,
-      margin_rate: sku?.margin_rate ?? 0.5,
-      inventory_units: latestInv?.units_on_hand ?? 100,
+      revenue: metric.revenue,
+      spend: metric.spend,
+      margin_rate: sku.margin_rate,
+      inventory_units: latestInv.units_on_hand,
       avg_daily_units_sold: avgDailySold,
-      beta_est: 0.7, // CONTEXT default
+      beta_est: fittedBetas.get(campaign.id) ?? 0.7,
     });
   }
 

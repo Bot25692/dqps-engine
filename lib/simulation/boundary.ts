@@ -35,9 +35,10 @@ import type {
 // ── Input validation schemas ──────────────────────────────────────────────────
 
 const BudgetMoveSchema = z.object({
+  receiverSkuId: z.string().min(1).optional(),
   donorCampaignId: z.string().min(1),
   receiverCampaignId: z.string().min(1),
-  amountPerDay: z.number().positive(),
+  amountPerDay: z.number().finite().refine(value => value !== 0),
   // betaEst clamped 0.4–0.9 by Builder A; we enforce the range here too
   betaEst: z.number().min(0.4).max(0.9),
   receiverRevenue: z.number().nonnegative(),
@@ -45,13 +46,16 @@ const BudgetMoveSchema = z.object({
   receiverMarginRate: z.number().min(0).max(1),
   receiverInventoryUnits: z.number().nonnegative().int(),
   receiverAvgDailyUnitsSold: z.number().nonnegative(),
-});
+}).refine(move => move.receiverSpend + move.amountPerDay >= 0, 'Budget cannot become negative');
 
 const ApprovedPlanSchema = z.object({
   recommendationId: z.string().min(1),
   moves: z.array(BudgetMoveSchema).min(1).max(5), // CONTEXT: at most 5 moves
   approvedAt: z.number().positive(),
-});
+}).refine(plan => new Set(plan.moves.map(move => move.receiverCampaignId)).size === plan.moves.length,
+  'Duplicate campaign move').refine(plan => plan.moves.every(move => !move.receiverSkuId
+    || plan.moves.every(other => other.receiverSkuId !== move.receiverSkuId
+      || other.receiverInventoryUnits === move.receiverInventoryUnits)), 'Inconsistent shared inventory');
 
 // ── Boundary functions ────────────────────────────────────────────────────────
 

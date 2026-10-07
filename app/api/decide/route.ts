@@ -1,193 +1,114 @@
-/**
- * POST /api/decide — Builder B's approval + simulation + M5 confidence workflow.
- *
- * Full Golden Path:
- *   Recommendation → Human Approve/Reject → Simulate → Confidence Update
- *
- * Actions:
- *   "register"  — Register a recommendation as pending (called by run-analysis)
- *   "approve"   — Record human approval
- *   "reject"    — Record human rejection (simulation permanently blocked)
- *   "simulate"  — Run deterministic simulation (only after approval)
- *   "reset"     — Clear demo state for replay
- *
- * Integration with Builder A:
- *   - Accepts a full Recommendation object + campaign enrichment on simulate
- *   - Maps Move → BudgetMove via lib/integration/adapter.ts
- *   - Replaces predictedGainPerDay = 0 with actual expected_profit_gain_per_day
- *   - Computes prediction error using lib/integration/confidence.ts
- *   - Returns confidence update alongside simulation result
- *
- * Builder A ownership: lib/analysis/, lib/db/, lib/types.ts, app/api/run-analysis/
- * This route owns ONLY: the approval/simulate/confidence workflow.
- */
+import { z } from 'zod';
+import { boundary } from '@/lib/simulation/boundary';
+import { getRecord } from '@/lib/simulation/approval-store';
+import { mapRecommendationToSimulation, type CampaignEnrichment } from '@/lib/integration/adapter';
+import { updateConfidence, computePredictionError } from '@/lib/integration/confidence';
+import { getRuntimeRepo, withDecisionLock } from '@/lib/db/runtime-repo';
+import { allocationState, loadAnalysisInputs, runAnalysis } from '@/lib/run-analysis';
+import { revenue } from '@/lib/analysis/optimize';
+import { OutcomeSchema, RecommendationSchema, type ActionLogEntry } from '@/lib/types';
+import type { Repo } from '@/lib/db/repo';
 
-import { NextRequest } from "next/server";
-import { z } from "zod";
-import { boundary } from "@/lib/simulation/boundary";
-import {
-  mapRecommendationToSimulation,
-  buildDefaultEnrichment,
-  type CampaignEnrichment,
-} from "@/lib/integration/adapter";
-import {
-  updateConfidence,
-  computePredictionError,
-} from "@/lib/integration/confidence";
-import type { ApprovedPlan } from "@/lib/simulation/types";
-import type { Recommendation } from "@/lib/types";
-
-// ── Request schema ─────────────────────────────────────────────────────────────
-
-const CampaignEnrichmentSchema = z.object({
-  campaign_id: z.string().min(1),
-  revenue: z.number().nonnegative(),
-  spend: z.number().nonnegative(),
-  margin_rate: z.number().min(0).max(1),
-  inventory_units: z.number().int().nonnegative(),
-  avg_daily_units_sold: z.number().nonnegative(),
-  beta_est: z.number().min(0.4).max(0.9),
-});
-
-const DecideRequestSchema = z.object({
+const RequestSchema = z.object({
   recommendationId: z.string().min(1),
-  action: z.enum(["register", "approve", "reject", "simulate", "reset"]),
+  action: z.enum(['register', 'approve', 'reject', 'simulate', 'reset']),
   seed: z.number().int().optional(),
-  /**
-   * For simulate: the full Recommendation object from Builder A.
-   * Must match the Recommendation schema from lib/types.ts.
-   */
-  recommendation: z.unknown().optional(),
-  /**
-   * For simulate: per-campaign enrichment (revenue, spend, inventory, beta).
-   * INTEGRATION POINT [A→B]: Builder A should include this in the run-analysis
-   * response. Until then, the client may supply it from local fixture data.
-   */
-  enrichment: z.array(CampaignEnrichmentSchema).optional(),
-  /**
-   * Current confidence to update after simulation.
-   * From the recommendation's confidence field.
-   */
-  currentConfidence: z.number().min(0.3).max(0.95).optional(),
+  recommendation: RecommendationSchema.optional(),
 });
+const logged = new Set<string>();
 
-// ── POST handler ──────────────────────────────────────────────────────────────
+// Stable IDs plus serialized actions keep duplicate clicks from creating duplicate logs.
+async function logOnce(repo: Repo, recommendationId: string, action: ActionLogEntry['action']) {
+  const id = `${recommendationId}:${action}`;
+  if (logged.has(id)) return;
+  await repo.logAction({ id, recommendation_id: recommendationId,
+    created_at: new Date().toISOString(), actor: action === 'executed' ? 'simulation' : 'human', action, note: '' });
+  logged.add(id);
+}
 
-export async function POST(request: NextRequest): Promise<Response> {
+// Resolve all numerical inputs on the server; an approved ID never authorizes a client-supplied plan.
+export async function POST(request: Request): Promise<Response> {
   let body: unknown;
-  try {
-    body = await request.json();
-  } catch {
-    return Response.json({ ok: false, error: "Invalid JSON body" }, { status: 400 });
-  }
-
-  const parsed = DecideRequestSchema.safeParse(body);
-  if (!parsed.success) {
-    return Response.json({ ok: false, error: parsed.error.message }, { status: 400 });
-  }
-
-  const { recommendationId, action, seed, recommendation, enrichment, currentConfidence } = parsed.data;
-
-  switch (action) {
-    case "reset": {
-      boundary.reset();
-      return Response.json({ ok: true, recommendationId, status: "reset" });
-    }
-
-    case "register": {
-      const result = boundary.registerRecommendation(recommendationId);
-      return Response.json(result, { status: result.ok ? 200 : 400 });
-    }
-
-    case "approve": {
-      const result = boundary.recordApprove(recommendationId);
-      return Response.json(result, { status: result.ok ? 200 : 409 });
-    }
-
-    case "reject": {
-      const result = boundary.recordReject(recommendationId);
-      return Response.json(result, { status: result.ok ? 200 : 409 });
-    }
-
-    case "simulate": {
-      if (!recommendation) {
-        return Response.json(
-          { ok: false, recommendationId, error: "recommendation is required for simulate action" },
-          { status: 400 }
-        );
+  try { body = await request.json(); }
+  catch { return Response.json({ ok: false, error: 'Invalid JSON body' }, { status: 400 }); }
+  const parsed = RequestSchema.safeParse(body);
+  if (!parsed.success) return Response.json({ ok: false, error: 'Invalid decision request' }, { status: 400 });
+  return withDecisionLock(async () => {
+    const { recommendationId, action, seed, recommendation } = parsed.data;
+    const fail = (error: string, status = 409) => Response.json({ ok: false, recommendationId, error }, { status });
+    try {
+      const repo = await getRuntimeRepo();
+      if (action === 'reset') {
+        await repo.resetDecisions();
+        await runAnalysis(repo);
+        boundary.reset();
+        logged.clear();
+        return Response.json({ ok: true, recommendationId, status: 'reset' });
       }
-
-      // Validate the Recommendation shape from Builder A
-      const rec = recommendation as Recommendation;
-      if (!rec.id || !Array.isArray(rec.moves) || rec.moves.length === 0) {
-        return Response.json(
-          { ok: false, recommendationId, error: "Invalid recommendation object" },
-          { status: 400 }
-        );
+      const rec = (await repo.getRecommendations()).find(row => row.id === recommendationId);
+      if (!rec) return fail('Unknown recommendation', 404);
+      if (recommendation && (recommendation.id !== rec.id
+        || JSON.stringify(recommendation.moves) !== JSON.stringify(rec.moves)
+        || recommendation.expected_profit_gain_per_day !== rec.expected_profit_gain_per_day)) {
+        return fail('Recommendation does not match the saved plan', 400);
       }
-
-      // Build enrichment map — from supplied enrichment or fallback to minimal defaults
-      const enrichmentMap = new Map<string, CampaignEnrichment>(
-        (enrichment ?? []).map((e) => [e.campaign_id, e])
-      );
-
-      // Map A's moves to B's BudgetMoves
-      const budgetMoves = mapRecommendationToSimulation(rec, enrichmentMap);
-
-      if (budgetMoves.length === 0) {
-        return Response.json(
-          {
-            ok: false,
-            recommendationId,
-            error: "No receiver moves found in recommendation — cannot simulate",
-          },
-          { status: 400 }
-        );
+      if (action === 'register') {
+        if (rec.status !== 'pending') return fail('Recommendation already has a decision');
+        return Response.json(boundary.registerRecommendation(rec.id));
       }
-
-      const effectiveSeed = typeof seed === "number" ? seed : Date.now();
-
-      const approvedPlan: ApprovedPlan = {
-        recommendationId,
-        moves: budgetMoves,
-        approvedAt: Date.now(),
-      };
-
-      const result = boundary.runApprovedSimulation(approvedPlan, effectiveSeed);
-
-      if (!result.ok || !result.simulationResult) {
-        return Response.json(result, { status: 409 });
+      if (action === 'approve' || action === 'reject') {
+        const status = action === 'approve' ? 'approved' : 'rejected';
+        if (rec.status !== 'pending' && rec.status !== status) return fail('Conflicting decision');
+        const result = action === 'approve' ? boundary.recordApprove(rec.id) : boundary.recordReject(rec.id);
+        if (!result.ok) return Response.json(result, { status: 409 });
+        await logOnce(repo, rec.id, status);
+        // Keep the confidence used for this outcome in the recommendation snapshot.
+        const weight = await repo.getConfidence(rec.type);
+        await repo.saveRecommendations([{ ...rec, status, confidence: weight?.weight ?? .75 }]);
+        return Response.json(result);
       }
-
-      // M5: Compute prediction error and update confidence
+      if ((await repo.getOutcomes()).some(row => row.recommendation_id === rec.id)) {
+        return fail('Recommendation already has a persisted outcome');
+      }
+      if (rec.status !== 'approved' && rec.status !== 'executed') return fail('Human approval is required');
+      // Reuse a completed result only to retry a failed persistence operation, never rerun it.
+      let simulationResult = getRecord(rec.id)?.simulationResult;
+      if (!simulationResult) {
+        const state = allocationState(await repo.run(loadAnalysisInputs));
+        const enrichment = new Map<string, CampaignEnrichment>(state.campaigns.map(c => [c.id, {
+          campaign_id: c.id, sku_id: c.sku.id, revenue: revenue(c.daily_budget, c.curve), spend: c.daily_budget,
+          margin_rate: c.sku.margin_rate, inventory_units: c.sku.units_on_hand,
+          avg_daily_units_sold: c.sku.average_daily_units_sold * c.curve.r0
+            / (state.campaigns.filter(other => other.sku.id === c.sku.id).reduce((sum, other) => sum + other.curve.r0, 0) || 1),
+          beta_est: c.curve.beta,
+        }]));
+        const moves = mapRecommendationToSimulation(rec, enrichment);
+        if (moves.length !== rec.moves.length || rec.expected_profit_gain_per_day <= 0) {
+          return fail('Incomplete or invalid simulation inputs', 400);
+        }
+        const result = boundary.runApprovedSimulation({ recommendationId: rec.id, moves,
+          approvedAt: getRecord(rec.id)?.actionAt ?? 0 }, seed ?? 42);
+        if (!result.ok || !result.simulationResult) return Response.json(result, { status: 409 });
+        simulationResult = result.simulationResult;
+      }
       const predictedGainPerDay = rec.expected_profit_gain_per_day;
-      const actualGain = result.simulationResult.portfolioGain;
+      const actualGain = simulationResult.portfolioGain;
       const errorFraction = computePredictionError(predictedGainPerDay, actualGain);
-
-      let confidenceUpdate = null;
-      if (!isNaN(errorFraction) && typeof currentConfidence === "number") {
-        confidenceUpdate = updateConfidence({
-          currentConfidence,
-          errorFraction,
-        });
-      }
-
-      return Response.json(
-        {
-          ...result,
-          predictedGainPerDay,
-          predictedTotal: predictedGainPerDay * 3,
-          actualGain,
-          errorFraction: isNaN(errorFraction) ? null : errorFraction,
-          errorPct: isNaN(errorFraction) ? null : errorFraction * 100,
-          confidenceUpdate,
-        },
-        { status: 200 }
-      );
+      const outcome = OutcomeSchema.parse({ id: `${rec.id}:outcome`, recommendation_id: rec.id,
+        created_at: new Date(simulationResult.simulatedAt).toISOString(), predicted: predictedGainPerDay * 3,
+        actual: actualGain, error_pct: errorFraction * 100, horizon_days: 3 });
+      const confidenceUpdate = updateConfidence({ currentConfidence: rec.confidence, errorFraction });
+      // saveOutcome is the completion marker. Repositories upsert this stable ID on retry.
+      await repo.setConfidence({ recommendation_type: rec.type, weight: confidenceUpdate.newConfidence,
+        updated_at: outcome.created_at });
+      await repo.saveRecommendations([{ ...rec, status: 'executed' }]);
+      await logOnce(repo, rec.id, 'executed');
+      await repo.saveOutcome(outcome);
+      return Response.json({ ok: true, recommendationId: rec.id, status: 'simulated', simulationResult,
+        predictedGainPerDay, predictedTotal: outcome.predicted, actualGain,
+        errorFraction, errorPct: outcome.error_pct, confidenceUpdate });
+    } catch {
+      return fail('Decision could not be completed. Please retry.', 500);
     }
-
-    default: {
-      return Response.json({ ok: false, error: `Unknown action` }, { status: 400 });
-    }
-  }
+  });
 }

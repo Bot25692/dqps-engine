@@ -120,10 +120,14 @@ describe("SeededRNG", () => {
 describe("SimulationEngine", () => {
   // ── TEST 1: Deterministic replay ────────────────────────────────────────────
   it("TEST-1: same plan + same seed → identical result", () => {
+    // Execution timestamps are wall-clock metadata, so hold time fixed for full-result equality.
+    const clock = vi.spyOn(Date, "now").mockReturnValue(1_800_000_000_000);
+    try {
     const plan = makePlan("rec-01");
     const r1 = runSimulation(plan, 12345);
     const r2 = runSimulation(plan, 12345);
     expect(r1).toEqual(r2);
+    } finally { clock.mockRestore(); }
   });
 
   it("TEST-1b: different seed → different result", () => {

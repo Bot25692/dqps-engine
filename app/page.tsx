@@ -3,17 +3,20 @@ import { MainContent } from "@/components/main-content";
 import { StatCard } from "@/components/stat-card";
 import { PortfolioChart } from "@/components/portfolio-chart";
 import { AlertCard } from "@/components/alert-card";
-import {
-  kpiStats,
-  portfolioTimeSeries,
-  attentionItem,
-  opportunityItem,
-} from "@/lib/demo/g1-fixtures";
+import { connection } from "next/server";
+import { getRuntimeRepo } from "@/lib/db/runtime-repo";
+import { loadAnalysisInputs } from "@/lib/run-analysis";
+import { overviewData } from "@/lib/demo/overview-data";
+
+export const instant = false;
 
 /* ─── Overview page (/) ──────────────────────────────────────────────────── */
 /* Gate G1: Functional Overview.                                               */
 /* All metrics and series sourced cleanly from fixtures; no math in the UI.   */
-export default function OverviewPage() {
+export default async function OverviewPage() {
+  await connection();
+  const repo = await getRuntimeRepo();
+  const { kpiStats, portfolioTimeSeries, attentionItem, opportunityItem } = overviewData(await repo.run(loadAnalysisInputs));
   /* Format display metrics for Court Sneaker alert */
   const attentionMetrics = [
     { label: "Platform", value: attentionItem.platform },
@@ -29,7 +32,7 @@ export default function OverviewPage() {
     },
     {
       label: "Stock Runway",
-      value: "< 1 day",
+      value: `${attentionItem.stockRunwayDays.toFixed(1)} days`,
       trend: "problem" as const,
     },
     {
@@ -72,7 +75,7 @@ export default function OverviewPage() {
             }}
           >
             <span className="w-1.5 h-1.5 rounded-full bg-green-500" />
-            Fixtures mode
+            {repo.status.banner ?? `${repo.status.dataSource} mode`}
           </span>
         }
       />
@@ -150,9 +153,8 @@ export default function OverviewPage() {
                 Daily Revenue vs Contribution Profit
               </p>
               <p className="text-xs text-gray-500 mt-0.5">
-                Evaluates advertising profitability over time. Ad spend is
-                stable at ~₹84k/day while contribution profit captures net
-                returns after margins and advertising expenses.
+                Simulated advertising data. Contribution profit accounts for
+                SKU margins and advertising expenses.
               </p>
             </div>
 

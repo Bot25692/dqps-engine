@@ -22,11 +22,13 @@
  * interface when the recommendation engine is complete.
  */
 export interface BudgetMove {
+  /** Optional shared stock key; campaigns with the same SKU consume one inventory pool. */
+  receiverSkuId?: string;
   /** Donor campaign identifier (Builder A owns the canonical ID list) */
   donorCampaignId: string;
   /** Receiver campaign identifier */
   receiverCampaignId: string;
-  /** INR amount transferred per day */
+  /** Signed INR daily budget change (negative for a donor). */
   amountPerDay: number;
   /** beta_est from Builder A's regression — clamped 0.4–0.9 per CONTEXT */
   betaEst: number;

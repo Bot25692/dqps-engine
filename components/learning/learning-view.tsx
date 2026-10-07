@@ -14,7 +14,7 @@
  */
 
 import type { Outcome, Recommendation } from "@/lib/types";
-import { updateConfidence, computePredictionError } from "@/lib/integration/confidence";
+import { updateConfidence } from "@/lib/integration/confidence";
 import Link from "next/link";
 
 interface Props {
@@ -72,7 +72,6 @@ export function LearningView({ outcomes, currentConfidence, recommendations }: P
   }
 
   // Compute confidence trajectory from outcomes
-  let runningConfidence = currentConfidence;
   const trajectory = outcomes
     .slice()
     .sort((a, b) => a.created_at.localeCompare(b.created_at))
@@ -80,10 +79,9 @@ export function LearningView({ outcomes, currentConfidence, recommendations }: P
       const rec = recMap.get(outcome.recommendation_id);
       const errorFraction = outcome.error_pct / 100;
       const update = updateConfidence({
-        currentConfidence: runningConfidence,
+        currentConfidence: rec?.confidence ?? 0.75,
         errorFraction,
       });
-      runningConfidence = update.newConfidence;
       return { outcome, rec, update, errorFraction };
     });
 
@@ -96,7 +94,7 @@ export function LearningView({ outcomes, currentConfidence, recommendations }: P
         <div className="rounded-lg border border-gray-200 bg-white p-4">
           <p className="text-xs text-gray-500 mb-1">Starting Confidence</p>
           <p className="text-2xl font-bold text-gray-800">
-            {(currentConfidence * 100).toFixed(1)}%
+            {((trajectory[0]?.update.previousConfidence ?? 0.75) * 100).toFixed(1)}%
           </p>
         </div>
         {latestUpdate && (
@@ -110,7 +108,7 @@ export function LearningView({ outcomes, currentConfidence, recommendations }: P
             <div className="rounded-lg border border-blue-200 bg-blue-50 p-4">
               <p className="text-xs text-blue-600 mb-1">Updated Confidence</p>
               <p className="text-2xl font-bold text-blue-900">
-                {(latestUpdate.update.newConfidence * 100).toFixed(1)}%
+                {(currentConfidence * 100).toFixed(1)}%
               </p>
             </div>
           </>
@@ -129,7 +127,7 @@ export function LearningView({ outcomes, currentConfidence, recommendations }: P
                 <th className="px-4 py-2 font-medium">Date</th>
                 <th className="px-4 py-2 font-medium">Recommendation</th>
                 <th className="px-4 py-2 font-medium text-right">Predicted (3-day)</th>
-                <th className="px-4 py-2 font-medium text-right">Actual</th>
+                <th className="px-4 py-2 font-medium text-right">Actual Simulated</th>
                 <th className="px-4 py-2 font-medium text-right">Error</th>
                 <th className="px-4 py-2 font-medium text-right">Accuracy</th>
                 <th className="px-4 py-2 font-medium text-right">Confidence →</th>

@@ -15,13 +15,15 @@ export const instant = false;
 
 import { PageHeader } from "@/components/page-header";
 import { MainContent } from "@/components/main-content";
-import { createRepo } from "@/lib/db/data-source";
+import { getRuntimeRepo } from "@/lib/db/runtime-repo";
 import { ANALYSIS_AS_OF } from "@/lib/run-analysis";
 import { LearningView } from "@/components/learning/learning-view";
 import type { Outcome } from "@/lib/types";
+import { connection } from "next/server";
 
 export default async function LearningPage() {
-  const repo = createRepo();
+  await connection();
+  const repo = await getRuntimeRepo();
   const [outcomes, confidenceWeights, recommendations] = await Promise.all([
     repo.getOutcomes(),
     repo.getConfidence("budget_reallocation"),

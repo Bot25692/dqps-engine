@@ -15,21 +15,21 @@ export const instant = false;
 
 import { PageHeader } from "@/components/page-header";
 import { MainContent } from "@/components/main-content";
-import { createRepo } from "@/lib/db/data-source";
+import { getRuntimeRepo } from "@/lib/db/runtime-repo";
 import { ANALYSIS_AS_OF } from "@/lib/run-analysis";
 import { RecommendationDetail } from "@/components/recommendations/recommendation-detail";
+import { connection } from "next/server";
 
 export default async function RecommendationsPage() {
+  await connection();
   // Fetch from fixture repo (server component — safe)
-  const repo = createRepo();
-  const [recommendations, anomalies, campaigns, skus, metrics, inventory] =
+  const repo = await getRuntimeRepo();
+  const [recommendations, anomalies, campaigns, skus] =
     await Promise.all([
       repo.getRecommendations(),
       repo.getAnomalies(),
       repo.getCampaigns(),
       repo.getSkus(),
-      repo.getMetrics("2026-10-01", ANALYSIS_AS_OF),
-      repo.getInventory("2026-10-01", ANALYSIS_AS_OF),
     ]);
 
   const topRec =
@@ -54,8 +54,6 @@ export default async function RecommendationsPage() {
           stockAnomalies={stockAnomalies}
           campaigns={campaigns}
           skus={skus}
-          metrics={metrics}
-          inventory={inventory}
         />
       </MainContent>
     </>
