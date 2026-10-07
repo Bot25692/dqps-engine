@@ -137,7 +137,7 @@ export async function main(args = process.argv.slice(2)): Promise<void> {
   for (const seed of parseSeeds(args)) {
     let results: CheckResult[];
     try {
-      const data = JSON.parse(await readFile(new URL(`../fixtures/seed-${seed}.json`, import.meta.url), 'utf8')) as SeedData;
+      const data = JSON.parse(await readFile(new URL(`./fixtures/seed-${seed}.json`, import.meta.url), 'utf8')) as SeedData;
       results = checkFixture(data);
     } catch (error) {
       results = labels.map(check => ({ check, passed: false, detail: `Cannot load fixture: ${error instanceof Error ? error.message : String(error)}` }));

@@ -1,8 +1,8 @@
 import { mkdir, writeFile } from 'node:fs/promises';
 import { resolve } from 'node:path';
 import { pathToFileURL } from 'node:url';
-import { fixtureSchemas } from '../lib/db/repo.ts';
-import type { Campaign, MetricRow, InventoryRow } from '../lib/types.ts';
+import { fixtureSchemas } from './lib/db/repo.ts';
+import type { Campaign, MetricRow, InventoryRow } from './lib/types.ts';
 
 export const products = [
   { id: 'SNK-01', name: 'Court Sneaker', price: 3499, margin_rate: .45 },
@@ -141,13 +141,13 @@ export async function main(args = process.argv.slice(2)) {
   const { seed, out } = parseArgs(args);
   const data = generateSeed(seed);
   if (out === 'db') {
-    const { SeedRepo } = await import('../lib/db/seed-repo.ts');
+    const { SeedRepo } = await import('./lib/db/seed-repo.ts');
     await new SeedRepo().saveSeed(data);
   } else {
-    await mkdir(new URL('../fixtures/', import.meta.url), { recursive: true });
-    await writeFile(new URL(`../fixtures/seed-${seed}.json`, import.meta.url), JSON.stringify(data, null, 2) + '\n');
+    await mkdir(new URL('./fixtures/', import.meta.url), { recursive: true });
+    await writeFile(new URL(`./fixtures/seed-${seed}.json`, import.meta.url), JSON.stringify(data, null, 2) + '\n');
   }
-  await writeFile(new URL('../planted_events.json', import.meta.url), JSON.stringify(data.planted_events, null, 2) + '\n');
+  await writeFile(new URL('./planted_events.json', import.meta.url), JSON.stringify(data.planted_events, null, 2) + '\n');
   console.log(`Seed ${seed}: 45 days, ${data.campaigns.length} campaigns, output ${out}`);
 }
 if (process.argv[1] && import.meta.url === pathToFileURL(resolve(process.argv[1])).href) {
@@ -155,3 +155,4 @@ if (process.argv[1] && import.meta.url === pathToFileURL(resolve(process.argv[1]
 }
 
 
+ 

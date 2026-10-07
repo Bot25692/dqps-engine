@@ -1,6 +1,6 @@
 import { z } from 'zod';
-import { fixtureSchemas, type Repo } from './repo.ts';
-import * as T from '../types.ts';
+import { fixtureSchemas, type Repo } from './lib/db/repo.ts';
+import * as T from './lib/types.ts';
 
 export type SupabaseClient = typeof fetch;
 type Table = 'skus' | 'campaigns' | 'ad_metrics_daily' | 'inventory_daily' |

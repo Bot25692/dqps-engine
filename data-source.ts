@@ -1,5 +1,5 @@
-import { FixtureRepo, type Repo } from './repo.ts';
-import { assertServer, SupabaseRepo, type SupabaseClient } from './supabase-repo.ts';
+import { FixtureRepo, type Repo } from './lib/db/repo.ts';
+import { assertServer, SupabaseRepo, type SupabaseClient } from './lib/db/supabase-repo.ts';
 
 export const FALLBACK_BANNER = 'Showing saved demo data';
 export const SUPABASE_TIMEOUT_MS = 3000;
