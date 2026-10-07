@@ -73,7 +73,8 @@ export function createRepo(options: {
 
       // Concurrent operations must not return live rows after another one activated demo mode.
       return fallback ? operation(getFixtures()) : result;
-    } catch {
+    } catch (e) {
+      console.error('SUPABASE FALLBACK CAUSE:', e);
       supabase?.abort();
       fallback = true;
       return operation(getFixtures());
