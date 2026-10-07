@@ -87,7 +87,7 @@ export async function POST(request: Request): Promise<Response> {
           return fail('Incomplete or invalid simulation inputs', 400);
         }
         const result = boundary.runApprovedSimulation({ recommendationId: rec.id, moves,
-          approvedAt: getRecord(rec.id)?.actionAt ?? 0 }, seed ?? 42);
+          approvedAt: getRecord(rec.id)?.actionAt ?? Date.now() }, seed ?? 42);
         if (!result.ok || !result.simulationResult) return Response.json(result, { status: 409 });
         simulationResult = result.simulationResult;
       }
