@@ -1,0 +1,542 @@
+[
+  {
+    "campaign_id": "c-sneaker",
+    "date": "2026-09-01",
+    "spend": 1000,
+    "revenue": 4800,
+    "impressions": 20000,
+    "clicks": 400,
+    "orders": 4
+  },
+  {
+    "campaign_id": "c-premium",
+    "date": "2026-09-01",
+    "spend": 2500,
+    "revenue": 10250,
+    "impressions": 50000,
+    "clicks": 1000,
+    "orders": 10
+  },
+  {
+    "campaign_id": "c-hoodie",
+    "date": "2026-09-01",
+    "spend": 1500,
+    "revenue": 4500,
+    "impressions": 30000,
+    "clicks": 600,
+    "orders": 5
+  },
+  {
+    "campaign_id": "c-sneaker",
+    "date": "2026-09-02",
+    "spend": 1000,
+    "revenue": 4800,
+    "impressions": 20000,
+    "clicks": 400,
+    "orders": 4
+  },
+  {
+    "campaign_id": "c-premium",
+    "date": "2026-09-02",
+    "spend": 2500,
+    "revenue": 10250,
+    "impressions": 50000,
+    "clicks": 1000,
+    "orders": 10
+  },
+  {
+    "campaign_id": "c-hoodie",
+    "date": "2026-09-02",
+    "spend": 1500,
+    "revenue": 4520,
+    "impressions": 30000,
+    "clicks": 600,
+    "orders": 5
+  },
+  {
+    "campaign_id": "c-sneaker",
+    "date": "2026-09-03",
+    "spend": 1000,
+    "revenue": 4800,
+    "impressions": 20000,
+    "clicks": 400,
+    "orders": 4
+  },
+  {
+    "campaign_id": "c-premium",
+    "date": "2026-09-03",
+    "spend": 2500,
+    "revenue": 10250,
+    "impressions": 50000,
+    "clicks": 1000,
+    "orders": 10
+  },
+  {
+    "campaign_id": "c-hoodie",
+    "date": "2026-09-03",
+    "spend": 1500,
+    "revenue": 4480,
+    "impressions": 30000,
+    "clicks": 600,
+    "orders": 5
+  },
+  {
+    "campaign_id": "c-sneaker",
+    "date": "2026-09-04",
+    "spend": 1000,
+    "revenue": 4800,
+    "impressions": 20000,
+    "clicks": 400,
+    "orders": 4
+  },
+  {
+    "campaign_id": "c-premium",
+    "date": "2026-09-04",
+    "spend": 2500,
+    "revenue": 10250,
+    "impressions": 50000,
+    "clicks": 1000,
+    "orders": 10
+  },
+  {
+    "campaign_id": "c-hoodie",
+    "date": "2026-09-04",
+    "spend": 1500,
+    "revenue": 4510,
+    "impressions": 30000,
+    "clicks": 600,
+    "orders": 5
+  },
+  {
+    "campaign_id": "c-sneaker",
+    "date": "2026-09-05",
+    "spend": 1000,
+    "revenue": 4800,
+    "impressions": 20000,
+    "clicks": 400,
+    "orders": 4
+  },
+  {
+    "campaign_id": "c-premium",
+    "date": "2026-09-05",
+    "spend": 2500,
+    "revenue": 10250,
+    "impressions": 50000,
+    "clicks": 1000,
+    "orders": 10
+  },
+  {
+    "campaign_id": "c-hoodie",
+    "date": "2026-09-05",
+    "spend": 1500,
+    "revenue": 4490,
+    "impressions": 30000,
+    "clicks": 600,
+    "orders": 5
+  },
+  {
+    "campaign_id": "c-sneaker",
+    "date": "2026-09-06",
+    "spend": 1000,
+    "revenue": 4800,
+    "impressions": 20000,
+    "clicks": 400,
+    "orders": 4
+  },
+  {
+    "campaign_id": "c-premium",
+    "date": "2026-09-06",
+    "spend": 2500,
+    "revenue": 10250,
+    "impressions": 50000,
+    "clicks": 1000,
+    "orders": 10
+  },
+  {
+    "campaign_id": "c-hoodie",
+    "date": "2026-09-06",
+    "spend": 1500,
+    "revenue": 4500,
+    "impressions": 30000,
+    "clicks": 600,
+    "orders": 5
+  },
+  {
+    "campaign_id": "c-sneaker",
+    "date": "2026-09-07",
+    "spend": 1000,
+    "revenue": 4800,
+    "impressions": 20000,
+    "clicks": 400,
+    "orders": 4
+  },
+  {
+    "campaign_id": "c-premium",
+    "date": "2026-09-07",
+    "spend": 2500,
+    "revenue": 10250,
+    "impressions": 50000,
+    "clicks": 1000,
+    "orders": 10
+  },
+  {
+    "campaign_id": "c-hoodie",
+    "date": "2026-09-07",
+    "spend": 1500,
+    "revenue": 4520,
+    "impressions": 30000,
+    "clicks": 600,
+    "orders": 5
+  },
+  {
+    "campaign_id": "c-sneaker",
+    "date": "2026-09-08",
+    "spend": 1000,
+    "revenue": 4800,
+    "impressions": 20000,
+    "clicks": 400,
+    "orders": 4
+  },
+  {
+    "campaign_id": "c-premium",
+    "date": "2026-09-08",
+    "spend": 2500,
+    "revenue": 10250,
+    "impressions": 50000,
+    "clicks": 1000,
+    "orders": 10
+  },
+  {
+    "campaign_id": "c-hoodie",
+    "date": "2026-09-08",
+    "spend": 1500,
+    "revenue": 4480,
+    "impressions": 30000,
+    "clicks": 600,
+    "orders": 5
+  },
+  {
+    "campaign_id": "c-sneaker",
+    "date": "2026-09-09",
+    "spend": 1000,
+    "revenue": 4800,
+    "impressions": 20000,
+    "clicks": 400,
+    "orders": 4
+  },
+  {
+    "campaign_id": "c-premium",
+    "date": "2026-09-09",
+    "spend": 2500,
+    "revenue": 10250,
+    "impressions": 50000,
+    "clicks": 1000,
+    "orders": 10
+  },
+  {
+    "campaign_id": "c-hoodie",
+    "date": "2026-09-09",
+    "spend": 1500,
+    "revenue": 4510,
+    "impressions": 30000,
+    "clicks": 600,
+    "orders": 5
+  },
+  {
+    "campaign_id": "c-sneaker",
+    "date": "2026-09-10",
+    "spend": 1000,
+    "revenue": 4800,
+    "impressions": 20000,
+    "clicks": 400,
+    "orders": 4
+  },
+  {
+    "campaign_id": "c-premium",
+    "date": "2026-09-10",
+    "spend": 2500,
+    "revenue": 10250,
+    "impressions": 50000,
+    "clicks": 1000,
+    "orders": 10
+  },
+  {
+    "campaign_id": "c-hoodie",
+    "date": "2026-09-10",
+    "spend": 1500,
+    "revenue": 4490,
+    "impressions": 30000,
+    "clicks": 600,
+    "orders": 5
+  },
+  {
+    "campaign_id": "c-sneaker",
+    "date": "2026-09-11",
+    "spend": 1000,
+    "revenue": 4800,
+    "impressions": 20000,
+    "clicks": 400,
+    "orders": 4
+  },
+  {
+    "campaign_id": "c-premium",
+    "date": "2026-09-11",
+    "spend": 2500,
+    "revenue": 10250,
+    "impressions": 50000,
+    "clicks": 1000,
+    "orders": 10
+  },
+  {
+    "campaign_id": "c-hoodie",
+    "date": "2026-09-11",
+    "spend": 1500,
+    "revenue": 4500,
+    "impressions": 30000,
+    "clicks": 600,
+    "orders": 5
+  },
+  {
+    "campaign_id": "c-sneaker",
+    "date": "2026-09-12",
+    "spend": 1000,
+    "revenue": 4800,
+    "impressions": 20000,
+    "clicks": 400,
+    "orders": 4
+  },
+  {
+    "campaign_id": "c-premium",
+    "date": "2026-09-12",
+    "spend": 2500,
+    "revenue": 10250,
+    "impressions": 50000,
+    "clicks": 1000,
+    "orders": 10
+  },
+  {
+    "campaign_id": "c-hoodie",
+    "date": "2026-09-12",
+    "spend": 1500,
+    "revenue": 4520,
+    "impressions": 30000,
+    "clicks": 600,
+    "orders": 5
+  },
+  {
+    "campaign_id": "c-sneaker",
+    "date": "2026-09-13",
+    "spend": 1000,
+    "revenue": 4800,
+    "impressions": 20000,
+    "clicks": 400,
+    "orders": 4
+  },
+  {
+    "campaign_id": "c-premium",
+    "date": "2026-09-13",
+    "spend": 2500,
+    "revenue": 10250,
+    "impressions": 50000,
+    "clicks": 1000,
+    "orders": 10
+  },
+  {
+    "campaign_id": "c-hoodie",
+    "date": "2026-09-13",
+    "spend": 1500,
+    "revenue": 4480,
+    "impressions": 30000,
+    "clicks": 600,
+    "orders": 5
+  },
+  {
+    "campaign_id": "c-sneaker",
+    "date": "2026-09-14",
+    "spend": 1000,
+    "revenue": 4800,
+    "impressions": 20000,
+    "clicks": 400,
+    "orders": 4
+  },
+  {
+    "campaign_id": "c-premium",
+    "date": "2026-09-14",
+    "spend": 2500,
+    "revenue": 10250,
+    "impressions": 50000,
+    "clicks": 1000,
+    "orders": 10
+  },
+  {
+    "campaign_id": "c-hoodie",
+    "date": "2026-09-14",
+    "spend": 1500,
+    "revenue": 4510,
+    "impressions": 30000,
+    "clicks": 600,
+    "orders": 5
+  },
+  {
+    "campaign_id": "c-sneaker",
+    "date": "2026-09-15",
+    "spend": 1000,
+    "revenue": 4800,
+    "impressions": 20000,
+    "clicks": 400,
+    "orders": 4
+  },
+  {
+    "campaign_id": "c-premium",
+    "date": "2026-09-15",
+    "spend": 2500,
+    "revenue": 10250,
+    "impressions": 50000,
+    "clicks": 1000,
+    "orders": 10
+  },
+  {
+    "campaign_id": "c-hoodie",
+    "date": "2026-09-15",
+    "spend": 1500,
+    "revenue": 4490,
+    "impressions": 30000,
+    "clicks": 600,
+    "orders": 5
+  },
+  {
+    "campaign_id": "c-sneaker",
+    "date": "2026-09-16",
+    "spend": 1000,
+    "revenue": 4800,
+    "impressions": 20000,
+    "clicks": 400,
+    "orders": 4
+  },
+  {
+    "campaign_id": "c-premium",
+    "date": "2026-09-16",
+    "spend": 2500,
+    "revenue": 10250,
+    "impressions": 50000,
+    "clicks": 1000,
+    "orders": 10
+  },
+  {
+    "campaign_id": "c-hoodie",
+    "date": "2026-09-16",
+    "spend": 1500,
+    "revenue": 4500,
+    "impressions": 30000,
+    "clicks": 600,
+    "orders": 5
+  },
+  {
+    "campaign_id": "c-sneaker",
+    "date": "2026-09-17",
+    "spend": 1000,
+    "revenue": 4800,
+    "impressions": 20000,
+    "clicks": 400,
+    "orders": 4
+  },
+  {
+    "campaign_id": "c-premium",
+    "date": "2026-09-17",
+    "spend": 2500,
+    "revenue": 10250,
+    "impressions": 50000,
+    "clicks": 1000,
+    "orders": 10
+  },
+  {
+    "campaign_id": "c-hoodie",
+    "date": "2026-09-17",
+    "spend": 1500,
+    "revenue": 4520,
+    "impressions": 30000,
+    "clicks": 600,
+    "orders": 5
+  },
+  {
+    "campaign_id": "c-sneaker",
+    "date": "2026-09-18",
+    "spend": 1000,
+    "revenue": 4800,
+    "impressions": 20000,
+    "clicks": 400,
+    "orders": 4
+  },
+  {
+    "campaign_id": "c-premium",
+    "date": "2026-09-18",
+    "spend": 2500,
+    "revenue": 10250,
+    "impressions": 50000,
+    "clicks": 1000,
+    "orders": 10
+  },
+  {
+    "campaign_id": "c-hoodie",
+    "date": "2026-09-18",
+    "spend": 1500,
+    "revenue": 4500,
+    "impressions": 30000,
+    "clicks": 600,
+    "orders": 5
+  },
+  {
+    "campaign_id": "c-sneaker",
+    "date": "2026-09-19",
+    "spend": 1000,
+    "revenue": 4800,
+    "impressions": 20000,
+    "clicks": 400,
+    "orders": 4
+  },
+  {
+    "campaign_id": "c-premium",
+    "date": "2026-09-19",
+    "spend": 2500,
+    "revenue": 10250,
+    "impressions": 50000,
+    "clicks": 1000,
+    "orders": 10
+  },
+  {
+    "campaign_id": "c-hoodie",
+    "date": "2026-09-19",
+    "spend": 1500,
+    "revenue": 4500,
+    "impressions": 30000,
+    "clicks": 600,
+    "orders": 5
+  },
+  {
+    "campaign_id": "c-sneaker",
+    "date": "2026-09-20",
+    "spend": 1000,
+    "revenue": 4800,
+    "impressions": 20000,
+    "clicks": 400,
+    "orders": 4
+  },
+  {
+    "campaign_id": "c-premium",
+    "date": "2026-09-20",
+    "spend": 2500,
+    "revenue": 10250,
+    "impressions": 50000,
+    "clicks": 1000,
+    "orders": 10
+  },
+  {
+    "campaign_id": "c-hoodie",
+    "date": "2026-09-20",
+    "spend": 1500,
+    "revenue": 2700,
+    "impressions": 30000,
+    "clicks": 360,
+    "orders": 3
+  }
+]

@@ -1,0 +1,20 @@
+[
+  {
+    "id": "a-hoodie",
+    "campaign_id": "c-hoodie",
+    "date": "2026-09-20",
+    "metric": "ctr",
+    "baseline": 0.02,
+    "observed": 0.012,
+    "z_score": 13.3333333333,
+    "change_pct": -40,
+    "severity": "critical",
+    "drivers": [
+      {
+        "name": "CTR",
+        "contribution_pct": 100,
+        "impact": "negative"
+      }
+    ]
+  }
+]

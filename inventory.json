@@ -1,0 +1,362 @@
+[
+  {
+    "sku_id": "SNK-01",
+    "date": "2026-09-01",
+    "units_on_hand": 95,
+    "units_sold": 5
+  },
+  {
+    "sku_id": "TEE-PRM",
+    "date": "2026-09-01",
+    "units_on_hand": 735,
+    "units_sold": 15
+  },
+  {
+    "sku_id": "HOOD-01",
+    "date": "2026-09-01",
+    "units_on_hand": 452,
+    "units_sold": 8
+  },
+  {
+    "sku_id": "SNK-01",
+    "date": "2026-09-02",
+    "units_on_hand": 90,
+    "units_sold": 5
+  },
+  {
+    "sku_id": "TEE-PRM",
+    "date": "2026-09-02",
+    "units_on_hand": 720,
+    "units_sold": 15
+  },
+  {
+    "sku_id": "HOOD-01",
+    "date": "2026-09-02",
+    "units_on_hand": 444,
+    "units_sold": 8
+  },
+  {
+    "sku_id": "SNK-01",
+    "date": "2026-09-03",
+    "units_on_hand": 85,
+    "units_sold": 5
+  },
+  {
+    "sku_id": "TEE-PRM",
+    "date": "2026-09-03",
+    "units_on_hand": 705,
+    "units_sold": 15
+  },
+  {
+    "sku_id": "HOOD-01",
+    "date": "2026-09-03",
+    "units_on_hand": 436,
+    "units_sold": 8
+  },
+  {
+    "sku_id": "SNK-01",
+    "date": "2026-09-04",
+    "units_on_hand": 80,
+    "units_sold": 5
+  },
+  {
+    "sku_id": "TEE-PRM",
+    "date": "2026-09-04",
+    "units_on_hand": 690,
+    "units_sold": 15
+  },
+  {
+    "sku_id": "HOOD-01",
+    "date": "2026-09-04",
+    "units_on_hand": 428,
+    "units_sold": 8
+  },
+  {
+    "sku_id": "SNK-01",
+    "date": "2026-09-05",
+    "units_on_hand": 75,
+    "units_sold": 5
+  },
+  {
+    "sku_id": "TEE-PRM",
+    "date": "2026-09-05",
+    "units_on_hand": 675,
+    "units_sold": 15
+  },
+  {
+    "sku_id": "HOOD-01",
+    "date": "2026-09-05",
+    "units_on_hand": 420,
+    "units_sold": 8
+  },
+  {
+    "sku_id": "SNK-01",
+    "date": "2026-09-06",
+    "units_on_hand": 70,
+    "units_sold": 5
+  },
+  {
+    "sku_id": "TEE-PRM",
+    "date": "2026-09-06",
+    "units_on_hand": 660,
+    "units_sold": 15
+  },
+  {
+    "sku_id": "HOOD-01",
+    "date": "2026-09-06",
+    "units_on_hand": 412,
+    "units_sold": 8
+  },
+  {
+    "sku_id": "SNK-01",
+    "date": "2026-09-07",
+    "units_on_hand": 65,
+    "units_sold": 5
+  },
+  {
+    "sku_id": "TEE-PRM",
+    "date": "2026-09-07",
+    "units_on_hand": 645,
+    "units_sold": 15
+  },
+  {
+    "sku_id": "HOOD-01",
+    "date": "2026-09-07",
+    "units_on_hand": 404,
+    "units_sold": 8
+  },
+  {
+    "sku_id": "SNK-01",
+    "date": "2026-09-08",
+    "units_on_hand": 60,
+    "units_sold": 5
+  },
+  {
+    "sku_id": "TEE-PRM",
+    "date": "2026-09-08",
+    "units_on_hand": 630,
+    "units_sold": 15
+  },
+  {
+    "sku_id": "HOOD-01",
+    "date": "2026-09-08",
+    "units_on_hand": 396,
+    "units_sold": 8
+  },
+  {
+    "sku_id": "SNK-01",
+    "date": "2026-09-09",
+    "units_on_hand": 55,
+    "units_sold": 5
+  },
+  {
+    "sku_id": "TEE-PRM",
+    "date": "2026-09-09",
+    "units_on_hand": 615,
+    "units_sold": 15
+  },
+  {
+    "sku_id": "HOOD-01",
+    "date": "2026-09-09",
+    "units_on_hand": 388,
+    "units_sold": 8
+  },
+  {
+    "sku_id": "SNK-01",
+    "date": "2026-09-10",
+    "units_on_hand": 50,
+    "units_sold": 5
+  },
+  {
+    "sku_id": "TEE-PRM",
+    "date": "2026-09-10",
+    "units_on_hand": 600,
+    "units_sold": 15
+  },
+  {
+    "sku_id": "HOOD-01",
+    "date": "2026-09-10",
+    "units_on_hand": 380,
+    "units_sold": 8
+  },
+  {
+    "sku_id": "SNK-01",
+    "date": "2026-09-11",
+    "units_on_hand": 45,
+    "units_sold": 5
+  },
+  {
+    "sku_id": "TEE-PRM",
+    "date": "2026-09-11",
+    "units_on_hand": 585,
+    "units_sold": 15
+  },
+  {
+    "sku_id": "HOOD-01",
+    "date": "2026-09-11",
+    "units_on_hand": 372,
+    "units_sold": 8
+  },
+  {
+    "sku_id": "SNK-01",
+    "date": "2026-09-12",
+    "units_on_hand": 40,
+    "units_sold": 5
+  },
+  {
+    "sku_id": "TEE-PRM",
+    "date": "2026-09-12",
+    "units_on_hand": 570,
+    "units_sold": 15
+  },
+  {
+    "sku_id": "HOOD-01",
+    "date": "2026-09-12",
+    "units_on_hand": 364,
+    "units_sold": 8
+  },
+  {
+    "sku_id": "SNK-01",
+    "date": "2026-09-13",
+    "units_on_hand": 35,
+    "units_sold": 5
+  },
+  {
+    "sku_id": "TEE-PRM",
+    "date": "2026-09-13",
+    "units_on_hand": 555,
+    "units_sold": 15
+  },
+  {
+    "sku_id": "HOOD-01",
+    "date": "2026-09-13",
+    "units_on_hand": 356,
+    "units_sold": 8
+  },
+  {
+    "sku_id": "SNK-01",
+    "date": "2026-09-14",
+    "units_on_hand": 30,
+    "units_sold": 5
+  },
+  {
+    "sku_id": "TEE-PRM",
+    "date": "2026-09-14",
+    "units_on_hand": 540,
+    "units_sold": 15
+  },
+  {
+    "sku_id": "HOOD-01",
+    "date": "2026-09-14",
+    "units_on_hand": 348,
+    "units_sold": 8
+  },
+  {
+    "sku_id": "SNK-01",
+    "date": "2026-09-15",
+    "units_on_hand": 25,
+    "units_sold": 5
+  },
+  {
+    "sku_id": "TEE-PRM",
+    "date": "2026-09-15",
+    "units_on_hand": 525,
+    "units_sold": 15
+  },
+  {
+    "sku_id": "HOOD-01",
+    "date": "2026-09-15",
+    "units_on_hand": 340,
+    "units_sold": 8
+  },
+  {
+    "sku_id": "SNK-01",
+    "date": "2026-09-16",
+    "units_on_hand": 20,
+    "units_sold": 5
+  },
+  {
+    "sku_id": "TEE-PRM",
+    "date": "2026-09-16",
+    "units_on_hand": 510,
+    "units_sold": 15
+  },
+  {
+    "sku_id": "HOOD-01",
+    "date": "2026-09-16",
+    "units_on_hand": 332,
+    "units_sold": 8
+  },
+  {
+    "sku_id": "SNK-01",
+    "date": "2026-09-17",
+    "units_on_hand": 15,
+    "units_sold": 5
+  },
+  {
+    "sku_id": "TEE-PRM",
+    "date": "2026-09-17",
+    "units_on_hand": 495,
+    "units_sold": 15
+  },
+  {
+    "sku_id": "HOOD-01",
+    "date": "2026-09-17",
+    "units_on_hand": 324,
+    "units_sold": 8
+  },
+  {
+    "sku_id": "SNK-01",
+    "date": "2026-09-18",
+    "units_on_hand": 10,
+    "units_sold": 5
+  },
+  {
+    "sku_id": "TEE-PRM",
+    "date": "2026-09-18",
+    "units_on_hand": 480,
+    "units_sold": 15
+  },
+  {
+    "sku_id": "HOOD-01",
+    "date": "2026-09-18",
+    "units_on_hand": 316,
+    "units_sold": 8
+  },
+  {
+    "sku_id": "SNK-01",
+    "date": "2026-09-19",
+    "units_on_hand": 5,
+    "units_sold": 5
+  },
+  {
+    "sku_id": "TEE-PRM",
+    "date": "2026-09-19",
+    "units_on_hand": 465,
+    "units_sold": 15
+  },
+  {
+    "sku_id": "HOOD-01",
+    "date": "2026-09-19",
+    "units_on_hand": 308,
+    "units_sold": 8
+  },
+  {
+    "sku_id": "SNK-01",
+    "date": "2026-09-20",
+    "units_on_hand": 0,
+    "units_sold": 5
+  },
+  {
+    "sku_id": "TEE-PRM",
+    "date": "2026-09-20",
+    "units_on_hand": 450,
+    "units_sold": 15
+  },
+  {
+    "sku_id": "HOOD-01",
+    "date": "2026-09-20",
+    "units_on_hand": 300,
+    "units_sold": 8
+  }
+]

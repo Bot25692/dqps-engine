@@ -1,0 +1,17 @@
+[
+  {
+    "id": "SNK-01",
+    "name": "Court Sneaker",
+    "margin_rate": 0.5
+  },
+  {
+    "id": "TEE-PRM",
+    "name": "Premium T-Shirt",
+    "margin_rate": 0.61
+  },
+  {
+    "id": "HOOD-01",
+    "name": "Everyday Hoodie",
+    "margin_rate": 0.55
+  }
+]
