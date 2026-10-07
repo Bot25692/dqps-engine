@@ -1,0 +1,6618 @@
+{
+  "seed": 4,
+  "currency": "INR",
+  "as_of": "2026-10-07",
+  "products": [
+    {
+      "id": "SNK-01",
+      "name": "Court Sneaker",
+      "price": 3499,
+      "margin_rate": 0.45
+    },
+    {
+      "id": "TEE-PRM",
+      "name": "Premium T-Shirt",
+      "price": 1299,
+      "margin_rate": 0.61
+    },
+    {
+      "id": "TEE-BSC",
+      "name": "Basic Graphic Tee",
+      "price": 699,
+      "margin_rate": 0.18
+    },
+    {
+      "id": "HOOD-01",
+      "name": "Everyday Hoodie",
+      "price": 2199,
+      "margin_rate": 0.5
+    },
+    {
+      "id": "JOG-01",
+      "name": "Jogger",
+      "price": 1799,
+      "margin_rate": 0.48
+    },
+    {
+      "id": "CAP-01",
+      "name": "Cap",
+      "price": 599,
+      "margin_rate": 0.45
+    },
+    {
+      "id": "BAG-01",
+      "name": "Bag",
+      "price": 1499,
+      "margin_rate": 0.52
+    },
+    {
+      "id": "SOCK-3P",
+      "name": "Socks 3-Pack",
+      "price": 499,
+      "margin_rate": 0.42
+    }
+  ],
+  "truth": [
+    {
+      "campaign_id": "c-sneaker",
+      "s0": 30000,
+      "r0": 144000,
+      "beta_true": 0.7809090492781252,
+      "ctr": 0.025,
+      "cpm": 180,
+      "aov": 3499
+    },
+    {
+      "campaign_id": "c-premium",
+      "s0": 25000,
+      "r0": 102499.99999999999,
+      "beta_true": 0.6332614698447288,
+      "ctr": 0.025,
+      "cpm": 180,
+      "aov": 1299
+    },
+    {
+      "campaign_id": "c-basic",
+      "s0": 22000,
+      "r0": 74800,
+      "beta_true": 0.6054169752285816,
+      "ctr": 0.025,
+      "cpm": 180,
+      "aov": 699
+    },
+    {
+      "campaign_id": "c-hoodie",
+      "s0": 12000,
+      "r0": 50400,
+      "beta_true": 0.5704602549783886,
+      "ctr": 0.025,
+      "cpm": 180,
+      "aov": 2199
+    },
+    {
+      "campaign_id": "c-jogger",
+      "s0": 10000,
+      "r0": 60000,
+      "beta_true": 0.6084993106895127,
+      "ctr": 0.025,
+      "cpm": 180,
+      "aov": 1799
+    },
+    {
+      "campaign_id": "c-cap",
+      "s0": 7000,
+      "r0": 21000,
+      "beta_true": 0.6771242135553621,
+      "ctr": 0.025,
+      "cpm": 180,
+      "aov": 599
+    },
+    {
+      "campaign_id": "c-bag",
+      "s0": 8000,
+      "r0": 25600,
+      "beta_true": 0.569347872119397,
+      "ctr": 0.025,
+      "cpm": 180,
+      "aov": 1499
+    },
+    {
+      "campaign_id": "c-socks",
+      "s0": 5000,
+      "r0": 15000,
+      "beta_true": 0.7934654801618308,
+      "ctr": 0.025,
+      "cpm": 180,
+      "aov": 499
+    },
+    {
+      "campaign_id": "c-cap-google",
+      "s0": 4000,
+      "r0": 14000,
+      "beta_true": 0.7055093696224504,
+      "ctr": 0.025,
+      "cpm": 180,
+      "aov": 599
+    },
+    {
+      "campaign_id": "c-bag-meta",
+      "s0": 4000,
+      "r0": 12800,
+      "beta_true": 0.7227038624812849,
+      "ctr": 0.025,
+      "cpm": 180,
+      "aov": 1499
+    }
+  ],
+  "opening_inventory": {
+    "SNK-01": 1823,
+    "TEE-PRM": 4542,
+    "TEE-BSC": 7657,
+    "HOOD-01": 1272,
+    "JOG-01": 2025,
+    "CAP-01": 3890,
+    "BAG-01": 1796,
+    "SOCK-3P": 2187
+  },
+  "planted_events": [
+    {
+      "seed": 4,
+      "id": "E1",
+      "campaign": "c-sneaker",
+      "start_day": 41,
+      "expected_detector": "stock_runway",
+      "expected_top_driver": "stock"
+    },
+    {
+      "seed": 4,
+      "id": "E2",
+      "campaign": "c-hoodie",
+      "start_day": 22,
+      "expected_detector": "fatigue",
+      "expected_top_driver": "ctr"
+    },
+    {
+      "seed": 4,
+      "id": "E3",
+      "campaign": "c-jogger",
+      "start_day": 36,
+      "expected_detector": "cpm",
+      "expected_top_driver": "cpm"
+    },
+    {
+      "seed": 4,
+      "id": "E3",
+      "campaign": "c-cap-google",
+      "start_day": 36,
+      "expected_detector": "cpm",
+      "expected_top_driver": "cpm"
+    },
+    {
+      "seed": 4,
+      "id": "E4",
+      "campaign": "c-basic",
+      "start_day": 1,
+      "expected_detector": "negative_marginal_profit",
+      "expected_top_driver": "margin_rate"
+    },
+    {
+      "seed": 4,
+      "id": "E5",
+      "campaign": "c-premium",
+      "start_day": 1,
+      "expected_detector": "positive_marginal_profit",
+      "expected_top_driver": "margin_rate"
+    }
+  ],
+  "skus": [
+    {
+      "id": "SNK-01",
+      "name": "Court Sneaker",
+      "margin_rate": 0.45
+    },
+    {
+      "id": "TEE-PRM",
+      "name": "Premium T-Shirt",
+      "margin_rate": 0.61
+    },
+    {
+      "id": "TEE-BSC",
+      "name": "Basic Graphic Tee",
+      "margin_rate": 0.18
+    },
+    {
+      "id": "HOOD-01",
+      "name": "Everyday Hoodie",
+      "margin_rate": 0.5
+    },
+    {
+      "id": "JOG-01",
+      "name": "Jogger",
+      "margin_rate": 0.48
+    },
+    {
+      "id": "CAP-01",
+      "name": "Cap",
+      "margin_rate": 0.45
+    },
+    {
+      "id": "BAG-01",
+      "name": "Bag",
+      "margin_rate": 0.52
+    },
+    {
+      "id": "SOCK-3P",
+      "name": "Socks 3-Pack",
+      "margin_rate": 0.42
+    }
+  ],
+  "campaigns": [
+    {
+      "id": "c-sneaker",
+      "sku_id": "SNK-01",
+      "platform": "meta",
+      "daily_budget": 30000,
+      "name": "Court Sneaker meta"
+    },
+    {
+      "id": "c-premium",
+      "sku_id": "TEE-PRM",
+      "platform": "amazon",
+      "daily_budget": 25000,
+      "name": "Premium T-Shirt amazon"
+    },
+    {
+      "id": "c-basic",
+      "sku_id": "TEE-BSC",
+      "platform": "tiktok",
+      "daily_budget": 22000,
+      "name": "Basic Graphic Tee tiktok"
+    },
+    {
+      "id": "c-hoodie",
+      "sku_id": "HOOD-01",
+      "platform": "meta",
+      "daily_budget": 12000,
+      "name": "Everyday Hoodie meta"
+    },
+    {
+      "id": "c-jogger",
+      "sku_id": "JOG-01",
+      "platform": "google",
+      "daily_budget": 10000,
+      "name": "Jogger google"
+    },
+    {
+      "id": "c-cap",
+      "sku_id": "CAP-01",
+      "platform": "meta",
+      "daily_budget": 7000,
+      "name": "Cap meta"
+    },
+    {
+      "id": "c-bag",
+      "sku_id": "BAG-01",
+      "platform": "amazon",
+      "daily_budget": 8000,
+      "name": "Bag amazon"
+    },
+    {
+      "id": "c-socks",
+      "sku_id": "SOCK-3P",
+      "platform": "tiktok",
+      "daily_budget": 5000,
+      "name": "Socks 3-Pack tiktok"
+    },
+    {
+      "id": "c-cap-google",
+      "sku_id": "CAP-01",
+      "platform": "google",
+      "daily_budget": 4000,
+      "name": "Cap google"
+    },
+    {
+      "id": "c-bag-meta",
+      "sku_id": "BAG-01",
+      "platform": "meta",
+      "daily_budget": 4000,
+      "name": "Bag meta"
+    }
+  ],
+  "metrics": [
+    {
+      "campaign_id": "c-sneaker",
+      "date": "2026-08-24",
+      "spend": 32413.31,
+      "revenue": 141532.8,
+      "impressions": 180074,
+      "clicks": 4502,
+      "orders": 41
+    },
+    {
+      "campaign_id": "c-premium",
+      "date": "2026-08-24",
+      "spend": 26743.71,
+      "revenue": 105088.35,
+      "impressions": 148576,
+      "clicks": 3714,
+      "orders": 81
+    },
+    {
+      "campaign_id": "c-basic",
+      "date": "2026-08-24",
+      "spend": 22189.87,
+      "revenue": 72742.69,
+      "impressions": 123277,
+      "clicks": 3082,
+      "orders": 104
+    },
+    {
+      "campaign_id": "c-hoodie",
+      "date": "2026-08-24",
+      "spend": 11718.29,
+      "revenue": 46684.74,
+      "impressions": 65102,
+      "clicks": 1628,
+      "orders": 21
+    },
+    {
+      "campaign_id": "c-jogger",
+      "date": "2026-08-24",
+      "spend": 10707.74,
+      "revenue": 61835.32,
+      "impressions": 59487,
+      "clicks": 1487,
+      "orders": 34
+    },
+    {
+      "campaign_id": "c-cap",
+      "date": "2026-08-24",
+      "spend": 8007.03,
+      "revenue": 21546.52,
+      "impressions": 44484,
+      "clicks": 1112,
+      "orders": 36
+    },
+    {
+      "campaign_id": "c-bag",
+      "date": "2026-08-24",
+      "spend": 7635.09,
+      "revenue": 24242.87,
+      "impressions": 42417,
+      "clicks": 1060,
+      "orders": 16
+    },
+    {
+      "campaign_id": "c-socks",
+      "date": "2026-08-24",
+      "spend": 4653.97,
+      "revenue": 13723.17,
+      "impressions": 25855,
+      "clicks": 646,
+      "orders": 28
+    },
+    {
+      "campaign_id": "c-cap-google",
+      "date": "2026-08-24",
+      "spend": 4033.09,
+      "revenue": 12987.13,
+      "impressions": 22406,
+      "clicks": 560,
+      "orders": 22
+    },
+    {
+      "campaign_id": "c-bag-meta",
+      "date": "2026-08-24",
+      "spend": 3947.03,
+      "revenue": 11217.19,
+      "impressions": 21928,
+      "clicks": 548,
+      "orders": 7
+    },
+    {
+      "campaign_id": "c-sneaker",
+      "date": "2026-08-25",
+      "spend": 29869.06,
+      "revenue": 138430.22,
+      "impressions": 165939,
+      "clicks": 4148,
+      "orders": 40
+    },
+    {
+      "campaign_id": "c-premium",
+      "date": "2026-08-25",
+      "spend": 26978.63,
+      "revenue": 98248.62,
+      "impressions": 149881,
+      "clicks": 3747,
+      "orders": 76
+    },
+    {
+      "campaign_id": "c-basic",
+      "date": "2026-08-25",
+      "spend": 24028,
+      "revenue": 74874.95,
+      "impressions": 133489,
+      "clicks": 3337,
+      "orders": 107
+    },
+    {
+      "campaign_id": "c-hoodie",
+      "date": "2026-08-25",
+      "spend": 11387.11,
+      "revenue": 47224.32,
+      "impressions": 63262,
+      "clicks": 1582,
+      "orders": 21
+    },
+    {
+      "campaign_id": "c-jogger",
+      "date": "2026-08-25",
+      "spend": 8681.64,
+      "revenue": 53636.92,
+      "impressions": 48231,
+      "clicks": 1206,
+      "orders": 30
+    },
+    {
+      "campaign_id": "c-cap",
+      "date": "2026-08-25",
+      "spend": 6534.42,
+      "revenue": 19373.23,
+      "impressions": 36302,
+      "clicks": 908,
+      "orders": 32
+    },
+    {
+      "campaign_id": "c-bag",
+      "date": "2026-08-25",
+      "spend": 7152.37,
+      "revenue": 24312.89,
+      "impressions": 39735,
+      "clicks": 993,
+      "orders": 16
+    },
+    {
+      "campaign_id": "c-socks",
+      "date": "2026-08-25",
+      "spend": 5528.86,
+      "revenue": 16384.29,
+      "impressions": 30716,
+      "clicks": 768,
+      "orders": 33
+    },
+    {
+      "campaign_id": "c-cap-google",
+      "date": "2026-08-25",
+      "spend": 3820.03,
+      "revenue": 12520.54,
+      "impressions": 21222,
+      "clicks": 531,
+      "orders": 21
+    },
+    {
+      "campaign_id": "c-bag-meta",
+      "date": "2026-08-25",
+      "spend": 4190.43,
+      "revenue": 12706.01,
+      "impressions": 23280,
+      "clicks": 582,
+      "orders": 8
+    },
+    {
+      "campaign_id": "c-sneaker",
+      "date": "2026-08-26",
+      "spend": 26107.63,
+      "revenue": 130665.26,
+      "impressions": 145042,
+      "clicks": 3626,
+      "orders": 38
+    },
+    {
+      "campaign_id": "c-premium",
+      "date": "2026-08-26",
+      "spend": 28424.02,
+      "revenue": 102472.65,
+      "impressions": 157911,
+      "clicks": 3948,
+      "orders": 79
+    },
+    {
+      "campaign_id": "c-basic",
+      "date": "2026-08-26",
+      "spend": 21878.95,
+      "revenue": 76610.71,
+      "impressions": 121550,
+      "clicks": 3039,
+      "orders": 110
+    },
+    {
+      "campaign_id": "c-hoodie",
+      "date": "2026-08-26",
+      "spend": 12677.33,
+      "revenue": 51300.39,
+      "impressions": 70430,
+      "clicks": 1761,
+      "orders": 23
+    },
+    {
+      "campaign_id": "c-jogger",
+      "date": "2026-08-26",
+      "spend": 11448.79,
+      "revenue": 62230.16,
+      "impressions": 63604,
+      "clicks": 1590,
+      "orders": 35
+    },
+    {
+      "campaign_id": "c-cap",
+      "date": "2026-08-26",
+      "spend": 7561.48,
+      "revenue": 21324.19,
+      "impressions": 42008,
+      "clicks": 1050,
+      "orders": 36
+    },
+    {
+      "campaign_id": "c-bag",
+      "date": "2026-08-26",
+      "spend": 7915.22,
+      "revenue": 25539,
+      "impressions": 43973,
+      "clicks": 1099,
+      "orders": 17
+    },
+    {
+      "campaign_id": "c-socks",
+      "date": "2026-08-26",
+      "spend": 4258.12,
+      "revenue": 12536.7,
+      "impressions": 23656,
+      "clicks": 591,
+      "orders": 25
+    },
+    {
+      "campaign_id": "c-cap-google",
+      "date": "2026-08-26",
+      "spend": 4005.68,
+      "revenue": 14207.71,
+      "impressions": 22254,
+      "clicks": 556,
+      "orders": 24
+    },
+    {
+      "campaign_id": "c-bag-meta",
+      "date": "2026-08-26",
+      "spend": 4424.63,
+      "revenue": 12799.87,
+      "impressions": 24581,
+      "clicks": 615,
+      "orders": 9
+    },
+    {
+      "campaign_id": "c-sneaker",
+      "date": "2026-08-27",
+      "spend": 29644.54,
+      "revenue": 145024.17,
+      "impressions": 164692,
+      "clicks": 4117,
+      "orders": 42
+    },
+    {
+      "campaign_id": "c-premium",
+      "date": "2026-08-27",
+      "spend": 28590.17,
+      "revenue": 113113.1,
+      "impressions": 158834,
+      "clicks": 3971,
+      "orders": 87
+    },
+    {
+      "campaign_id": "c-basic",
+      "date": "2026-08-27",
+      "spend": 20553.73,
+      "revenue": 73580.7,
+      "impressions": 114187,
+      "clicks": 2855,
+      "orders": 105
+    },
+    {
+      "campaign_id": "c-hoodie",
+      "date": "2026-08-27",
+      "spend": 12971.62,
+      "revenue": 51473.83,
+      "impressions": 72065,
+      "clicks": 1802,
+      "orders": 23
+    },
+    {
+      "campaign_id": "c-jogger",
+      "date": "2026-08-27",
+      "spend": 11365.42,
+      "revenue": 66985.54,
+      "impressions": 63141,
+      "clicks": 1579,
+      "orders": 37
+    },
+    {
+      "campaign_id": "c-cap",
+      "date": "2026-08-27",
+      "spend": 6330.57,
+      "revenue": 20759.83,
+      "impressions": 35170,
+      "clicks": 879,
+      "orders": 35
+    },
+    {
+      "campaign_id": "c-bag",
+      "date": "2026-08-27",
+      "spend": 7721.32,
+      "revenue": 26531.41,
+      "impressions": 42896,
+      "clicks": 1072,
+      "orders": 18
+    },
+    {
+      "campaign_id": "c-socks",
+      "date": "2026-08-27",
+      "spend": 5649.32,
+      "revenue": 16442.51,
+      "impressions": 31385,
+      "clicks": 785,
+      "orders": 33
+    },
+    {
+      "campaign_id": "c-cap-google",
+      "date": "2026-08-27",
+      "spend": 3545.72,
+      "revenue": 12212.75,
+      "impressions": 19698,
+      "clicks": 492,
+      "orders": 20
+    },
+    {
+      "campaign_id": "c-bag-meta",
+      "date": "2026-08-27",
+      "spend": 3411.37,
+      "revenue": 10880.47,
+      "impressions": 18952,
+      "clicks": 474,
+      "orders": 7
+    },
+    {
+      "campaign_id": "c-sneaker",
+      "date": "2026-08-28",
+      "spend": 31528.63,
+      "revenue": 145675.16,
+      "impressions": 175159,
+      "clicks": 4379,
+      "orders": 42
+    },
+    {
+      "campaign_id": "c-premium",
+      "date": "2026-08-28",
+      "spend": 28009.94,
+      "revenue": 118240.83,
+      "impressions": 155611,
+      "clicks": 3890,
+      "orders": 91
+    },
+    {
+      "campaign_id": "c-basic",
+      "date": "2026-08-28",
+      "spend": 23204.11,
+      "revenue": 77384.83,
+      "impressions": 128912,
+      "clicks": 3223,
+      "orders": 111
+    },
+    {
+      "campaign_id": "c-hoodie",
+      "date": "2026-08-28",
+      "spend": 11577.57,
+      "revenue": 51395.84,
+      "impressions": 64320,
+      "clicks": 1608,
+      "orders": 23
+    },
+    {
+      "campaign_id": "c-jogger",
+      "date": "2026-08-28",
+      "spend": 11230.23,
+      "revenue": 63689.83,
+      "impressions": 62390,
+      "clicks": 1560,
+      "orders": 35
+    },
+    {
+      "campaign_id": "c-cap",
+      "date": "2026-08-28",
+      "spend": 7274.79,
+      "revenue": 22592.61,
+      "impressions": 40416,
+      "clicks": 1010,
+      "orders": 38
+    },
+    {
+      "campaign_id": "c-bag",
+      "date": "2026-08-28",
+      "spend": 8255.1,
+      "revenue": 27742.57,
+      "impressions": 45862,
+      "clicks": 1147,
+      "orders": 19
+    },
+    {
+      "campaign_id": "c-socks",
+      "date": "2026-08-28",
+      "spend": 5654.92,
+      "revenue": 17298.26,
+      "impressions": 31416,
+      "clicks": 785,
+      "orders": 35
+    },
+    {
+      "campaign_id": "c-cap-google",
+      "date": "2026-08-28",
+      "spend": 3531.41,
+      "revenue": 13333.38,
+      "impressions": 19619,
+      "clicks": 490,
+      "orders": 22
+    },
+    {
+      "campaign_id": "c-bag-meta",
+      "date": "2026-08-28",
+      "spend": 4416.8,
+      "revenue": 13437.64,
+      "impressions": 24538,
+      "clicks": 613,
+      "orders": 9
+    },
+    {
+      "campaign_id": "c-sneaker",
+      "date": "2026-08-29",
+      "spend": 28035.63,
+      "revenue": 154511.35,
+      "impressions": 155754,
+      "clicks": 3894,
+      "orders": 45
+    },
+    {
+      "campaign_id": "c-premium",
+      "date": "2026-08-29",
+      "spend": 24068.75,
+      "revenue": 116669.05,
+      "impressions": 133715,
+      "clicks": 3343,
+      "orders": 90
+    },
+    {
+      "campaign_id": "c-basic",
+      "date": "2026-08-29",
+      "spend": 24753.98,
+      "revenue": 83390.18,
+      "impressions": 137522,
+      "clicks": 3438,
+      "orders": 119
+    },
+    {
+      "campaign_id": "c-hoodie",
+      "date": "2026-08-29",
+      "spend": 12948.48,
+      "revenue": 57241.89,
+      "impressions": 71936,
+      "clicks": 1798,
+      "orders": 26
+    },
+    {
+      "campaign_id": "c-jogger",
+      "date": "2026-08-29",
+      "spend": 11202.4,
+      "revenue": 70800.88,
+      "impressions": 62236,
+      "clicks": 1556,
+      "orders": 39
+    },
+    {
+      "campaign_id": "c-cap",
+      "date": "2026-08-29",
+      "spend": 6053.55,
+      "revenue": 21414.04,
+      "impressions": 33631,
+      "clicks": 841,
+      "orders": 36
+    },
+    {
+      "campaign_id": "c-bag",
+      "date": "2026-08-29",
+      "spend": 6913.6,
+      "revenue": 27155.4,
+      "impressions": 38409,
+      "clicks": 960,
+      "orders": 18
+    },
+    {
+      "campaign_id": "c-socks",
+      "date": "2026-08-29",
+      "spend": 5168.55,
+      "revenue": 17069.53,
+      "impressions": 28714,
+      "clicks": 718,
+      "orders": 34
+    },
+    {
+      "campaign_id": "c-cap-google",
+      "date": "2026-08-29",
+      "spend": 3927.15,
+      "revenue": 15713.55,
+      "impressions": 21818,
+      "clicks": 545,
+      "orders": 26
+    },
+    {
+      "campaign_id": "c-bag-meta",
+      "date": "2026-08-29",
+      "spend": 3862.29,
+      "revenue": 13370.32,
+      "impressions": 21457,
+      "clicks": 536,
+      "orders": 9
+    },
+    {
+      "campaign_id": "c-sneaker",
+      "date": "2026-08-30",
+      "spend": 34014.92,
+      "revenue": 185155.46,
+      "impressions": 188972,
+      "clicks": 4724,
+      "orders": 53
+    },
+    {
+      "campaign_id": "c-premium",
+      "date": "2026-08-30",
+      "spend": 23757.56,
+      "revenue": 103704.2,
+      "impressions": 131986,
+      "clicks": 3300,
+      "orders": 80
+    },
+    {
+      "campaign_id": "c-basic",
+      "date": "2026-08-30",
+      "spend": 23690.92,
+      "revenue": 81663.14,
+      "impressions": 131616,
+      "clicks": 3290,
+      "orders": 117
+    },
+    {
+      "campaign_id": "c-hoodie",
+      "date": "2026-08-30",
+      "spend": 13176.63,
+      "revenue": 57181.42,
+      "impressions": 73203,
+      "clicks": 1830,
+      "orders": 26
+    },
+    {
+      "campaign_id": "c-jogger",
+      "date": "2026-08-30",
+      "spend": 9858.8,
+      "revenue": 66374.45,
+      "impressions": 54771,
+      "clicks": 1369,
+      "orders": 37
+    },
+    {
+      "campaign_id": "c-cap",
+      "date": "2026-08-30",
+      "spend": 6246.75,
+      "revenue": 22323.3,
+      "impressions": 34704,
+      "clicks": 868,
+      "orders": 37
+    },
+    {
+      "campaign_id": "c-bag",
+      "date": "2026-08-30",
+      "spend": 7831.39,
+      "revenue": 29118.47,
+      "impressions": 43508,
+      "clicks": 1088,
+      "orders": 19
+    },
+    {
+      "campaign_id": "c-socks",
+      "date": "2026-08-30",
+      "spend": 5412.35,
+      "revenue": 18197.58,
+      "impressions": 30069,
+      "clicks": 752,
+      "orders": 36
+    },
+    {
+      "campaign_id": "c-cap-google",
+      "date": "2026-08-30",
+      "spend": 4482.54,
+      "revenue": 16379.88,
+      "impressions": 24903,
+      "clicks": 623,
+      "orders": 27
+    },
+    {
+      "campaign_id": "c-bag-meta",
+      "date": "2026-08-30",
+      "spend": 3963.44,
+      "revenue": 14066.92,
+      "impressions": 22019,
+      "clicks": 550,
+      "orders": 9
+    },
+    {
+      "campaign_id": "c-sneaker",
+      "date": "2026-08-31",
+      "spend": 30822.28,
+      "revenue": 137058.1,
+      "impressions": 171235,
+      "clicks": 4281,
+      "orders": 40
+    },
+    {
+      "campaign_id": "c-premium",
+      "date": "2026-08-31",
+      "spend": 23907.79,
+      "revenue": 93363.7,
+      "impressions": 132821,
+      "clicks": 3321,
+      "orders": 72
+    },
+    {
+      "campaign_id": "c-basic",
+      "date": "2026-08-31",
+      "spend": 22543.28,
+      "revenue": 72359.49,
+      "impressions": 125240,
+      "clicks": 3131,
+      "orders": 104
+    },
+    {
+      "campaign_id": "c-hoodie",
+      "date": "2026-08-31",
+      "spend": 12894.99,
+      "revenue": 47213.7,
+      "impressions": 71639,
+      "clicks": 1791,
+      "orders": 21
+    },
+    {
+      "campaign_id": "c-jogger",
+      "date": "2026-08-31",
+      "spend": 10754.41,
+      "revenue": 62001.02,
+      "impressions": 59747,
+      "clicks": 1494,
+      "orders": 34
+    },
+    {
+      "campaign_id": "c-cap",
+      "date": "2026-08-31",
+      "spend": 7188.17,
+      "revenue": 19357.48,
+      "impressions": 39934,
+      "clicks": 998,
+      "orders": 32
+    },
+    {
+      "campaign_id": "c-bag",
+      "date": "2026-08-31",
+      "spend": 7673.91,
+      "revenue": 24030.46,
+      "impressions": 42633,
+      "clicks": 1066,
+      "orders": 16
+    },
+    {
+      "campaign_id": "c-socks",
+      "date": "2026-08-31",
+      "spend": 4834.16,
+      "revenue": 13456.08,
+      "impressions": 26856,
+      "clicks": 671,
+      "orders": 27
+    },
+    {
+      "campaign_id": "c-cap-google",
+      "date": "2026-08-31",
+      "spend": 4050.41,
+      "revenue": 13890.45,
+      "impressions": 22502,
+      "clicks": 563,
+      "orders": 23
+    },
+    {
+      "campaign_id": "c-bag-meta",
+      "date": "2026-08-31",
+      "spend": 3968.49,
+      "revenue": 12168.3,
+      "impressions": 22047,
+      "clicks": 551,
+      "orders": 8
+    },
+    {
+      "campaign_id": "c-sneaker",
+      "date": "2026-09-01",
+      "spend": 29106.97,
+      "revenue": 140291,
+      "impressions": 161705,
+      "clicks": 4043,
+      "orders": 41
+    },
+    {
+      "campaign_id": "c-premium",
+      "date": "2026-09-01",
+      "spend": 22684.36,
+      "revenue": 91037.92,
+      "impressions": 126024,
+      "clicks": 3151,
+      "orders": 70
+    },
+    {
+      "campaign_id": "c-basic",
+      "date": "2026-09-01",
+      "spend": 24498.42,
+      "revenue": 72606.85,
+      "impressions": 136102,
+      "clicks": 3403,
+      "orders": 104
+    },
+    {
+      "campaign_id": "c-hoodie",
+      "date": "2026-09-01",
+      "spend": 10497.67,
+      "revenue": 42875.21,
+      "impressions": 58320,
+      "clicks": 1458,
+      "orders": 19
+    },
+    {
+      "campaign_id": "c-jogger",
+      "date": "2026-09-01",
+      "spend": 8986.96,
+      "revenue": 54133.05,
+      "impressions": 49928,
+      "clicks": 1248,
+      "orders": 30
+    },
+    {
+      "campaign_id": "c-cap",
+      "date": "2026-09-01",
+      "spend": 7302.2,
+      "revenue": 20487.79,
+      "impressions": 40568,
+      "clicks": 1014,
+      "orders": 34
+    },
+    {
+      "campaign_id": "c-bag",
+      "date": "2026-09-01",
+      "spend": 8521.98,
+      "revenue": 24441.03,
+      "impressions": 47344,
+      "clicks": 1184,
+      "orders": 16
+    },
+    {
+      "campaign_id": "c-socks",
+      "date": "2026-09-01",
+      "spend": 5378.21,
+      "revenue": 15498.19,
+      "impressions": 29879,
+      "clicks": 747,
+      "orders": 31
+    },
+    {
+      "campaign_id": "c-cap-google",
+      "date": "2026-09-01",
+      "spend": 3423.12,
+      "revenue": 11482,
+      "impressions": 19017,
+      "clicks": 475,
+      "orders": 19
+    },
+    {
+      "campaign_id": "c-bag-meta",
+      "date": "2026-09-01",
+      "spend": 4106.13,
+      "revenue": 13183.68,
+      "impressions": 22812,
+      "clicks": 570,
+      "orders": 9
+    },
+    {
+      "campaign_id": "c-sneaker",
+      "date": "2026-09-02",
+      "spend": 30781.03,
+      "revenue": 135994.28,
+      "impressions": 171006,
+      "clicks": 4275,
+      "orders": 39
+    },
+    {
+      "campaign_id": "c-premium",
+      "date": "2026-09-02",
+      "spend": 22437.74,
+      "revenue": 98653.6,
+      "impressions": 124654,
+      "clicks": 3116,
+      "orders": 76
+    },
+    {
+      "campaign_id": "c-basic",
+      "date": "2026-09-02",
+      "spend": 23146.51,
+      "revenue": 79116.56,
+      "impressions": 128592,
+      "clicks": 3215,
+      "orders": 113
+    },
+    {
+      "campaign_id": "c-hoodie",
+      "date": "2026-09-02",
+      "spend": 13356.5,
+      "revenue": 54947.63,
+      "impressions": 74203,
+      "clicks": 1855,
+      "orders": 25
+    },
+    {
+      "campaign_id": "c-jogger",
+      "date": "2026-09-02",
+      "spend": 10369.42,
+      "revenue": 63652.04,
+      "impressions": 57608,
+      "clicks": 1440,
+      "orders": 35
+    },
+    {
+      "campaign_id": "c-cap",
+      "date": "2026-09-02",
+      "spend": 7500.47,
+      "revenue": 22290.33,
+      "impressions": 41669,
+      "clicks": 1042,
+      "orders": 37
+    },
+    {
+      "campaign_id": "c-bag",
+      "date": "2026-09-02",
+      "spend": 9138.35,
+      "revenue": 25606.51,
+      "impressions": 50769,
+      "clicks": 1269,
+      "orders": 17
+    },
+    {
+      "campaign_id": "c-socks",
+      "date": "2026-09-02",
+      "spend": 5584.59,
+      "revenue": 16987.11,
+      "impressions": 31026,
+      "clicks": 776,
+      "orders": 34
+    },
+    {
+      "campaign_id": "c-cap-google",
+      "date": "2026-09-02",
+      "spend": 4019.15,
+      "revenue": 14216.11,
+      "impressions": 22329,
+      "clicks": 558,
+      "orders": 24
+    },
+    {
+      "campaign_id": "c-bag-meta",
+      "date": "2026-09-02",
+      "spend": 4139.58,
+      "revenue": 13442.26,
+      "impressions": 22998,
+      "clicks": 575,
+      "orders": 9
+    },
+    {
+      "campaign_id": "c-sneaker",
+      "date": "2026-09-03",
+      "spend": 27020.07,
+      "revenue": 136166.5,
+      "impressions": 150112,
+      "clicks": 3753,
+      "orders": 39
+    },
+    {
+      "campaign_id": "c-premium",
+      "date": "2026-09-03",
+      "spend": 27092.89,
+      "revenue": 110162.71,
+      "impressions": 150516,
+      "clicks": 3763,
+      "orders": 85
+    },
+    {
+      "campaign_id": "c-basic",
+      "date": "2026-09-03",
+      "spend": 24031.89,
+      "revenue": 75998.58,
+      "impressions": 133511,
+      "clicks": 3338,
+      "orders": 109
+    },
+    {
+      "campaign_id": "c-hoodie",
+      "date": "2026-09-03",
+      "spend": 10860.54,
+      "revenue": 47997.87,
+      "impressions": 60336,
+      "clicks": 1508,
+      "orders": 22
+    },
+    {
+      "campaign_id": "c-jogger",
+      "date": "2026-09-03",
+      "spend": 9182.3,
+      "revenue": 55920.41,
+      "impressions": 51013,
+      "clicks": 1275,
+      "orders": 31
+    },
+    {
+      "campaign_id": "c-cap",
+      "date": "2026-09-03",
+      "spend": 7719.73,
+      "revenue": 23361.48,
+      "impressions": 42887,
+      "clicks": 1072,
+      "orders": 39
+    },
+    {
+      "campaign_id": "c-bag",
+      "date": "2026-09-03",
+      "spend": 9075.69,
+      "revenue": 27223.24,
+      "impressions": 50421,
+      "clicks": 1261,
+      "orders": 18
+    },
+    {
+      "campaign_id": "c-socks",
+      "date": "2026-09-03",
+      "spend": 4856.2,
+      "revenue": 14020.79,
+      "impressions": 26979,
+      "clicks": 674,
+      "orders": 28
+    },
+    {
+      "campaign_id": "c-cap-google",
+      "date": "2026-09-03",
+      "spend": 4523.7,
+      "revenue": 15544.08,
+      "impressions": 25132,
+      "clicks": 628,
+      "orders": 26
+    },
+    {
+      "campaign_id": "c-bag-meta",
+      "date": "2026-09-03",
+      "spend": 4011.63,
+      "revenue": 13398.69,
+      "impressions": 22287,
+      "clicks": 557,
+      "orders": 9
+    },
+    {
+      "campaign_id": "c-sneaker",
+      "date": "2026-09-04",
+      "spend": 32807.42,
+      "revenue": 161172.19,
+      "impressions": 182263,
+      "clicks": 4557,
+      "orders": 47
+    },
+    {
+      "campaign_id": "c-premium",
+      "date": "2026-09-04",
+      "spend": 25295.1,
+      "revenue": 109266.84,
+      "impressions": 140528,
+      "clicks": 3513,
+      "orders": 84
+    },
+    {
+      "campaign_id": "c-basic",
+      "date": "2026-09-04",
+      "spend": 23616.22,
+      "revenue": 75121.33,
+      "impressions": 131201,
+      "clicks": 3280,
+      "orders": 107
+    },
+    {
+      "campaign_id": "c-hoodie",
+      "date": "2026-09-04",
+      "spend": 13123.3,
+      "revenue": 55477.33,
+      "impressions": 72907,
+      "clicks": 1823,
+      "orders": 25
+    },
+    {
+      "campaign_id": "c-jogger",
+      "date": "2026-09-04",
+      "spend": 9443.31,
+      "revenue": 58747.05,
+      "impressions": 52463,
+      "clicks": 1312,
+      "orders": 33
+    },
+    {
+      "campaign_id": "c-cap",
+      "date": "2026-09-04",
+      "spend": 6649.3,
+      "revenue": 20181.1,
+      "impressions": 36941,
+      "clicks": 924,
+      "orders": 34
+    },
+    {
+      "campaign_id": "c-bag",
+      "date": "2026-09-04",
+      "spend": 7461.18,
+      "revenue": 25086.95,
+      "impressions": 41451,
+      "clicks": 1036,
+      "orders": 17
+    },
+    {
+      "campaign_id": "c-socks",
+      "date": "2026-09-04",
+      "spend": 4843.57,
+      "revenue": 15431.11,
+      "impressions": 26909,
+      "clicks": 673,
+      "orders": 31
+    },
+    {
+      "campaign_id": "c-cap-google",
+      "date": "2026-09-04",
+      "spend": 4522.96,
+      "revenue": 15097.06,
+      "impressions": 25128,
+      "clicks": 628,
+      "orders": 25
+    },
+    {
+      "campaign_id": "c-bag-meta",
+      "date": "2026-09-04",
+      "spend": 4268.06,
+      "revenue": 13636.62,
+      "impressions": 23711,
+      "clicks": 593,
+      "orders": 9
+    },
+    {
+      "campaign_id": "c-sneaker",
+      "date": "2026-09-05",
+      "spend": 34356.66,
+      "revenue": 167995.99,
+      "impressions": 190870,
+      "clicks": 4772,
+      "orders": 49
+    },
+    {
+      "campaign_id": "c-premium",
+      "date": "2026-09-05",
+      "spend": 21755.99,
+      "revenue": 108675.95,
+      "impressions": 120867,
+      "clicks": 3022,
+      "orders": 84
+    },
+    {
+      "campaign_id": "c-basic",
+      "date": "2026-09-05",
+      "spend": 25136.1,
+      "revenue": 84983.12,
+      "impressions": 139645,
+      "clicks": 3491,
+      "orders": 122
+    },
+    {
+      "campaign_id": "c-hoodie",
+      "date": "2026-09-05",
+      "spend": 12938.36,
+      "revenue": 55942.17,
+      "impressions": 71880,
+      "clicks": 1797,
+      "orders": 25
+    },
+    {
+      "campaign_id": "c-jogger",
+      "date": "2026-09-05",
+      "spend": 10758.19,
+      "revenue": 67114.22,
+      "impressions": 59768,
+      "clicks": 1494,
+      "orders": 37
+    },
+    {
+      "campaign_id": "c-cap",
+      "date": "2026-09-05",
+      "spend": 6689.8,
+      "revenue": 21735.76,
+      "impressions": 37166,
+      "clicks": 929,
+      "orders": 36
+    },
+    {
+      "campaign_id": "c-bag",
+      "date": "2026-09-05",
+      "spend": 7624.98,
+      "revenue": 28086.73,
+      "impressions": 42361,
+      "clicks": 1059,
+      "orders": 19
+    },
+    {
+      "campaign_id": "c-socks",
+      "date": "2026-09-05",
+      "spend": 5524.75,
+      "revenue": 17039.49,
+      "impressions": 30693,
+      "clicks": 767,
+      "orders": 34
+    },
+    {
+      "campaign_id": "c-cap-google",
+      "date": "2026-09-05",
+      "spend": 3972.35,
+      "revenue": 16107.31,
+      "impressions": 22069,
+      "clicks": 552,
+      "orders": 27
+    },
+    {
+      "campaign_id": "c-bag-meta",
+      "date": "2026-09-05",
+      "spend": 4542.77,
+      "revenue": 15714.43,
+      "impressions": 25238,
+      "clicks": 631,
+      "orders": 10
+    },
+    {
+      "campaign_id": "c-sneaker",
+      "date": "2026-09-06",
+      "spend": 34356.82,
+      "revenue": 178141.3,
+      "impressions": 190871,
+      "clicks": 4772,
+      "orders": 51
+    },
+    {
+      "campaign_id": "c-premium",
+      "date": "2026-09-06",
+      "spend": 25126.65,
+      "revenue": 115154.32,
+      "impressions": 139593,
+      "clicks": 3490,
+      "orders": 89
+    },
+    {
+      "campaign_id": "c-basic",
+      "date": "2026-09-06",
+      "spend": 24479.17,
+      "revenue": 89750.85,
+      "impressions": 135995,
+      "clicks": 3400,
+      "orders": 128
+    },
+    {
+      "campaign_id": "c-hoodie",
+      "date": "2026-09-06",
+      "spend": 13709.46,
+      "revenue": 61126.14,
+      "impressions": 76164,
+      "clicks": 1904,
+      "orders": 28
+    },
+    {
+      "campaign_id": "c-jogger",
+      "date": "2026-09-06",
+      "spend": 9952.57,
+      "revenue": 61950.79,
+      "impressions": 55292,
+      "clicks": 1382,
+      "orders": 34
+    },
+    {
+      "campaign_id": "c-cap",
+      "date": "2026-09-06",
+      "spend": 7964.92,
+      "revenue": 24132.78,
+      "impressions": 44250,
+      "clicks": 1106,
+      "orders": 40
+    },
+    {
+      "campaign_id": "c-bag",
+      "date": "2026-09-06",
+      "spend": 8760.98,
+      "revenue": 29307.49,
+      "impressions": 48672,
+      "clicks": 1217,
+      "orders": 20
+    },
+    {
+      "campaign_id": "c-socks",
+      "date": "2026-09-06",
+      "spend": 4732.02,
+      "revenue": 15440.16,
+      "impressions": 26289,
+      "clicks": 657,
+      "orders": 31
+    },
+    {
+      "campaign_id": "c-cap-google",
+      "date": "2026-09-06",
+      "spend": 3906.62,
+      "revenue": 14348.54,
+      "impressions": 21703,
+      "clicks": 543,
+      "orders": 24
+    },
+    {
+      "campaign_id": "c-bag-meta",
+      "date": "2026-09-06",
+      "spend": 3462.9,
+      "revenue": 13141.21,
+      "impressions": 19238,
+      "clicks": 481,
+      "orders": 9
+    },
+    {
+      "campaign_id": "c-sneaker",
+      "date": "2026-09-07",
+      "spend": 28806.19,
+      "revenue": 137961.04,
+      "impressions": 160034,
+      "clicks": 4001,
+      "orders": 40
+    },
+    {
+      "campaign_id": "c-premium",
+      "date": "2026-09-07",
+      "spend": 22602.94,
+      "revenue": 90745.34,
+      "impressions": 125572,
+      "clicks": 3139,
+      "orders": 70
+    },
+    {
+      "campaign_id": "c-basic",
+      "date": "2026-09-07",
+      "spend": 21643.37,
+      "revenue": 70224.76,
+      "impressions": 120241,
+      "clicks": 3006,
+      "orders": 100
+    },
+    {
+      "campaign_id": "c-hoodie",
+      "date": "2026-09-07",
+      "spend": 12694.07,
+      "revenue": 51852.56,
+      "impressions": 70523,
+      "clicks": 1763,
+      "orders": 24
+    },
+    {
+      "campaign_id": "c-jogger",
+      "date": "2026-09-07",
+      "spend": 10697.94,
+      "revenue": 55759.86,
+      "impressions": 59433,
+      "clicks": 1486,
+      "orders": 31
+    },
+    {
+      "campaign_id": "c-cap",
+      "date": "2026-09-07",
+      "spend": 8036.57,
+      "revenue": 21712.34,
+      "impressions": 44648,
+      "clicks": 1116,
+      "orders": 36
+    },
+    {
+      "campaign_id": "c-bag",
+      "date": "2026-09-07",
+      "spend": 8853.29,
+      "revenue": 24959.12,
+      "impressions": 49185,
+      "clicks": 1230,
+      "orders": 17
+    },
+    {
+      "campaign_id": "c-socks",
+      "date": "2026-09-07",
+      "spend": 5625.78,
+      "revenue": 15464.62,
+      "impressions": 31254,
+      "clicks": 781,
+      "orders": 31
+    },
+    {
+      "campaign_id": "c-cap-google",
+      "date": "2026-09-07",
+      "spend": 4102.43,
+      "revenue": 14143.57,
+      "impressions": 22791,
+      "clicks": 570,
+      "orders": 24
+    },
+    {
+      "campaign_id": "c-bag-meta",
+      "date": "2026-09-07",
+      "spend": 4297.7,
+      "revenue": 12742.13,
+      "impressions": 23876,
+      "clicks": 597,
+      "orders": 9
+    },
+    {
+      "campaign_id": "c-sneaker",
+      "date": "2026-09-08",
+      "spend": 28642.58,
+      "revenue": 131660.82,
+      "impressions": 159125,
+      "clicks": 3978,
+      "orders": 38
+    },
+    {
+      "campaign_id": "c-premium",
+      "date": "2026-09-08",
+      "spend": 26178.74,
+      "revenue": 98419.87,
+      "impressions": 145437,
+      "clicks": 3636,
+      "orders": 76
+    },
+    {
+      "campaign_id": "c-basic",
+      "date": "2026-09-08",
+      "spend": 22830.03,
+      "revenue": 77785.37,
+      "impressions": 126833,
+      "clicks": 3171,
+      "orders": 111
+    },
+    {
+      "campaign_id": "c-hoodie",
+      "date": "2026-09-08",
+      "spend": 10292.88,
+      "revenue": 46866.81,
+      "impressions": 57183,
+      "clicks": 1430,
+      "orders": 21
+    },
+    {
+      "campaign_id": "c-jogger",
+      "date": "2026-09-08",
+      "spend": 8904.73,
+      "revenue": 53429.86,
+      "impressions": 49471,
+      "clicks": 1237,
+      "orders": 30
+    },
+    {
+      "campaign_id": "c-cap",
+      "date": "2026-09-08",
+      "spend": 7833.42,
+      "revenue": 22806.67,
+      "impressions": 43519,
+      "clicks": 1088,
+      "orders": 38
+    },
+    {
+      "campaign_id": "c-bag",
+      "date": "2026-09-08",
+      "spend": 7379.02,
+      "revenue": 22074.02,
+      "impressions": 40995,
+      "clicks": 1025,
+      "orders": 15
+    },
+    {
+      "campaign_id": "c-socks",
+      "date": "2026-09-08",
+      "spend": 4909.63,
+      "revenue": 14790.26,
+      "impressions": 27276,
+      "clicks": 682,
+      "orders": 30
+    },
+    {
+      "campaign_id": "c-cap-google",
+      "date": "2026-09-08",
+      "spend": 3422.88,
+      "revenue": 12167.95,
+      "impressions": 19016,
+      "clicks": 475,
+      "orders": 20
+    },
+    {
+      "campaign_id": "c-bag-meta",
+      "date": "2026-09-08",
+      "spend": 4430.66,
+      "revenue": 13486.55,
+      "impressions": 24615,
+      "clicks": 615,
+      "orders": 9
+    },
+    {
+      "campaign_id": "c-sneaker",
+      "date": "2026-09-09",
+      "spend": 26031.55,
+      "revenue": 126879.4,
+      "impressions": 144620,
+      "clicks": 3616,
+      "orders": 37
+    },
+    {
+      "campaign_id": "c-premium",
+      "date": "2026-09-09",
+      "spend": 22111.85,
+      "revenue": 98366.14,
+      "impressions": 122844,
+      "clicks": 3071,
+      "orders": 76
+    },
+    {
+      "campaign_id": "c-basic",
+      "date": "2026-09-09",
+      "spend": 20663.37,
+      "revenue": 68270.05,
+      "impressions": 114797,
+      "clicks": 2870,
+      "orders": 98
+    },
+    {
+      "campaign_id": "c-hoodie",
+      "date": "2026-09-09",
+      "spend": 11206.83,
+      "revenue": 46233.84,
+      "impressions": 62260,
+      "clicks": 1557,
+      "orders": 21
+    },
+    {
+      "campaign_id": "c-jogger",
+      "date": "2026-09-09",
+      "spend": 8894.67,
+      "revenue": 54029.71,
+      "impressions": 49415,
+      "clicks": 1235,
+      "orders": 30
+    },
+    {
+      "campaign_id": "c-cap",
+      "date": "2026-09-09",
+      "spend": 5963.72,
+      "revenue": 18136.76,
+      "impressions": 33132,
+      "clicks": 828,
+      "orders": 30
+    },
+    {
+      "campaign_id": "c-bag",
+      "date": "2026-09-09",
+      "spend": 8135.55,
+      "revenue": 25316.06,
+      "impressions": 45198,
+      "clicks": 1130,
+      "orders": 17
+    },
+    {
+      "campaign_id": "c-socks",
+      "date": "2026-09-09",
+      "spend": 4306.33,
+      "revenue": 13265.3,
+      "impressions": 23924,
+      "clicks": 598,
+      "orders": 27
+    },
+    {
+      "campaign_id": "c-cap-google",
+      "date": "2026-09-09",
+      "spend": 4408.5,
+      "revenue": 15203.5,
+      "impressions": 24492,
+      "clicks": 612,
+      "orders": 25
+    },
+    {
+      "campaign_id": "c-bag-meta",
+      "date": "2026-09-09",
+      "spend": 4396.22,
+      "revenue": 13952.45,
+      "impressions": 24423,
+      "clicks": 611,
+      "orders": 9
+    },
+    {
+      "campaign_id": "c-sneaker",
+      "date": "2026-09-10",
+      "spend": 26079.21,
+      "revenue": 135100.08,
+      "impressions": 144885,
+      "clicks": 3622,
+      "orders": 39
+    },
+    {
+      "campaign_id": "c-premium",
+      "date": "2026-09-10",
+      "spend": 26747.3,
+      "revenue": 108393.04,
+      "impressions": 148596,
+      "clicks": 3715,
+      "orders": 83
+    },
+    {
+      "campaign_id": "c-basic",
+      "date": "2026-09-10",
+      "spend": 23774.08,
+      "revenue": 75269.16,
+      "impressions": 132078,
+      "clicks": 3302,
+      "orders": 108
+    },
+    {
+      "campaign_id": "c-hoodie",
+      "date": "2026-09-10",
+      "spend": 12036.69,
+      "revenue": 53089.15,
+      "impressions": 66871,
+      "clicks": 1672,
+      "orders": 24
+    },
+    {
+      "campaign_id": "c-jogger",
+      "date": "2026-09-10",
+      "spend": 10876.45,
+      "revenue": 60433.34,
+      "impressions": 60425,
+      "clicks": 1511,
+      "orders": 34
+    },
+    {
+      "campaign_id": "c-cap",
+      "date": "2026-09-10",
+      "spend": 7387.41,
+      "revenue": 21407.19,
+      "impressions": 41041,
+      "clicks": 1026,
+      "orders": 36
+    },
+    {
+      "campaign_id": "c-bag",
+      "date": "2026-09-10",
+      "spend": 8060.65,
+      "revenue": 26493.62,
+      "impressions": 44781,
+      "clicks": 1120,
+      "orders": 18
+    },
+    {
+      "campaign_id": "c-socks",
+      "date": "2026-09-10",
+      "spend": 4786.39,
+      "revenue": 14748.83,
+      "impressions": 26591,
+      "clicks": 665,
+      "orders": 30
+    },
+    {
+      "campaign_id": "c-cap-google",
+      "date": "2026-09-10",
+      "spend": 3511.74,
+      "revenue": 12031.88,
+      "impressions": 19510,
+      "clicks": 488,
+      "orders": 20
+    },
+    {
+      "campaign_id": "c-bag-meta",
+      "date": "2026-09-10",
+      "spend": 3860.75,
+      "revenue": 12792.46,
+      "impressions": 21449,
+      "clicks": 536,
+      "orders": 9
+    },
+    {
+      "campaign_id": "c-sneaker",
+      "date": "2026-09-11",
+      "spend": 26437.52,
+      "revenue": 134469.42,
+      "impressions": 146875,
+      "clicks": 3672,
+      "orders": 39
+    },
+    {
+      "campaign_id": "c-premium",
+      "date": "2026-09-11",
+      "spend": 28560.48,
+      "revenue": 117818.81,
+      "impressions": 158669,
+      "clicks": 3967,
+      "orders": 91
+    },
+    {
+      "campaign_id": "c-basic",
+      "date": "2026-09-11",
+      "spend": 19219.3,
+      "revenue": 72241.19,
+      "impressions": 106774,
+      "clicks": 2669,
+      "orders": 103
+    },
+    {
+      "campaign_id": "c-hoodie",
+      "date": "2026-09-11",
+      "spend": 12615.44,
+      "revenue": 50876.41,
+      "impressions": 70086,
+      "clicks": 1752,
+      "orders": 23
+    },
+    {
+      "campaign_id": "c-jogger",
+      "date": "2026-09-11",
+      "spend": 11203,
+      "revenue": 68656.34,
+      "impressions": 62239,
+      "clicks": 1556,
+      "orders": 38
+    },
+    {
+      "campaign_id": "c-cap",
+      "date": "2026-09-11",
+      "spend": 6758.75,
+      "revenue": 19852.71,
+      "impressions": 37549,
+      "clicks": 939,
+      "orders": 33
+    },
+    {
+      "campaign_id": "c-bag",
+      "date": "2026-09-11",
+      "spend": 9069.28,
+      "revenue": 27891.4,
+      "impressions": 50385,
+      "clicks": 1260,
+      "orders": 19
+    },
+    {
+      "campaign_id": "c-socks",
+      "date": "2026-09-11",
+      "spend": 5709.08,
+      "revenue": 16474.79,
+      "impressions": 31717,
+      "clicks": 793,
+      "orders": 33
+    },
+    {
+      "campaign_id": "c-cap-google",
+      "date": "2026-09-11",
+      "spend": 4184.16,
+      "revenue": 14481.91,
+      "impressions": 23245,
+      "clicks": 581,
+      "orders": 24
+    },
+    {
+      "campaign_id": "c-bag-meta",
+      "date": "2026-09-11",
+      "spend": 4208.94,
+      "revenue": 13939.5,
+      "impressions": 23383,
+      "clicks": 585,
+      "orders": 9
+    },
+    {
+      "campaign_id": "c-sneaker",
+      "date": "2026-09-12",
+      "spend": 31867.98,
+      "revenue": 174996.84,
+      "impressions": 177044,
+      "clicks": 4426,
+      "orders": 51
+    },
+    {
+      "campaign_id": "c-premium",
+      "date": "2026-09-12",
+      "spend": 25801.11,
+      "revenue": 119283.77,
+      "impressions": 143340,
+      "clicks": 3584,
+      "orders": 92
+    },
+    {
+      "campaign_id": "c-basic",
+      "date": "2026-09-12",
+      "spend": 19964.56,
+      "revenue": 76791.12,
+      "impressions": 110914,
+      "clicks": 2773,
+      "orders": 110
+    },
+    {
+      "campaign_id": "c-hoodie",
+      "date": "2026-09-12",
+      "spend": 13184.84,
+      "revenue": 60705.53,
+      "impressions": 73249,
+      "clicks": 1831,
+      "orders": 28
+    },
+    {
+      "campaign_id": "c-jogger",
+      "date": "2026-09-12",
+      "spend": 9523.2,
+      "revenue": 66381.91,
+      "impressions": 52907,
+      "clicks": 1323,
+      "orders": 37
+    },
+    {
+      "campaign_id": "c-cap",
+      "date": "2026-09-12",
+      "spend": 7819.13,
+      "revenue": 24009.03,
+      "impressions": 43440,
+      "clicks": 1086,
+      "orders": 40
+    },
+    {
+      "campaign_id": "c-bag",
+      "date": "2026-09-12",
+      "spend": 9110.32,
+      "revenue": 30270.34,
+      "impressions": 50613,
+      "clicks": 1265,
+      "orders": 20
+    },
+    {
+      "campaign_id": "c-socks",
+      "date": "2026-09-12",
+      "spend": 5089.54,
+      "revenue": 16249.3,
+      "impressions": 28275,
+      "clicks": 707,
+      "orders": 33
+    },
+    {
+      "campaign_id": "c-cap-google",
+      "date": "2026-09-12",
+      "spend": 3514.3,
+      "revenue": 13393.22,
+      "impressions": 19524,
+      "clicks": 488,
+      "orders": 22
+    },
+    {
+      "campaign_id": "c-bag-meta",
+      "date": "2026-09-12",
+      "spend": 4580.63,
+      "revenue": 16033.85,
+      "impressions": 25448,
+      "clicks": 636,
+      "orders": 11
+    },
+    {
+      "campaign_id": "c-sneaker",
+      "date": "2026-09-13",
+      "spend": 29055.78,
+      "revenue": 155814.87,
+      "impressions": 161421,
+      "clicks": 4036,
+      "orders": 45
+    },
+    {
+      "campaign_id": "c-premium",
+      "date": "2026-09-13",
+      "spend": 24867.18,
+      "revenue": 107703.74,
+      "impressions": 138151,
+      "clicks": 3454,
+      "orders": 83
+    },
+    {
+      "campaign_id": "c-basic",
+      "date": "2026-09-13",
+      "spend": 23596.73,
+      "revenue": 82097.94,
+      "impressions": 131093,
+      "clicks": 3277,
+      "orders": 117
+    },
+    {
+      "campaign_id": "c-hoodie",
+      "date": "2026-09-13",
+      "spend": 12549.43,
+      "revenue": 55224.3,
+      "impressions": 69719,
+      "clicks": 1743,
+      "orders": 25
+    },
+    {
+      "campaign_id": "c-jogger",
+      "date": "2026-09-13",
+      "spend": 10841.22,
+      "revenue": 67106.68,
+      "impressions": 60229,
+      "clicks": 1506,
+      "orders": 37
+    },
+    {
+      "campaign_id": "c-cap",
+      "date": "2026-09-13",
+      "spend": 7743.04,
+      "revenue": 24879.95,
+      "impressions": 43017,
+      "clicks": 1075,
+      "orders": 42
+    },
+    {
+      "campaign_id": "c-bag",
+      "date": "2026-09-13",
+      "spend": 8605.96,
+      "revenue": 27851.07,
+      "impressions": 47811,
+      "clicks": 1195,
+      "orders": 19
+    },
+    {
+      "campaign_id": "c-socks",
+      "date": "2026-09-13",
+      "spend": 5384.54,
+      "revenue": 16795.86,
+      "impressions": 29914,
+      "clicks": 748,
+      "orders": 34
+    },
+    {
+      "campaign_id": "c-cap-google",
+      "date": "2026-09-13",
+      "spend": 4381.82,
+      "revenue": 16878.64,
+      "impressions": 24343,
+      "clicks": 609,
+      "orders": 28
+    },
+    {
+      "campaign_id": "c-bag-meta",
+      "date": "2026-09-13",
+      "spend": 4205.03,
+      "revenue": 14127.21,
+      "impressions": 23361,
+      "clicks": 584,
+      "orders": 9
+    },
+    {
+      "campaign_id": "c-sneaker",
+      "date": "2026-09-14",
+      "spend": 29683.13,
+      "revenue": 139811.02,
+      "impressions": 164906,
+      "clicks": 4123,
+      "orders": 40
+    },
+    {
+      "campaign_id": "c-premium",
+      "date": "2026-09-14",
+      "spend": 21817.63,
+      "revenue": 90872.56,
+      "impressions": 121209,
+      "clicks": 3030,
+      "orders": 70
+    },
+    {
+      "campaign_id": "c-basic",
+      "date": "2026-09-14",
+      "spend": 19011.96,
+      "revenue": 65026.35,
+      "impressions": 105622,
+      "clicks": 2641,
+      "orders": 93
+    },
+    {
+      "campaign_id": "c-hoodie",
+      "date": "2026-09-14",
+      "spend": 12561.21,
+      "revenue": 49587.6,
+      "impressions": 69785,
+      "clicks": 1704,
+      "orders": 23
+    },
+    {
+      "campaign_id": "c-jogger",
+      "date": "2026-09-14",
+      "spend": 10739.84,
+      "revenue": 62067.02,
+      "impressions": 59666,
+      "clicks": 1492,
+      "orders": 35
+    },
+    {
+      "campaign_id": "c-cap",
+      "date": "2026-09-14",
+      "spend": 6029.39,
+      "revenue": 17163.23,
+      "impressions": 33497,
+      "clicks": 837,
+      "orders": 29
+    },
+    {
+      "campaign_id": "c-bag",
+      "date": "2026-09-14",
+      "spend": 7282.58,
+      "revenue": 21461.35,
+      "impressions": 40459,
+      "clicks": 1011,
+      "orders": 14
+    },
+    {
+      "campaign_id": "c-socks",
+      "date": "2026-09-14",
+      "spend": 4657.92,
+      "revenue": 13533.68,
+      "impressions": 25877,
+      "clicks": 647,
+      "orders": 27
+    },
+    {
+      "campaign_id": "c-cap-google",
+      "date": "2026-09-14",
+      "spend": 3660.35,
+      "revenue": 12702.41,
+      "impressions": 20335,
+      "clicks": 508,
+      "orders": 21
+    },
+    {
+      "campaign_id": "c-bag-meta",
+      "date": "2026-09-14",
+      "spend": 4534.08,
+      "revenue": 13662.05,
+      "impressions": 25189,
+      "clicks": 630,
+      "orders": 9
+    },
+    {
+      "campaign_id": "c-sneaker",
+      "date": "2026-09-15",
+      "spend": 28488.08,
+      "revenue": 134598.98,
+      "impressions": 158267,
+      "clicks": 3957,
+      "orders": 39
+    },
+    {
+      "campaign_id": "c-premium",
+      "date": "2026-09-15",
+      "spend": 24737.46,
+      "revenue": 95081.77,
+      "impressions": 137430,
+      "clicks": 3436,
+      "orders": 73
+    },
+    {
+      "campaign_id": "c-basic",
+      "date": "2026-09-15",
+      "spend": 22638.5,
+      "revenue": 69413.78,
+      "impressions": 125769,
+      "clicks": 3144,
+      "orders": 99
+    },
+    {
+      "campaign_id": "c-hoodie",
+      "date": "2026-09-15",
+      "spend": 10572.07,
+      "revenue": 42389.2,
+      "impressions": 58734,
+      "clicks": 1402,
+      "orders": 19
+    },
+    {
+      "campaign_id": "c-jogger",
+      "date": "2026-09-15",
+      "spend": 9295.9,
+      "revenue": 56748.79,
+      "impressions": 51644,
+      "clicks": 1291,
+      "orders": 32
+    },
+    {
+      "campaign_id": "c-cap",
+      "date": "2026-09-15",
+      "spend": 6425.83,
+      "revenue": 18148.99,
+      "impressions": 35699,
+      "clicks": 892,
+      "orders": 30
+    },
+    {
+      "campaign_id": "c-bag",
+      "date": "2026-09-15",
+      "spend": 6835.96,
+      "revenue": 23233.67,
+      "impressions": 37978,
+      "clicks": 949,
+      "orders": 15
+    },
+    {
+      "campaign_id": "c-socks",
+      "date": "2026-09-15",
+      "spend": 4370.45,
+      "revenue": 13342.61,
+      "impressions": 24280,
+      "clicks": 607,
+      "orders": 27
+    },
+    {
+      "campaign_id": "c-cap-google",
+      "date": "2026-09-15",
+      "spend": 3548.02,
+      "revenue": 12308.82,
+      "impressions": 19711,
+      "clicks": 493,
+      "orders": 21
+    },
+    {
+      "campaign_id": "c-bag-meta",
+      "date": "2026-09-15",
+      "spend": 4443.37,
+      "revenue": 12836.6,
+      "impressions": 24685,
+      "clicks": 617,
+      "orders": 9
+    },
+    {
+      "campaign_id": "c-sneaker",
+      "date": "2026-09-16",
+      "spend": 29638.91,
+      "revenue": 137206.51,
+      "impressions": 164661,
+      "clicks": 4117,
+      "orders": 40
+    },
+    {
+      "campaign_id": "c-premium",
+      "date": "2026-09-16",
+      "spend": 25209.54,
+      "revenue": 106356.9,
+      "impressions": 140053,
+      "clicks": 3501,
+      "orders": 82
+    },
+    {
+      "campaign_id": "c-basic",
+      "date": "2026-09-16",
+      "spend": 24287.08,
+      "revenue": 75241.26,
+      "impressions": 134928,
+      "clicks": 3373,
+      "orders": 108
+    },
+    {
+      "campaign_id": "c-hoodie",
+      "date": "2026-09-16",
+      "spend": 11281.74,
+      "revenue": 43439.21,
+      "impressions": 62676,
+      "clicks": 1461,
+      "orders": 20
+    },
+    {
+      "campaign_id": "c-jogger",
+      "date": "2026-09-16",
+      "spend": 10770.36,
+      "revenue": 59371.26,
+      "impressions": 59835,
+      "clicks": 1496,
+      "orders": 33
+    },
+    {
+      "campaign_id": "c-cap",
+      "date": "2026-09-16",
+      "spend": 7246.27,
+      "revenue": 20480.24,
+      "impressions": 40257,
+      "clicks": 1006,
+      "orders": 34
+    },
+    {
+      "campaign_id": "c-bag",
+      "date": "2026-09-16",
+      "spend": 7748.04,
+      "revenue": 24065.45,
+      "impressions": 43045,
+      "clicks": 1076,
+      "orders": 16
+    },
+    {
+      "campaign_id": "c-socks",
+      "date": "2026-09-16",
+      "spend": 5596.18,
+      "revenue": 15304.22,
+      "impressions": 31090,
+      "clicks": 777,
+      "orders": 31
+    },
+    {
+      "campaign_id": "c-cap-google",
+      "date": "2026-09-16",
+      "spend": 4239.9,
+      "revenue": 13935.4,
+      "impressions": 23555,
+      "clicks": 589,
+      "orders": 23
+    },
+    {
+      "campaign_id": "c-bag-meta",
+      "date": "2026-09-16",
+      "spend": 4071.07,
+      "revenue": 12911.1,
+      "impressions": 22617,
+      "clicks": 565,
+      "orders": 9
+    },
+    {
+      "campaign_id": "c-sneaker",
+      "date": "2026-09-17",
+      "spend": 27145.14,
+      "revenue": 132235,
+      "impressions": 150806,
+      "clicks": 3770,
+      "orders": 38
+    },
+    {
+      "campaign_id": "c-premium",
+      "date": "2026-09-17",
+      "spend": 22542.92,
+      "revenue": 96845.59,
+      "impressions": 125238,
+      "clicks": 3131,
+      "orders": 75
+    },
+    {
+      "campaign_id": "c-basic",
+      "date": "2026-09-17",
+      "spend": 21054.9,
+      "revenue": 68714.58,
+      "impressions": 116972,
+      "clicks": 2924,
+      "orders": 98
+    },
+    {
+      "campaign_id": "c-hoodie",
+      "date": "2026-09-17",
+      "spend": 13492.94,
+      "revenue": 46878.5,
+      "impressions": 74961,
+      "clicks": 1707,
+      "orders": 21
+    },
+    {
+      "campaign_id": "c-jogger",
+      "date": "2026-09-17",
+      "spend": 8754.55,
+      "revenue": 54658.32,
+      "impressions": 48636,
+      "clicks": 1216,
+      "orders": 30
+    },
+    {
+      "campaign_id": "c-cap",
+      "date": "2026-09-17",
+      "spend": 7743.83,
+      "revenue": 21976.12,
+      "impressions": 43021,
+      "clicks": 1076,
+      "orders": 37
+    },
+    {
+      "campaign_id": "c-bag",
+      "date": "2026-09-17",
+      "spend": 7323.16,
+      "revenue": 25764.68,
+      "impressions": 40684,
+      "clicks": 1017,
+      "orders": 17
+    },
+    {
+      "campaign_id": "c-socks",
+      "date": "2026-09-17",
+      "spend": 5243.96,
+      "revenue": 15475.43,
+      "impressions": 29133,
+      "clicks": 728,
+      "orders": 31
+    },
+    {
+      "campaign_id": "c-cap-google",
+      "date": "2026-09-17",
+      "spend": 4527.32,
+      "revenue": 15881.11,
+      "impressions": 25152,
+      "clicks": 629,
+      "orders": 27
+    },
+    {
+      "campaign_id": "c-bag-meta",
+      "date": "2026-09-17",
+      "spend": 4299.14,
+      "revenue": 13878.49,
+      "impressions": 23884,
+      "clicks": 597,
+      "orders": 9
+    },
+    {
+      "campaign_id": "c-sneaker",
+      "date": "2026-09-18",
+      "spend": 33552.91,
+      "revenue": 154069.68,
+      "impressions": 186405,
+      "clicks": 4660,
+      "orders": 45
+    },
+    {
+      "campaign_id": "c-premium",
+      "date": "2026-09-18",
+      "spend": 25991.84,
+      "revenue": 110361.95,
+      "impressions": 144399,
+      "clicks": 3610,
+      "orders": 85
+    },
+    {
+      "campaign_id": "c-basic",
+      "date": "2026-09-18",
+      "spend": 22607.38,
+      "revenue": 75955.68,
+      "impressions": 125597,
+      "clicks": 3140,
+      "orders": 109
+    },
+    {
+      "campaign_id": "c-hoodie",
+      "date": "2026-09-18",
+      "spend": 11399.78,
+      "revenue": 46880.3,
+      "impressions": 63332,
+      "clicks": 1409,
+      "orders": 21
+    },
+    {
+      "campaign_id": "c-jogger",
+      "date": "2026-09-18",
+      "spend": 8938.83,
+      "revenue": 58854.05,
+      "impressions": 49660,
+      "clicks": 1242,
+      "orders": 33
+    },
+    {
+      "campaign_id": "c-cap",
+      "date": "2026-09-18",
+      "spend": 7344.11,
+      "revenue": 21149.24,
+      "impressions": 40801,
+      "clicks": 1020,
+      "orders": 35
+    },
+    {
+      "campaign_id": "c-bag",
+      "date": "2026-09-18",
+      "spend": 8535.21,
+      "revenue": 25993.71,
+      "impressions": 47418,
+      "clicks": 1185,
+      "orders": 17
+    },
+    {
+      "campaign_id": "c-socks",
+      "date": "2026-09-18",
+      "spend": 5243.93,
+      "revenue": 16232.45,
+      "impressions": 29133,
+      "clicks": 728,
+      "orders": 33
+    },
+    {
+      "campaign_id": "c-cap-google",
+      "date": "2026-09-18",
+      "spend": 3465.09,
+      "revenue": 13373.86,
+      "impressions": 19251,
+      "clicks": 481,
+      "orders": 22
+    },
+    {
+      "campaign_id": "c-bag-meta",
+      "date": "2026-09-18",
+      "spend": 3980.99,
+      "revenue": 13215.4,
+      "impressions": 22117,
+      "clicks": 553,
+      "orders": 9
+    },
+    {
+      "campaign_id": "c-sneaker",
+      "date": "2026-09-19",
+      "spend": 27116.65,
+      "revenue": 138331.17,
+      "impressions": 150648,
+      "clicks": 3766,
+      "orders": 40
+    },
+    {
+      "campaign_id": "c-premium",
+      "date": "2026-09-19",
+      "spend": 28227.56,
+      "revenue": 128978.14,
+      "impressions": 156820,
+      "clicks": 3921,
+      "orders": 99
+    },
+    {
+      "campaign_id": "c-basic",
+      "date": "2026-09-19",
+      "spend": 21653.59,
+      "revenue": 80394.42,
+      "impressions": 120298,
+      "clicks": 3007,
+      "orders": 115
+    },
+    {
+      "campaign_id": "c-hoodie",
+      "date": "2026-09-19",
+      "spend": 13455.68,
+      "revenue": 51949.84,
+      "impressions": 74754,
+      "clicks": 1625,
+      "orders": 24
+    },
+    {
+      "campaign_id": "c-jogger",
+      "date": "2026-09-19",
+      "spend": 10001.29,
+      "revenue": 64276.85,
+      "impressions": 55563,
+      "clicks": 1389,
+      "orders": 36
+    },
+    {
+      "campaign_id": "c-cap",
+      "date": "2026-09-19",
+      "spend": 7051.05,
+      "revenue": 22044.07,
+      "impressions": 39173,
+      "clicks": 979,
+      "orders": 37
+    },
+    {
+      "campaign_id": "c-bag",
+      "date": "2026-09-19",
+      "spend": 8488.48,
+      "revenue": 27704.89,
+      "impressions": 47158,
+      "clicks": 1179,
+      "orders": 18
+    },
+    {
+      "campaign_id": "c-socks",
+      "date": "2026-09-19",
+      "spend": 5744.05,
+      "revenue": 18031.64,
+      "impressions": 31911,
+      "clicks": 798,
+      "orders": 36
+    },
+    {
+      "campaign_id": "c-cap-google",
+      "date": "2026-09-19",
+      "spend": 4148.43,
+      "revenue": 16007.29,
+      "impressions": 23047,
+      "clicks": 576,
+      "orders": 27
+    },
+    {
+      "campaign_id": "c-bag-meta",
+      "date": "2026-09-19",
+      "spend": 3491.83,
+      "revenue": 12101.79,
+      "impressions": 19399,
+      "clicks": 485,
+      "orders": 8
+    },
+    {
+      "campaign_id": "c-sneaker",
+      "date": "2026-09-20",
+      "spend": 26977.14,
+      "revenue": 138392.34,
+      "impressions": 149873,
+      "clicks": 3747,
+      "orders": 40
+    },
+    {
+      "campaign_id": "c-premium",
+      "date": "2026-09-20",
+      "spend": 21836.38,
+      "revenue": 109134.93,
+      "impressions": 121313,
+      "clicks": 3033,
+      "orders": 84
+    },
+    {
+      "campaign_id": "c-basic",
+      "date": "2026-09-20",
+      "spend": 22007.41,
+      "revenue": 81241.6,
+      "impressions": 122263,
+      "clicks": 3057,
+      "orders": 116
+    },
+    {
+      "campaign_id": "c-hoodie",
+      "date": "2026-09-20",
+      "spend": 10604.54,
+      "revenue": 43225.89,
+      "impressions": 58914,
+      "clicks": 1251,
+      "orders": 20
+    },
+    {
+      "campaign_id": "c-jogger",
+      "date": "2026-09-20",
+      "spend": 9865.74,
+      "revenue": 68294.24,
+      "impressions": 54810,
+      "clicks": 1370,
+      "orders": 38
+    },
+    {
+      "campaign_id": "c-cap",
+      "date": "2026-09-20",
+      "spend": 7935.99,
+      "revenue": 26288.92,
+      "impressions": 44089,
+      "clicks": 1102,
+      "orders": 44
+    },
+    {
+      "campaign_id": "c-bag",
+      "date": "2026-09-20",
+      "spend": 7157.97,
+      "revenue": 27930.86,
+      "impressions": 39767,
+      "clicks": 994,
+      "orders": 19
+    },
+    {
+      "campaign_id": "c-socks",
+      "date": "2026-09-20",
+      "spend": 4565.99,
+      "revenue": 14911.33,
+      "impressions": 25367,
+      "clicks": 634,
+      "orders": 30
+    },
+    {
+      "campaign_id": "c-cap-google",
+      "date": "2026-09-20",
+      "spend": 3567.56,
+      "revenue": 14089.07,
+      "impressions": 19820,
+      "clicks": 496,
+      "orders": 24
+    },
+    {
+      "campaign_id": "c-bag-meta",
+      "date": "2026-09-20",
+      "spend": 4498.33,
+      "revenue": 16052.32,
+      "impressions": 24991,
+      "clicks": 625,
+      "orders": 11
+    },
+    {
+      "campaign_id": "c-sneaker",
+      "date": "2026-09-21",
+      "spend": 25930.52,
+      "revenue": 121561.95,
+      "impressions": 144058,
+      "clicks": 3601,
+      "orders": 35
+    },
+    {
+      "campaign_id": "c-premium",
+      "date": "2026-09-21",
+      "spend": 27287.87,
+      "revenue": 97392.65,
+      "impressions": 151599,
+      "clicks": 3790,
+      "orders": 75
+    },
+    {
+      "campaign_id": "c-basic",
+      "date": "2026-09-21",
+      "spend": 18978.9,
+      "revenue": 65796.19,
+      "impressions": 105438,
+      "clicks": 2636,
+      "orders": 94
+    },
+    {
+      "campaign_id": "c-hoodie",
+      "date": "2026-09-21",
+      "spend": 11623.75,
+      "revenue": 39755.67,
+      "impressions": 64576,
+      "clicks": 1340,
+      "orders": 18
+    },
+    {
+      "campaign_id": "c-jogger",
+      "date": "2026-09-21",
+      "spend": 10576.01,
+      "revenue": 56390.91,
+      "impressions": 58756,
+      "clicks": 1469,
+      "orders": 31
+    },
+    {
+      "campaign_id": "c-cap",
+      "date": "2026-09-21",
+      "spend": 7491.2,
+      "revenue": 20627.77,
+      "impressions": 41618,
+      "clicks": 1040,
+      "orders": 34
+    },
+    {
+      "campaign_id": "c-bag",
+      "date": "2026-09-21",
+      "spend": 7862.1,
+      "revenue": 23397.63,
+      "impressions": 43678,
+      "clicks": 1092,
+      "orders": 16
+    },
+    {
+      "campaign_id": "c-socks",
+      "date": "2026-09-21",
+      "spend": 4485.3,
+      "revenue": 12331.82,
+      "impressions": 24918,
+      "clicks": 623,
+      "orders": 25
+    },
+    {
+      "campaign_id": "c-cap-google",
+      "date": "2026-09-21",
+      "spend": 4307.67,
+      "revenue": 13938.03,
+      "impressions": 23932,
+      "clicks": 598,
+      "orders": 23
+    },
+    {
+      "campaign_id": "c-bag-meta",
+      "date": "2026-09-21",
+      "spend": 4444.73,
+      "revenue": 12349.4,
+      "impressions": 24693,
+      "clicks": 617,
+      "orders": 8
+    },
+    {
+      "campaign_id": "c-sneaker",
+      "date": "2026-09-22",
+      "spend": 32510.5,
+      "revenue": 148010.39,
+      "impressions": 180614,
+      "clicks": 4515,
+      "orders": 43
+    },
+    {
+      "campaign_id": "c-premium",
+      "date": "2026-09-22",
+      "spend": 27000.34,
+      "revenue": 107855.98,
+      "impressions": 150002,
+      "clicks": 3750,
+      "orders": 83
+    },
+    {
+      "campaign_id": "c-basic",
+      "date": "2026-09-22",
+      "spend": 20686.9,
+      "revenue": 73047.72,
+      "impressions": 114927,
+      "clicks": 2873,
+      "orders": 105
+    },
+    {
+      "campaign_id": "c-hoodie",
+      "date": "2026-09-22",
+      "spend": 11030.68,
+      "revenue": 38412.3,
+      "impressions": 61282,
+      "clicks": 1243,
+      "orders": 17
+    },
+    {
+      "campaign_id": "c-jogger",
+      "date": "2026-09-22",
+      "spend": 11044.91,
+      "revenue": 62196.17,
+      "impressions": 61361,
+      "clicks": 1534,
+      "orders": 35
+    },
+    {
+      "campaign_id": "c-cap",
+      "date": "2026-09-22",
+      "spend": 6083.26,
+      "revenue": 17617.4,
+      "impressions": 33796,
+      "clicks": 845,
+      "orders": 29
+    },
+    {
+      "campaign_id": "c-bag",
+      "date": "2026-09-22",
+      "spend": 7802.52,
+      "revenue": 23621.37,
+      "impressions": 43347,
+      "clicks": 1084,
+      "orders": 16
+    },
+    {
+      "campaign_id": "c-socks",
+      "date": "2026-09-22",
+      "spend": 5438.71,
+      "revenue": 15339.51,
+      "impressions": 30215,
+      "clicks": 755,
+      "orders": 31
+    },
+    {
+      "campaign_id": "c-cap-google",
+      "date": "2026-09-22",
+      "spend": 3483.49,
+      "revenue": 12031.41,
+      "impressions": 19353,
+      "clicks": 484,
+      "orders": 20
+    },
+    {
+      "campaign_id": "c-bag-meta",
+      "date": "2026-09-22",
+      "spend": 4062.24,
+      "revenue": 12664.55,
+      "impressions": 22568,
+      "clicks": 564,
+      "orders": 8
+    },
+    {
+      "campaign_id": "c-sneaker",
+      "date": "2026-09-23",
+      "spend": 30764.82,
+      "revenue": 139400.39,
+      "impressions": 170916,
+      "clicks": 4273,
+      "orders": 40
+    },
+    {
+      "campaign_id": "c-premium",
+      "date": "2026-09-23",
+      "spend": 22132.34,
+      "revenue": 95182.54,
+      "impressions": 122957,
+      "clicks": 3074,
+      "orders": 73
+    },
+    {
+      "campaign_id": "c-basic",
+      "date": "2026-09-23",
+      "spend": 23444.93,
+      "revenue": 78236.05,
+      "impressions": 130250,
+      "clicks": 3256,
+      "orders": 112
+    },
+    {
+      "campaign_id": "c-hoodie",
+      "date": "2026-09-23",
+      "spend": 13656.76,
+      "revenue": 42329.65,
+      "impressions": 75871,
+      "clicks": 1503,
+      "orders": 19
+    },
+    {
+      "campaign_id": "c-jogger",
+      "date": "2026-09-23",
+      "spend": 10972.56,
+      "revenue": 65625.75,
+      "impressions": 60959,
+      "clicks": 1524,
+      "orders": 36
+    },
+    {
+      "campaign_id": "c-cap",
+      "date": "2026-09-23",
+      "spend": 6606.62,
+      "revenue": 19708.74,
+      "impressions": 36703,
+      "clicks": 918,
+      "orders": 33
+    },
+    {
+      "campaign_id": "c-bag",
+      "date": "2026-09-23",
+      "spend": 7476.76,
+      "revenue": 24185.69,
+      "impressions": 41538,
+      "clicks": 1038,
+      "orders": 16
+    },
+    {
+      "campaign_id": "c-socks",
+      "date": "2026-09-23",
+      "spend": 5338.53,
+      "revenue": 15536.95,
+      "impressions": 29659,
+      "clicks": 741,
+      "orders": 31
+    },
+    {
+      "campaign_id": "c-cap-google",
+      "date": "2026-09-23",
+      "spend": 4316.74,
+      "revenue": 14838.5,
+      "impressions": 23982,
+      "clicks": 600,
+      "orders": 25
+    },
+    {
+      "campaign_id": "c-bag-meta",
+      "date": "2026-09-23",
+      "spend": 3686.54,
+      "revenue": 11701.91,
+      "impressions": 20481,
+      "clicks": 512,
+      "orders": 8
+    },
+    {
+      "campaign_id": "c-sneaker",
+      "date": "2026-09-24",
+      "spend": 27098.52,
+      "revenue": 132087.37,
+      "impressions": 150547,
+      "clicks": 3764,
+      "orders": 38
+    },
+    {
+      "campaign_id": "c-premium",
+      "date": "2026-09-24",
+      "spend": 28150.38,
+      "revenue": 115395.22,
+      "impressions": 156391,
+      "clicks": 3910,
+      "orders": 89
+    },
+    {
+      "campaign_id": "c-basic",
+      "date": "2026-09-24",
+      "spend": 24193.12,
+      "revenue": 75637.95,
+      "impressions": 134406,
+      "clicks": 3360,
+      "orders": 108
+    },
+    {
+      "campaign_id": "c-hoodie",
+      "date": "2026-09-24",
+      "spend": 11991.6,
+      "revenue": 40325.92,
+      "impressions": 66620,
+      "clicks": 1289,
+      "orders": 18
+    },
+    {
+      "campaign_id": "c-jogger",
+      "date": "2026-09-24",
+      "spend": 10772.89,
+      "revenue": 65574.31,
+      "impressions": 59849,
+      "clicks": 1496,
+      "orders": 36
+    },
+    {
+      "campaign_id": "c-cap",
+      "date": "2026-09-24",
+      "spend": 7745.57,
+      "revenue": 22506.16,
+      "impressions": 43031,
+      "clicks": 1076,
+      "orders": 38
+    },
+    {
+      "campaign_id": "c-bag",
+      "date": "2026-09-24",
+      "spend": 7374.87,
+      "revenue": 24456.22,
+      "impressions": 40972,
+      "clicks": 1024,
+      "orders": 16
+    },
+    {
+      "campaign_id": "c-socks",
+      "date": "2026-09-24",
+      "spend": 4716.25,
+      "revenue": 14560.81,
+      "impressions": 26201,
+      "clicks": 655,
+      "orders": 29
+    },
+    {
+      "campaign_id": "c-cap-google",
+      "date": "2026-09-24",
+      "spend": 3724.05,
+      "revenue": 13794.41,
+      "impressions": 20689,
+      "clicks": 517,
+      "orders": 23
+    },
+    {
+      "campaign_id": "c-bag-meta",
+      "date": "2026-09-24",
+      "spend": 4275.52,
+      "revenue": 13446.92,
+      "impressions": 23753,
+      "clicks": 594,
+      "orders": 9
+    },
+    {
+      "campaign_id": "c-sneaker",
+      "date": "2026-09-25",
+      "spend": 30294.55,
+      "revenue": 145208.39,
+      "impressions": 168303,
+      "clicks": 4208,
+      "orders": 42
+    },
+    {
+      "campaign_id": "c-premium",
+      "date": "2026-09-25",
+      "spend": 23559.09,
+      "revenue": 101385.84,
+      "impressions": 130884,
+      "clicks": 3272,
+      "orders": 78
+    },
+    {
+      "campaign_id": "c-basic",
+      "date": "2026-09-25",
+      "spend": 23968.05,
+      "revenue": 77203.34,
+      "impressions": 133156,
+      "clicks": 3329,
+      "orders": 110
+    },
+    {
+      "campaign_id": "c-hoodie",
+      "date": "2026-09-25",
+      "spend": 10677.76,
+      "revenue": 38180.05,
+      "impressions": 59321,
+      "clicks": 1122,
+      "orders": 17
+    },
+    {
+      "campaign_id": "c-jogger",
+      "date": "2026-09-25",
+      "spend": 8896.89,
+      "revenue": 53610.22,
+      "impressions": 49427,
+      "clicks": 1236,
+      "orders": 30
+    },
+    {
+      "campaign_id": "c-cap",
+      "date": "2026-09-25",
+      "spend": 6397.3,
+      "revenue": 20616.27,
+      "impressions": 35541,
+      "clicks": 889,
+      "orders": 34
+    },
+    {
+      "campaign_id": "c-bag",
+      "date": "2026-09-25",
+      "spend": 7648.32,
+      "revenue": 26151.26,
+      "impressions": 42491,
+      "clicks": 1062,
+      "orders": 17
+    },
+    {
+      "campaign_id": "c-socks",
+      "date": "2026-09-25",
+      "spend": 5649,
+      "revenue": 17156.38,
+      "impressions": 31383,
+      "clicks": 785,
+      "orders": 34
+    },
+    {
+      "campaign_id": "c-cap-google",
+      "date": "2026-09-25",
+      "spend": 3808.67,
+      "revenue": 14373.54,
+      "impressions": 21159,
+      "clicks": 529,
+      "orders": 24
+    },
+    {
+      "campaign_id": "c-bag-meta",
+      "date": "2026-09-25",
+      "spend": 4116.36,
+      "revenue": 13992.96,
+      "impressions": 22869,
+      "clicks": 572,
+      "orders": 9
+    },
+    {
+      "campaign_id": "c-sneaker",
+      "date": "2026-09-26",
+      "spend": 28820.39,
+      "revenue": 154443.7,
+      "impressions": 160113,
+      "clicks": 4003,
+      "orders": 45
+    },
+    {
+      "campaign_id": "c-premium",
+      "date": "2026-09-26",
+      "spend": 27864.88,
+      "revenue": 113738.93,
+      "impressions": 154805,
+      "clicks": 3870,
+      "orders": 88
+    },
+    {
+      "campaign_id": "c-basic",
+      "date": "2026-09-26",
+      "spend": 22187.04,
+      "revenue": 79124.81,
+      "impressions": 123261,
+      "clicks": 3082,
+      "orders": 113
+    },
+    {
+      "campaign_id": "c-hoodie",
+      "date": "2026-09-26",
+      "spend": 10354.69,
+      "revenue": 38206.39,
+      "impressions": 57526,
+      "clicks": 1063,
+      "orders": 17
+    },
+    {
+      "campaign_id": "c-jogger",
+      "date": "2026-09-26",
+      "spend": 10361.95,
+      "revenue": 63647.32,
+      "impressions": 57566,
+      "clicks": 1439,
+      "orders": 35
+    },
+    {
+      "campaign_id": "c-cap",
+      "date": "2026-09-26",
+      "spend": 7004.66,
+      "revenue": 23984.03,
+      "impressions": 38915,
+      "clicks": 973,
+      "orders": 40
+    },
+    {
+      "campaign_id": "c-bag",
+      "date": "2026-09-26",
+      "spend": 7095.45,
+      "revenue": 26152.7,
+      "impressions": 39419,
+      "clicks": 985,
+      "orders": 17
+    },
+    {
+      "campaign_id": "c-socks",
+      "date": "2026-09-26",
+      "spend": 5176.99,
+      "revenue": 16758.19,
+      "impressions": 28761,
+      "clicks": 719,
+      "orders": 34
+    },
+    {
+      "campaign_id": "c-cap-google",
+      "date": "2026-09-26",
+      "spend": 3858.88,
+      "revenue": 14481.96,
+      "impressions": 21438,
+      "clicks": 536,
+      "orders": 24
+    },
+    {
+      "campaign_id": "c-bag-meta",
+      "date": "2026-09-26",
+      "spend": 4080.27,
+      "revenue": 14678.29,
+      "impressions": 22668,
+      "clicks": 567,
+      "orders": 10
+    },
+    {
+      "campaign_id": "c-sneaker",
+      "date": "2026-09-27",
+      "spend": 28073.88,
+      "revenue": 146337.2,
+      "impressions": 155966,
+      "clicks": 3899,
+      "orders": 42
+    },
+    {
+      "campaign_id": "c-premium",
+      "date": "2026-09-27",
+      "spend": 24320.3,
+      "revenue": 107907.81,
+      "impressions": 135113,
+      "clicks": 3378,
+      "orders": 83
+    },
+    {
+      "campaign_id": "c-basic",
+      "date": "2026-09-27",
+      "spend": 22222.99,
+      "revenue": 82923.1,
+      "impressions": 123461,
+      "clicks": 3087,
+      "orders": 119
+    },
+    {
+      "campaign_id": "c-hoodie",
+      "date": "2026-09-27",
+      "spend": 12309.55,
+      "revenue": 40839.15,
+      "impressions": 68386,
+      "clicks": 1234,
+      "orders": 19
+    },
+    {
+      "campaign_id": "c-jogger",
+      "date": "2026-09-27",
+      "spend": 11256.6,
+      "revenue": 71596.21,
+      "impressions": 62537,
+      "clicks": 1563,
+      "orders": 40
+    },
+    {
+      "campaign_id": "c-cap",
+      "date": "2026-09-27",
+      "spend": 7461.11,
+      "revenue": 22759.47,
+      "impressions": 41451,
+      "clicks": 1036,
+      "orders": 38
+    },
+    {
+      "campaign_id": "c-bag",
+      "date": "2026-09-27",
+      "spend": 8033.6,
+      "revenue": 29700.05,
+      "impressions": 44631,
+      "clicks": 1116,
+      "orders": 20
+    },
+    {
+      "campaign_id": "c-socks",
+      "date": "2026-09-27",
+      "spend": 4393.52,
+      "revenue": 14273.82,
+      "impressions": 24408,
+      "clicks": 610,
+      "orders": 29
+    },
+    {
+      "campaign_id": "c-cap-google",
+      "date": "2026-09-27",
+      "spend": 3788.32,
+      "revenue": 14660.39,
+      "impressions": 21046,
+      "clicks": 526,
+      "orders": 24
+    },
+    {
+      "campaign_id": "c-bag-meta",
+      "date": "2026-09-27",
+      "spend": 3469.69,
+      "revenue": 13453.56,
+      "impressions": 19276,
+      "clicks": 482,
+      "orders": 9
+    },
+    {
+      "campaign_id": "c-sneaker",
+      "date": "2026-09-28",
+      "spend": 31526.87,
+      "revenue": 148331.06,
+      "impressions": 175149,
+      "clicks": 4379,
+      "orders": 43
+    },
+    {
+      "campaign_id": "c-premium",
+      "date": "2026-09-28",
+      "spend": 22323.92,
+      "revenue": 90564.5,
+      "impressions": 124022,
+      "clicks": 3101,
+      "orders": 70
+    },
+    {
+      "campaign_id": "c-basic",
+      "date": "2026-09-28",
+      "spend": 23027.84,
+      "revenue": 73669.07,
+      "impressions": 127932,
+      "clicks": 3198,
+      "orders": 105
+    },
+    {
+      "campaign_id": "c-hoodie",
+      "date": "2026-09-28",
+      "spend": 10573.56,
+      "revenue": 32091.3,
+      "impressions": 58742,
+      "clicks": 1036,
+      "orders": 15
+    },
+    {
+      "campaign_id": "c-jogger",
+      "date": "2026-09-28",
+      "spend": 8821.75,
+      "revenue": 36869.97,
+      "impressions": 35007,
+      "clicks": 875,
+      "orders": 20
+    },
+    {
+      "campaign_id": "c-cap",
+      "date": "2026-09-28",
+      "spend": 6098.28,
+      "revenue": 17924.31,
+      "impressions": 33879,
+      "clicks": 847,
+      "orders": 30
+    },
+    {
+      "campaign_id": "c-bag",
+      "date": "2026-09-28",
+      "spend": 8063.86,
+      "revenue": 25071.2,
+      "impressions": 44799,
+      "clicks": 1120,
+      "orders": 17
+    },
+    {
+      "campaign_id": "c-socks",
+      "date": "2026-09-28",
+      "spend": 4628.3,
+      "revenue": 13870.33,
+      "impressions": 25713,
+      "clicks": 643,
+      "orders": 28
+    },
+    {
+      "campaign_id": "c-cap-google",
+      "date": "2026-09-28",
+      "spend": 3779.76,
+      "revenue": 9142.93,
+      "impressions": 14999,
+      "clicks": 375,
+      "orders": 15
+    },
+    {
+      "campaign_id": "c-bag-meta",
+      "date": "2026-09-28",
+      "spend": 4449.78,
+      "revenue": 13329.18,
+      "impressions": 24721,
+      "clicks": 618,
+      "orders": 9
+    },
+    {
+      "campaign_id": "c-sneaker",
+      "date": "2026-09-29",
+      "spend": 30417.58,
+      "revenue": 132480.43,
+      "impressions": 168987,
+      "clicks": 4225,
+      "orders": 38
+    },
+    {
+      "campaign_id": "c-premium",
+      "date": "2026-09-29",
+      "spend": 25380.09,
+      "revenue": 96548.54,
+      "impressions": 141001,
+      "clicks": 3525,
+      "orders": 74
+    },
+    {
+      "campaign_id": "c-basic",
+      "date": "2026-09-29",
+      "spend": 23468.69,
+      "revenue": 75958.65,
+      "impressions": 130382,
+      "clicks": 3260,
+      "orders": 109
+    },
+    {
+      "campaign_id": "c-hoodie",
+      "date": "2026-09-29",
+      "spend": 12433.45,
+      "revenue": 34332.94,
+      "impressions": 69075,
+      "clicks": 1190,
+      "orders": 16
+    },
+    {
+      "campaign_id": "c-jogger",
+      "date": "2026-09-29",
+      "spend": 8700.79,
+      "revenue": 35565.68,
+      "impressions": 34527,
+      "clicks": 863,
+      "orders": 20
+    },
+    {
+      "campaign_id": "c-cap",
+      "date": "2026-09-29",
+      "spend": 7769.43,
+      "revenue": 22551.1,
+      "impressions": 43164,
+      "clicks": 1079,
+      "orders": 38
+    },
+    {
+      "campaign_id": "c-bag",
+      "date": "2026-09-29",
+      "spend": 7184.14,
+      "revenue": 24197.57,
+      "impressions": 39912,
+      "clicks": 998,
+      "orders": 16
+    },
+    {
+      "campaign_id": "c-socks",
+      "date": "2026-09-29",
+      "spend": 4357.64,
+      "revenue": 13105.86,
+      "impressions": 24209,
+      "clicks": 605,
+      "orders": 26
+    },
+    {
+      "campaign_id": "c-cap-google",
+      "date": "2026-09-29",
+      "spend": 4192.49,
+      "revenue": 9753.31,
+      "impressions": 16637,
+      "clicks": 416,
+      "orders": 16
+    },
+    {
+      "campaign_id": "c-bag-meta",
+      "date": "2026-09-29",
+      "spend": 3405.69,
+      "revenue": 11087.67,
+      "impressions": 18921,
+      "clicks": 473,
+      "orders": 7
+    },
+    {
+      "campaign_id": "c-sneaker",
+      "date": "2026-09-30",
+      "spend": 34143.04,
+      "revenue": 151796.86,
+      "impressions": 189684,
+      "clicks": 4742,
+      "orders": 44
+    },
+    {
+      "campaign_id": "c-premium",
+      "date": "2026-09-30",
+      "spend": 21787.69,
+      "revenue": 94042.33,
+      "impressions": 121043,
+      "clicks": 3026,
+      "orders": 72
+    },
+    {
+      "campaign_id": "c-basic",
+      "date": "2026-09-30",
+      "spend": 23783.66,
+      "revenue": 78411.55,
+      "impressions": 132131,
+      "clicks": 3303,
+      "orders": 112
+    },
+    {
+      "campaign_id": "c-hoodie",
+      "date": "2026-09-30",
+      "spend": 11614.88,
+      "revenue": 34433.73,
+      "impressions": 64527,
+      "clicks": 1086,
+      "orders": 16
+    },
+    {
+      "campaign_id": "c-jogger",
+      "date": "2026-09-30",
+      "spend": 9515.78,
+      "revenue": 41216.01,
+      "impressions": 37761,
+      "clicks": 944,
+      "orders": 23
+    },
+    {
+      "campaign_id": "c-cap",
+      "date": "2026-09-30",
+      "spend": 7681.22,
+      "revenue": 21007.69,
+      "impressions": 42673,
+      "clicks": 1067,
+      "orders": 35
+    },
+    {
+      "campaign_id": "c-bag",
+      "date": "2026-09-30",
+      "spend": 8622.53,
+      "revenue": 25631.18,
+      "impressions": 47903,
+      "clicks": 1198,
+      "orders": 17
+    },
+    {
+      "campaign_id": "c-socks",
+      "date": "2026-09-30",
+      "spend": 4866.88,
+      "revenue": 13534.49,
+      "impressions": 27038,
+      "clicks": 676,
+      "orders": 27
+    },
+    {
+      "campaign_id": "c-cap-google",
+      "date": "2026-09-30",
+      "spend": 3917.55,
+      "revenue": 10094.75,
+      "impressions": 15546,
+      "clicks": 389,
+      "orders": 17
+    },
+    {
+      "campaign_id": "c-bag-meta",
+      "date": "2026-09-30",
+      "spend": 4589.25,
+      "revenue": 13473.57,
+      "impressions": 25496,
+      "clicks": 637,
+      "orders": 9
+    },
+    {
+      "campaign_id": "c-sneaker",
+      "date": "2026-10-01",
+      "spend": 29310.58,
+      "revenue": 142519.32,
+      "impressions": 162837,
+      "clicks": 4071,
+      "orders": 41
+    },
+    {
+      "campaign_id": "c-premium",
+      "date": "2026-10-01",
+      "spend": 23581.66,
+      "revenue": 104454.87,
+      "impressions": 131009,
+      "clicks": 3275,
+      "orders": 80
+    },
+    {
+      "campaign_id": "c-basic",
+      "date": "2026-10-01",
+      "spend": 20318.32,
+      "revenue": 67298.79,
+      "impressions": 112880,
+      "clicks": 2822,
+      "orders": 96
+    },
+    {
+      "campaign_id": "c-hoodie",
+      "date": "2026-10-01",
+      "spend": 12929.69,
+      "revenue": 32710.65,
+      "impressions": 71832,
+      "clicks": 1181,
+      "orders": 15
+    },
+    {
+      "campaign_id": "c-jogger",
+      "date": "2026-10-01",
+      "spend": 11317.49,
+      "revenue": 48158.9,
+      "impressions": 44911,
+      "clicks": 1123,
+      "orders": 27
+    },
+    {
+      "campaign_id": "c-cap",
+      "date": "2026-10-01",
+      "spend": 6746.32,
+      "revenue": 20324.07,
+      "impressions": 37480,
+      "clicks": 937,
+      "orders": 34
+    },
+    {
+      "campaign_id": "c-bag",
+      "date": "2026-10-01",
+      "spend": 6843.24,
+      "revenue": 23949.59,
+      "impressions": 38018,
+      "clicks": 950,
+      "orders": 16
+    },
+    {
+      "campaign_id": "c-socks",
+      "date": "2026-10-01",
+      "spend": 5212.76,
+      "revenue": 15549.55,
+      "impressions": 28960,
+      "clicks": 724,
+      "orders": 31
+    },
+    {
+      "campaign_id": "c-cap-google",
+      "date": "2026-10-01",
+      "spend": 4232.36,
+      "revenue": 9880.05,
+      "impressions": 16795,
+      "clicks": 420,
+      "orders": 16
+    },
+    {
+      "campaign_id": "c-bag-meta",
+      "date": "2026-10-01",
+      "spend": 4421.46,
+      "revenue": 14280.93,
+      "impressions": 24564,
+      "clicks": 614,
+      "orders": 10
+    },
+    {
+      "campaign_id": "c-sneaker",
+      "date": "2026-10-02",
+      "spend": 33298.71,
+      "revenue": 167698.44,
+      "impressions": 184993,
+      "clicks": 4625,
+      "orders": 48
+    },
+    {
+      "campaign_id": "c-premium",
+      "date": "2026-10-02",
+      "spend": 23388.59,
+      "revenue": 101001.8,
+      "impressions": 129937,
+      "clicks": 3248,
+      "orders": 78
+    },
+    {
+      "campaign_id": "c-basic",
+      "date": "2026-10-02",
+      "spend": 21335.22,
+      "revenue": 76350.61,
+      "impressions": 118529,
+      "clicks": 2963,
+      "orders": 109
+    },
+    {
+      "campaign_id": "c-hoodie",
+      "date": "2026-10-02",
+      "spend": 12243.47,
+      "revenue": 32354.74,
+      "impressions": 68019,
+      "clicks": 1093,
+      "orders": 15
+    },
+    {
+      "campaign_id": "c-jogger",
+      "date": "2026-10-02",
+      "spend": 8786.73,
+      "revenue": 38143.01,
+      "impressions": 34868,
+      "clicks": 872,
+      "orders": 21
+    },
+    {
+      "campaign_id": "c-cap",
+      "date": "2026-10-02",
+      "spend": 7335.82,
+      "revenue": 23070.09,
+      "impressions": 40755,
+      "clicks": 1019,
+      "orders": 39
+    },
+    {
+      "campaign_id": "c-bag",
+      "date": "2026-10-02",
+      "spend": 7031.44,
+      "revenue": 24206.7,
+      "impressions": 39064,
+      "clicks": 977,
+      "orders": 16
+    },
+    {
+      "campaign_id": "c-socks",
+      "date": "2026-10-02",
+      "spend": 4929.7,
+      "revenue": 15743.61,
+      "impressions": 27387,
+      "clicks": 685,
+      "orders": 32
+    },
+    {
+      "campaign_id": "c-cap-google",
+      "date": "2026-10-02",
+      "spend": 4219.41,
+      "revenue": 10008.63,
+      "impressions": 16744,
+      "clicks": 419,
+      "orders": 17
+    },
+    {
+      "campaign_id": "c-bag-meta",
+      "date": "2026-10-02",
+      "spend": 4332.21,
+      "revenue": 14067.1,
+      "impressions": 24068,
+      "clicks": 602,
+      "orders": 9
+    },
+    {
+      "campaign_id": "c-sneaker",
+      "date": "2026-10-03",
+      "spend": 32764.73,
+      "revenue": 160205.47,
+      "impressions": 182026,
+      "clicks": 4551,
+      "orders": 46
+    },
+    {
+      "campaign_id": "c-premium",
+      "date": "2026-10-03",
+      "spend": 27392,
+      "revenue": 121779.54,
+      "impressions": 152178,
+      "clicks": 3804,
+      "orders": 94
+    },
+    {
+      "campaign_id": "c-basic",
+      "date": "2026-10-03",
+      "spend": 21373.16,
+      "revenue": 76918.63,
+      "impressions": 118740,
+      "clicks": 2969,
+      "orders": 110
+    },
+    {
+      "campaign_id": "c-hoodie",
+      "date": "2026-10-03",
+      "spend": 11998.64,
+      "revenue": 34899.19,
+      "impressions": 66659,
+      "clicks": 1046,
+      "orders": 16
+    },
+    {
+      "campaign_id": "c-jogger",
+      "date": "2026-10-03",
+      "spend": 9337.49,
+      "revenue": 42766.2,
+      "impressions": 37054,
+      "clicks": 926,
+      "orders": 24
+    },
+    {
+      "campaign_id": "c-cap",
+      "date": "2026-10-03",
+      "spend": 6972.83,
+      "revenue": 21981.86,
+      "impressions": 38738,
+      "clicks": 968,
+      "orders": 37
+    },
+    {
+      "campaign_id": "c-bag",
+      "date": "2026-10-03",
+      "spend": 8348.33,
+      "revenue": 27444.59,
+      "impressions": 46380,
+      "clicks": 1160,
+      "orders": 18
+    },
+    {
+      "campaign_id": "c-socks",
+      "date": "2026-10-03",
+      "spend": 5030.06,
+      "revenue": 16048.39,
+      "impressions": 27945,
+      "clicks": 699,
+      "orders": 32
+    },
+    {
+      "campaign_id": "c-cap-google",
+      "date": "2026-10-03",
+      "spend": 3942.07,
+      "revenue": 10350.15,
+      "impressions": 15643,
+      "clicks": 391,
+      "orders": 17
+    },
+    {
+      "campaign_id": "c-bag-meta",
+      "date": "2026-10-03",
+      "spend": 3520.08,
+      "revenue": 13394.71,
+      "impressions": 19556,
+      "clicks": 489,
+      "orders": 9
+    },
+    {
+      "campaign_id": "c-sneaker",
+      "date": "2026-10-04",
+      "spend": 12619.04,
+      "revenue": 69078.88,
+      "impressions": 70106,
+      "clicks": 1753,
+      "orders": 20
+    },
+    {
+      "campaign_id": "c-premium",
+      "date": "2026-10-04",
+      "spend": 26302.33,
+      "revenue": 119682.35,
+      "impressions": 146124,
+      "clicks": 3653,
+      "orders": 92
+    },
+    {
+      "campaign_id": "c-basic",
+      "date": "2026-10-04",
+      "spend": 24050.31,
+      "revenue": 88051.26,
+      "impressions": 133613,
+      "clicks": 3340,
+      "orders": 126
+    },
+    {
+      "campaign_id": "c-hoodie",
+      "date": "2026-10-04",
+      "spend": 11617.53,
+      "revenue": 35085.39,
+      "impressions": 64542,
+      "clicks": 990,
+      "orders": 16
+    },
+    {
+      "campaign_id": "c-jogger",
+      "date": "2026-10-04",
+      "spend": 9185.55,
+      "revenue": 44302.41,
+      "impressions": 36451,
+      "clicks": 911,
+      "orders": 25
+    },
+    {
+      "campaign_id": "c-cap",
+      "date": "2026-10-04",
+      "spend": 6753.82,
+      "revenue": 22119.73,
+      "impressions": 37521,
+      "clicks": 938,
+      "orders": 37
+    },
+    {
+      "campaign_id": "c-bag",
+      "date": "2026-10-04",
+      "spend": 7478.37,
+      "revenue": 28183.58,
+      "impressions": 41547,
+      "clicks": 1039,
+      "orders": 19
+    },
+    {
+      "campaign_id": "c-socks",
+      "date": "2026-10-04",
+      "spend": 5716.69,
+      "revenue": 18617.13,
+      "impressions": 31759,
+      "clicks": 794,
+      "orders": 37
+    },
+    {
+      "campaign_id": "c-cap-google",
+      "date": "2026-10-04",
+      "spend": 4536.81,
+      "revenue": 11625.47,
+      "impressions": 18003,
+      "clicks": 450,
+      "orders": 19
+    },
+    {
+      "campaign_id": "c-bag-meta",
+      "date": "2026-10-04",
+      "spend": 3509.18,
+      "revenue": 12474.34,
+      "impressions": 19495,
+      "clicks": 487,
+      "orders": 8
+    },
+    {
+      "campaign_id": "c-sneaker",
+      "date": "2026-10-05",
+      "spend": 15196.51,
+      "revenue": 66012.29,
+      "impressions": 84425,
+      "clicks": 2111,
+      "orders": 19
+    },
+    {
+      "campaign_id": "c-premium",
+      "date": "2026-10-05",
+      "spend": 25206.38,
+      "revenue": 93378.13,
+      "impressions": 140035,
+      "clicks": 3501,
+      "orders": 72
+    },
+    {
+      "campaign_id": "c-basic",
+      "date": "2026-10-05",
+      "spend": 21809.33,
+      "revenue": 73433.35,
+      "impressions": 121163,
+      "clicks": 3029,
+      "orders": 105
+    },
+    {
+      "campaign_id": "c-hoodie",
+      "date": "2026-10-05",
+      "spend": 12020,
+      "revenue": 27234.35,
+      "impressions": 66778,
+      "clicks": 1001,
+      "orders": 12
+    },
+    {
+      "campaign_id": "c-jogger",
+      "date": "2026-10-05",
+      "spend": 9484.66,
+      "revenue": 38718.78,
+      "impressions": 37638,
+      "clicks": 941,
+      "orders": 22
+    },
+    {
+      "campaign_id": "c-cap",
+      "date": "2026-10-05",
+      "spend": 7393.07,
+      "revenue": 20505.24,
+      "impressions": 41073,
+      "clicks": 1027,
+      "orders": 34
+    },
+    {
+      "campaign_id": "c-bag",
+      "date": "2026-10-05",
+      "spend": 8632.74,
+      "revenue": 23930.47,
+      "impressions": 47960,
+      "clicks": 1199,
+      "orders": 16
+    },
+    {
+      "campaign_id": "c-socks",
+      "date": "2026-10-05",
+      "spend": 4934.7,
+      "revenue": 14172.36,
+      "impressions": 27415,
+      "clicks": 685,
+      "orders": 28
+    },
+    {
+      "campaign_id": "c-cap-google",
+      "date": "2026-10-05",
+      "spend": 4251.4,
+      "revenue": 10034.71,
+      "impressions": 16871,
+      "clicks": 422,
+      "orders": 17
+    },
+    {
+      "campaign_id": "c-bag-meta",
+      "date": "2026-10-05",
+      "spend": 3613.47,
+      "revenue": 10846.68,
+      "impressions": 20075,
+      "clicks": 502,
+      "orders": 7
+    },
+    {
+      "campaign_id": "c-sneaker",
+      "date": "2026-10-06",
+      "spend": 12087.46,
+      "revenue": 55029.38,
+      "impressions": 67153,
+      "clicks": 1679,
+      "orders": 16
+    },
+    {
+      "campaign_id": "c-premium",
+      "date": "2026-10-06",
+      "spend": 23273.24,
+      "revenue": 96833.57,
+      "impressions": 129296,
+      "clicks": 3232,
+      "orders": 75
+    },
+    {
+      "campaign_id": "c-basic",
+      "date": "2026-10-06",
+      "spend": 25277.49,
+      "revenue": 77882.39,
+      "impressions": 140431,
+      "clicks": 3511,
+      "orders": 111
+    },
+    {
+      "campaign_id": "c-hoodie",
+      "date": "2026-10-06",
+      "spend": 11584.61,
+      "revenue": 26168.37,
+      "impressions": 64359,
+      "clicks": 942,
+      "orders": 12
+    },
+    {
+      "campaign_id": "c-jogger",
+      "date": "2026-10-06",
+      "spend": 10662.27,
+      "revenue": 43567.61,
+      "impressions": 42311,
+      "clicks": 1058,
+      "orders": 24
+    },
+    {
+      "campaign_id": "c-cap",
+      "date": "2026-10-06",
+      "spend": 7570.86,
+      "revenue": 21634.06,
+      "impressions": 42060,
+      "clicks": 1052,
+      "orders": 36
+    },
+    {
+      "campaign_id": "c-bag",
+      "date": "2026-10-06",
+      "spend": 8037.96,
+      "revenue": 23911.5,
+      "impressions": 44655,
+      "clicks": 1116,
+      "orders": 16
+    },
+    {
+      "campaign_id": "c-socks",
+      "date": "2026-10-06",
+      "spend": 5005.21,
+      "revenue": 14890.75,
+      "impressions": 27807,
+      "clicks": 695,
+      "orders": 30
+    },
+    {
+      "campaign_id": "c-cap-google",
+      "date": "2026-10-06",
+      "spend": 3996.29,
+      "revenue": 9660.83,
+      "impressions": 15858,
+      "clicks": 396,
+      "orders": 16
+    },
+    {
+      "campaign_id": "c-bag-meta",
+      "date": "2026-10-06",
+      "spend": 3891.6,
+      "revenue": 12010.49,
+      "impressions": 21620,
+      "clicks": 541,
+      "orders": 8
+    },
+    {
+      "campaign_id": "c-sneaker",
+      "date": "2026-10-07",
+      "spend": 12183.81,
+      "revenue": 59494.92,
+      "impressions": 67688,
+      "clicks": 1692,
+      "orders": 18
+    },
+    {
+      "campaign_id": "c-premium",
+      "date": "2026-10-07",
+      "spend": 28459.54,
+      "revenue": 108053.79,
+      "impressions": 158109,
+      "clicks": 3953,
+      "orders": 83
+    },
+    {
+      "campaign_id": "c-basic",
+      "date": "2026-10-07",
+      "spend": 23088.07,
+      "revenue": 79859.23,
+      "impressions": 128267,
+      "clicks": 3207,
+      "orders": 114
+    },
+    {
+      "campaign_id": "c-hoodie",
+      "date": "2026-10-07",
+      "spend": 13735.94,
+      "revenue": 31149.5,
+      "impressions": 76311,
+      "clicks": 1091,
+      "orders": 14
+    },
+    {
+      "campaign_id": "c-jogger",
+      "date": "2026-10-07",
+      "spend": 10814.81,
+      "revenue": 42932.4,
+      "impressions": 42916,
+      "clicks": 1073,
+      "orders": 24
+    },
+    {
+      "campaign_id": "c-cap",
+      "date": "2026-10-07",
+      "spend": 6150.87,
+      "revenue": 18034.28,
+      "impressions": 34172,
+      "clicks": 854,
+      "orders": 30
+    },
+    {
+      "campaign_id": "c-bag",
+      "date": "2026-10-07",
+      "spend": 6942.03,
+      "revenue": 21867.19,
+      "impressions": 38567,
+      "clicks": 964,
+      "orders": 15
+    },
+    {
+      "campaign_id": "c-socks",
+      "date": "2026-10-07",
+      "spend": 5708.49,
+      "revenue": 16637.8,
+      "impressions": 31714,
+      "clicks": 793,
+      "orders": 33
+    },
+    {
+      "campaign_id": "c-cap-google",
+      "date": "2026-10-07",
+      "spend": 3972.79,
+      "revenue": 9874.34,
+      "impressions": 15765,
+      "clicks": 394,
+      "orders": 16
+    },
+    {
+      "campaign_id": "c-bag-meta",
+      "date": "2026-10-07",
+      "spend": 4051.68,
+      "revenue": 12850.77,
+      "impressions": 22509,
+      "clicks": 563,
+      "orders": 9
+    }
+  ],
+  "inventory": [
+    {
+      "sku_id": "SNK-01",
+      "date": "2026-08-24",
+      "units_on_hand": 1782,
+      "units_sold": 41
+    },
+    {
+      "sku_id": "SNK-01",
+      "date": "2026-08-25",
+      "units_on_hand": 1742,
+      "units_sold": 40
+    },
+    {
+      "sku_id": "SNK-01",
+      "date": "2026-08-26",
+      "units_on_hand": 1704,
+      "units_sold": 38
+    },
+    {
+      "sku_id": "SNK-01",
+      "date": "2026-08-27",
+      "units_on_hand": 1662,
+      "units_sold": 42
+    },
+    {
+      "sku_id": "SNK-01",
+      "date": "2026-08-28",
+      "units_on_hand": 1620,
+      "units_sold": 42
+    },
+    {
+      "sku_id": "SNK-01",
+      "date": "2026-08-29",
+      "units_on_hand": 1575,
+      "units_sold": 45
+    },
+    {
+      "sku_id": "SNK-01",
+      "date": "2026-08-30",
+      "units_on_hand": 1522,
+      "units_sold": 53
+    },
+    {
+      "sku_id": "SNK-01",
+      "date": "2026-08-31",
+      "units_on_hand": 1482,
+      "units_sold": 40
+    },
+    {
+      "sku_id": "SNK-01",
+      "date": "2026-09-01",
+      "units_on_hand": 1441,
+      "units_sold": 41
+    },
+    {
+      "sku_id": "SNK-01",
+      "date": "2026-09-02",
+      "units_on_hand": 1402,
+      "units_sold": 39
+    },
+    {
+      "sku_id": "SNK-01",
+      "date": "2026-09-03",
+      "units_on_hand": 1363,
+      "units_sold": 39
+    },
+    {
+      "sku_id": "SNK-01",
+      "date": "2026-09-04",
+      "units_on_hand": 1316,
+      "units_sold": 47
+    },
+    {
+      "sku_id": "SNK-01",
+      "date": "2026-09-05",
+      "units_on_hand": 1267,
+      "units_sold": 49
+    },
+    {
+      "sku_id": "SNK-01",
+      "date": "2026-09-06",
+      "units_on_hand": 1216,
+      "units_sold": 51
+    },
+    {
+      "sku_id": "SNK-01",
+      "date": "2026-09-07",
+      "units_on_hand": 1176,
+      "units_sold": 40
+    },
+    {
+      "sku_id": "SNK-01",
+      "date": "2026-09-08",
+      "units_on_hand": 1138,
+      "units_sold": 38
+    },
+    {
+      "sku_id": "SNK-01",
+      "date": "2026-09-09",
+      "units_on_hand": 1101,
+      "units_sold": 37
+    },
+    {
+      "sku_id": "SNK-01",
+      "date": "2026-09-10",
+      "units_on_hand": 1062,
+      "units_sold": 39
+    },
+    {
+      "sku_id": "SNK-01",
+      "date": "2026-09-11",
+      "units_on_hand": 1023,
+      "units_sold": 39
+    },
+    {
+      "sku_id": "SNK-01",
+      "date": "2026-09-12",
+      "units_on_hand": 972,
+      "units_sold": 51
+    },
+    {
+      "sku_id": "SNK-01",
+      "date": "2026-09-13",
+      "units_on_hand": 927,
+      "units_sold": 45
+    },
+    {
+      "sku_id": "SNK-01",
+      "date": "2026-09-14",
+      "units_on_hand": 887,
+      "units_sold": 40
+    },
+    {
+      "sku_id": "SNK-01",
+      "date": "2026-09-15",
+      "units_on_hand": 848,
+      "units_sold": 39
+    },
+    {
+      "sku_id": "SNK-01",
+      "date": "2026-09-16",
+      "units_on_hand": 808,
+      "units_sold": 40
+    },
+    {
+      "sku_id": "SNK-01",
+      "date": "2026-09-17",
+      "units_on_hand": 770,
+      "units_sold": 38
+    },
+    {
+      "sku_id": "SNK-01",
+      "date": "2026-09-18",
+      "units_on_hand": 725,
+      "units_sold": 45
+    },
+    {
+      "sku_id": "SNK-01",
+      "date": "2026-09-19",
+      "units_on_hand": 685,
+      "units_sold": 40
+    },
+    {
+      "sku_id": "SNK-01",
+      "date": "2026-09-20",
+      "units_on_hand": 645,
+      "units_sold": 40
+    },
+    {
+      "sku_id": "SNK-01",
+      "date": "2026-09-21",
+      "units_on_hand": 610,
+      "units_sold": 35
+    },
+    {
+      "sku_id": "SNK-01",
+      "date": "2026-09-22",
+      "units_on_hand": 567,
+      "units_sold": 43
+    },
+    {
+      "sku_id": "SNK-01",
+      "date": "2026-09-23",
+      "units_on_hand": 527,
+      "units_sold": 40
+    },
+    {
+      "sku_id": "SNK-01",
+      "date": "2026-09-24",
+      "units_on_hand": 489,
+      "units_sold": 38
+    },
+    {
+      "sku_id": "SNK-01",
+      "date": "2026-09-25",
+      "units_on_hand": 447,
+      "units_sold": 42
+    },
+    {
+      "sku_id": "SNK-01",
+      "date": "2026-09-26",
+      "units_on_hand": 402,
+      "units_sold": 45
+    },
+    {
+      "sku_id": "SNK-01",
+      "date": "2026-09-27",
+      "units_on_hand": 360,
+      "units_sold": 42
+    },
+    {
+      "sku_id": "SNK-01",
+      "date": "2026-09-28",
+      "units_on_hand": 317,
+      "units_sold": 43
+    },
+    {
+      "sku_id": "SNK-01",
+      "date": "2026-09-29",
+      "units_on_hand": 279,
+      "units_sold": 38
+    },
+    {
+      "sku_id": "SNK-01",
+      "date": "2026-09-30",
+      "units_on_hand": 235,
+      "units_sold": 44
+    },
+    {
+      "sku_id": "SNK-01",
+      "date": "2026-10-01",
+      "units_on_hand": 194,
+      "units_sold": 41
+    },
+    {
+      "sku_id": "SNK-01",
+      "date": "2026-10-02",
+      "units_on_hand": 146,
+      "units_sold": 48
+    },
+    {
+      "sku_id": "SNK-01",
+      "date": "2026-10-03",
+      "units_on_hand": 100,
+      "units_sold": 46
+    },
+    {
+      "sku_id": "SNK-01",
+      "date": "2026-10-04",
+      "units_on_hand": 80,
+      "units_sold": 20
+    },
+    {
+      "sku_id": "SNK-01",
+      "date": "2026-10-05",
+      "units_on_hand": 61,
+      "units_sold": 19
+    },
+    {
+      "sku_id": "SNK-01",
+      "date": "2026-10-06",
+      "units_on_hand": 45,
+      "units_sold": 16
+    },
+    {
+      "sku_id": "SNK-01",
+      "date": "2026-10-07",
+      "units_on_hand": 27,
+      "units_sold": 18
+    },
+    {
+      "sku_id": "TEE-PRM",
+      "date": "2026-08-24",
+      "units_on_hand": 4461,
+      "units_sold": 81
+    },
+    {
+      "sku_id": "TEE-PRM",
+      "date": "2026-08-25",
+      "units_on_hand": 4385,
+      "units_sold": 76
+    },
+    {
+      "sku_id": "TEE-PRM",
+      "date": "2026-08-26",
+      "units_on_hand": 4306,
+      "units_sold": 79
+    },
+    {
+      "sku_id": "TEE-PRM",
+      "date": "2026-08-27",
+      "units_on_hand": 4219,
+      "units_sold": 87
+    },
+    {
+      "sku_id": "TEE-PRM",
+      "date": "2026-08-28",
+      "units_on_hand": 4128,
+      "units_sold": 91
+    },
+    {
+      "sku_id": "TEE-PRM",
+      "date": "2026-08-29",
+      "units_on_hand": 4038,
+      "units_sold": 90
+    },
+    {
+      "sku_id": "TEE-PRM",
+      "date": "2026-08-30",
+      "units_on_hand": 3958,
+      "units_sold": 80
+    },
+    {
+      "sku_id": "TEE-PRM",
+      "date": "2026-08-31",
+      "units_on_hand": 3886,
+      "units_sold": 72
+    },
+    {
+      "sku_id": "TEE-PRM",
+      "date": "2026-09-01",
+      "units_on_hand": 3816,
+      "units_sold": 70
+    },
+    {
+      "sku_id": "TEE-PRM",
+      "date": "2026-09-02",
+      "units_on_hand": 3740,
+      "units_sold": 76
+    },
+    {
+      "sku_id": "TEE-PRM",
+      "date": "2026-09-03",
+      "units_on_hand": 3655,
+      "units_sold": 85
+    },
+    {
+      "sku_id": "TEE-PRM",
+      "date": "2026-09-04",
+      "units_on_hand": 3571,
+      "units_sold": 84
+    },
+    {
+      "sku_id": "TEE-PRM",
+      "date": "2026-09-05",
+      "units_on_hand": 3487,
+      "units_sold": 84
+    },
+    {
+      "sku_id": "TEE-PRM",
+      "date": "2026-09-06",
+      "units_on_hand": 3398,
+      "units_sold": 89
+    },
+    {
+      "sku_id": "TEE-PRM",
+      "date": "2026-09-07",
+      "units_on_hand": 3328,
+      "units_sold": 70
+    },
+    {
+      "sku_id": "TEE-PRM",
+      "date": "2026-09-08",
+      "units_on_hand": 3252,
+      "units_sold": 76
+    },
+    {
+      "sku_id": "TEE-PRM",
+      "date": "2026-09-09",
+      "units_on_hand": 3176,
+      "units_sold": 76
+    },
+    {
+      "sku_id": "TEE-PRM",
+      "date": "2026-09-10",
+      "units_on_hand": 3093,
+      "units_sold": 83
+    },
+    {
+      "sku_id": "TEE-PRM",
+      "date": "2026-09-11",
+      "units_on_hand": 3002,
+      "units_sold": 91
+    },
+    {
+      "sku_id": "TEE-PRM",
+      "date": "2026-09-12",
+      "units_on_hand": 2910,
+      "units_sold": 92
+    },
+    {
+      "sku_id": "TEE-PRM",
+      "date": "2026-09-13",
+      "units_on_hand": 2827,
+      "units_sold": 83
+    },
+    {
+      "sku_id": "TEE-PRM",
+      "date": "2026-09-14",
+      "units_on_hand": 2757,
+      "units_sold": 70
+    },
+    {
+      "sku_id": "TEE-PRM",
+      "date": "2026-09-15",
+      "units_on_hand": 2684,
+      "units_sold": 73
+    },
+    {
+      "sku_id": "TEE-PRM",
+      "date": "2026-09-16",
+      "units_on_hand": 2602,
+      "units_sold": 82
+    },
+    {
+      "sku_id": "TEE-PRM",
+      "date": "2026-09-17",
+      "units_on_hand": 2527,
+      "units_sold": 75
+    },
+    {
+      "sku_id": "TEE-PRM",
+      "date": "2026-09-18",
+      "units_on_hand": 2442,
+      "units_sold": 85
+    },
+    {
+      "sku_id": "TEE-PRM",
+      "date": "2026-09-19",
+      "units_on_hand": 2343,
+      "units_sold": 99
+    },
+    {
+      "sku_id": "TEE-PRM",
+      "date": "2026-09-20",
+      "units_on_hand": 2259,
+      "units_sold": 84
+    },
+    {
+      "sku_id": "TEE-PRM",
+      "date": "2026-09-21",
+      "units_on_hand": 2184,
+      "units_sold": 75
+    },
+    {
+      "sku_id": "TEE-PRM",
+      "date": "2026-09-22",
+      "units_on_hand": 2101,
+      "units_sold": 83
+    },
+    {
+      "sku_id": "TEE-PRM",
+      "date": "2026-09-23",
+      "units_on_hand": 2028,
+      "units_sold": 73
+    },
+    {
+      "sku_id": "TEE-PRM",
+      "date": "2026-09-24",
+      "units_on_hand": 1939,
+      "units_sold": 89
+    },
+    {
+      "sku_id": "TEE-PRM",
+      "date": "2026-09-25",
+      "units_on_hand": 1861,
+      "units_sold": 78
+    },
+    {
+      "sku_id": "TEE-PRM",
+      "date": "2026-09-26",
+      "units_on_hand": 1773,
+      "units_sold": 88
+    },
+    {
+      "sku_id": "TEE-PRM",
+      "date": "2026-09-27",
+      "units_on_hand": 1690,
+      "units_sold": 83
+    },
+    {
+      "sku_id": "TEE-PRM",
+      "date": "2026-09-28",
+      "units_on_hand": 1620,
+      "units_sold": 70
+    },
+    {
+      "sku_id": "TEE-PRM",
+      "date": "2026-09-29",
+      "units_on_hand": 1546,
+      "units_sold": 74
+    },
+    {
+      "sku_id": "TEE-PRM",
+      "date": "2026-09-30",
+      "units_on_hand": 1474,
+      "units_sold": 72
+    },
+    {
+      "sku_id": "TEE-PRM",
+      "date": "2026-10-01",
+      "units_on_hand": 1394,
+      "units_sold": 80
+    },
+    {
+      "sku_id": "TEE-PRM",
+      "date": "2026-10-02",
+      "units_on_hand": 1316,
+      "units_sold": 78
+    },
+    {
+      "sku_id": "TEE-PRM",
+      "date": "2026-10-03",
+      "units_on_hand": 1222,
+      "units_sold": 94
+    },
+    {
+      "sku_id": "TEE-PRM",
+      "date": "2026-10-04",
+      "units_on_hand": 1130,
+      "units_sold": 92
+    },
+    {
+      "sku_id": "TEE-PRM",
+      "date": "2026-10-05",
+      "units_on_hand": 1058,
+      "units_sold": 72
+    },
+    {
+      "sku_id": "TEE-PRM",
+      "date": "2026-10-06",
+      "units_on_hand": 983,
+      "units_sold": 75
+    },
+    {
+      "sku_id": "TEE-PRM",
+      "date": "2026-10-07",
+      "units_on_hand": 900,
+      "units_sold": 83
+    },
+    {
+      "sku_id": "TEE-BSC",
+      "date": "2026-08-24",
+      "units_on_hand": 7553,
+      "units_sold": 104
+    },
+    {
+      "sku_id": "TEE-BSC",
+      "date": "2026-08-25",
+      "units_on_hand": 7446,
+      "units_sold": 107
+    },
+    {
+      "sku_id": "TEE-BSC",
+      "date": "2026-08-26",
+      "units_on_hand": 7336,
+      "units_sold": 110
+    },
+    {
+      "sku_id": "TEE-BSC",
+      "date": "2026-08-27",
+      "units_on_hand": 7231,
+      "units_sold": 105
+    },
+    {
+      "sku_id": "TEE-BSC",
+      "date": "2026-08-28",
+      "units_on_hand": 7120,
+      "units_sold": 111
+    },
+    {
+      "sku_id": "TEE-BSC",
+      "date": "2026-08-29",
+      "units_on_hand": 7001,
+      "units_sold": 119
+    },
+    {
+      "sku_id": "TEE-BSC",
+      "date": "2026-08-30",
+      "units_on_hand": 6884,
+      "units_sold": 117
+    },
+    {
+      "sku_id": "TEE-BSC",
+      "date": "2026-08-31",
+      "units_on_hand": 6780,
+      "units_sold": 104
+    },
+    {
+      "sku_id": "TEE-BSC",
+      "date": "2026-09-01",
+      "units_on_hand": 6676,
+      "units_sold": 104
+    },
+    {
+      "sku_id": "TEE-BSC",
+      "date": "2026-09-02",
+      "units_on_hand": 6563,
+      "units_sold": 113
+    },
+    {
+      "sku_id": "TEE-BSC",
+      "date": "2026-09-03",
+      "units_on_hand": 6454,
+      "units_sold": 109
+    },
+    {
+      "sku_id": "TEE-BSC",
+      "date": "2026-09-04",
+      "units_on_hand": 6347,
+      "units_sold": 107
+    },
+    {
+      "sku_id": "TEE-BSC",
+      "date": "2026-09-05",
+      "units_on_hand": 6225,
+      "units_sold": 122
+    },
+    {
+      "sku_id": "TEE-BSC",
+      "date": "2026-09-06",
+      "units_on_hand": 6097,
+      "units_sold": 128
+    },
+    {
+      "sku_id": "TEE-BSC",
+      "date": "2026-09-07",
+      "units_on_hand": 5997,
+      "units_sold": 100
+    },
+    {
+      "sku_id": "TEE-BSC",
+      "date": "2026-09-08",
+      "units_on_hand": 5886,
+      "units_sold": 111
+    },
+    {
+      "sku_id": "TEE-BSC",
+      "date": "2026-09-09",
+      "units_on_hand": 5788,
+      "units_sold": 98
+    },
+    {
+      "sku_id": "TEE-BSC",
+      "date": "2026-09-10",
+      "units_on_hand": 5680,
+      "units_sold": 108
+    },
+    {
+      "sku_id": "TEE-BSC",
+      "date": "2026-09-11",
+      "units_on_hand": 5577,
+      "units_sold": 103
+    },
+    {
+      "sku_id": "TEE-BSC",
+      "date": "2026-09-12",
+      "units_on_hand": 5467,
+      "units_sold": 110
+    },
+    {
+      "sku_id": "TEE-BSC",
+      "date": "2026-09-13",
+      "units_on_hand": 5350,
+      "units_sold": 117
+    },
+    {
+      "sku_id": "TEE-BSC",
+      "date": "2026-09-14",
+      "units_on_hand": 5257,
+      "units_sold": 93
+    },
+    {
+      "sku_id": "TEE-BSC",
+      "date": "2026-09-15",
+      "units_on_hand": 5158,
+      "units_sold": 99
+    },
+    {
+      "sku_id": "TEE-BSC",
+      "date": "2026-09-16",
+      "units_on_hand": 5050,
+      "units_sold": 108
+    },
+    {
+      "sku_id": "TEE-BSC",
+      "date": "2026-09-17",
+      "units_on_hand": 4952,
+      "units_sold": 98
+    },
+    {
+      "sku_id": "TEE-BSC",
+      "date": "2026-09-18",
+      "units_on_hand": 4843,
+      "units_sold": 109
+    },
+    {
+      "sku_id": "TEE-BSC",
+      "date": "2026-09-19",
+      "units_on_hand": 4728,
+      "units_sold": 115
+    },
+    {
+      "sku_id": "TEE-BSC",
+      "date": "2026-09-20",
+      "units_on_hand": 4612,
+      "units_sold": 116
+    },
+    {
+      "sku_id": "TEE-BSC",
+      "date": "2026-09-21",
+      "units_on_hand": 4518,
+      "units_sold": 94
+    },
+    {
+      "sku_id": "TEE-BSC",
+      "date": "2026-09-22",
+      "units_on_hand": 4413,
+      "units_sold": 105
+    },
+    {
+      "sku_id": "TEE-BSC",
+      "date": "2026-09-23",
+      "units_on_hand": 4301,
+      "units_sold": 112
+    },
+    {
+      "sku_id": "TEE-BSC",
+      "date": "2026-09-24",
+      "units_on_hand": 4193,
+      "units_sold": 108
+    },
+    {
+      "sku_id": "TEE-BSC",
+      "date": "2026-09-25",
+      "units_on_hand": 4083,
+      "units_sold": 110
+    },
+    {
+      "sku_id": "TEE-BSC",
+      "date": "2026-09-26",
+      "units_on_hand": 3970,
+      "units_sold": 113
+    },
+    {
+      "sku_id": "TEE-BSC",
+      "date": "2026-09-27",
+      "units_on_hand": 3851,
+      "units_sold": 119
+    },
+    {
+      "sku_id": "TEE-BSC",
+      "date": "2026-09-28",
+      "units_on_hand": 3746,
+      "units_sold": 105
+    },
+    {
+      "sku_id": "TEE-BSC",
+      "date": "2026-09-29",
+      "units_on_hand": 3637,
+      "units_sold": 109
+    },
+    {
+      "sku_id": "TEE-BSC",
+      "date": "2026-09-30",
+      "units_on_hand": 3525,
+      "units_sold": 112
+    },
+    {
+      "sku_id": "TEE-BSC",
+      "date": "2026-10-01",
+      "units_on_hand": 3429,
+      "units_sold": 96
+    },
+    {
+      "sku_id": "TEE-BSC",
+      "date": "2026-10-02",
+      "units_on_hand": 3320,
+      "units_sold": 109
+    },
+    {
+      "sku_id": "TEE-BSC",
+      "date": "2026-10-03",
+      "units_on_hand": 3210,
+      "units_sold": 110
+    },
+    {
+      "sku_id": "TEE-BSC",
+      "date": "2026-10-04",
+      "units_on_hand": 3084,
+      "units_sold": 126
+    },
+    {
+      "sku_id": "TEE-BSC",
+      "date": "2026-10-05",
+      "units_on_hand": 2979,
+      "units_sold": 105
+    },
+    {
+      "sku_id": "TEE-BSC",
+      "date": "2026-10-06",
+      "units_on_hand": 2868,
+      "units_sold": 111
+    },
+    {
+      "sku_id": "TEE-BSC",
+      "date": "2026-10-07",
+      "units_on_hand": 2754,
+      "units_sold": 114
+    },
+    {
+      "sku_id": "HOOD-01",
+      "date": "2026-08-24",
+      "units_on_hand": 1251,
+      "units_sold": 21
+    },
+    {
+      "sku_id": "HOOD-01",
+      "date": "2026-08-25",
+      "units_on_hand": 1230,
+      "units_sold": 21
+    },
+    {
+      "sku_id": "HOOD-01",
+      "date": "2026-08-26",
+      "units_on_hand": 1207,
+      "units_sold": 23
+    },
+    {
+      "sku_id": "HOOD-01",
+      "date": "2026-08-27",
+      "units_on_hand": 1184,
+      "units_sold": 23
+    },
+    {
+      "sku_id": "HOOD-01",
+      "date": "2026-08-28",
+      "units_on_hand": 1161,
+      "units_sold": 23
+    },
+    {
+      "sku_id": "HOOD-01",
+      "date": "2026-08-29",
+      "units_on_hand": 1135,
+      "units_sold": 26
+    },
+    {
+      "sku_id": "HOOD-01",
+      "date": "2026-08-30",
+      "units_on_hand": 1109,
+      "units_sold": 26
+    },
+    {
+      "sku_id": "HOOD-01",
+      "date": "2026-08-31",
+      "units_on_hand": 1088,
+      "units_sold": 21
+    },
+    {
+      "sku_id": "HOOD-01",
+      "date": "2026-09-01",
+      "units_on_hand": 1069,
+      "units_sold": 19
+    },
+    {
+      "sku_id": "HOOD-01",
+      "date": "2026-09-02",
+      "units_on_hand": 1044,
+      "units_sold": 25
+    },
+    {
+      "sku_id": "HOOD-01",
+      "date": "2026-09-03",
+      "units_on_hand": 1022,
+      "units_sold": 22
+    },
+    {
+      "sku_id": "HOOD-01",
+      "date": "2026-09-04",
+      "units_on_hand": 997,
+      "units_sold": 25
+    },
+    {
+      "sku_id": "HOOD-01",
+      "date": "2026-09-05",
+      "units_on_hand": 972,
+      "units_sold": 25
+    },
+    {
+      "sku_id": "HOOD-01",
+      "date": "2026-09-06",
+      "units_on_hand": 944,
+      "units_sold": 28
+    },
+    {
+      "sku_id": "HOOD-01",
+      "date": "2026-09-07",
+      "units_on_hand": 920,
+      "units_sold": 24
+    },
+    {
+      "sku_id": "HOOD-01",
+      "date": "2026-09-08",
+      "units_on_hand": 899,
+      "units_sold": 21
+    },
+    {
+      "sku_id": "HOOD-01",
+      "date": "2026-09-09",
+      "units_on_hand": 878,
+      "units_sold": 21
+    },
+    {
+      "sku_id": "HOOD-01",
+      "date": "2026-09-10",
+      "units_on_hand": 854,
+      "units_sold": 24
+    },
+    {
+      "sku_id": "HOOD-01",
+      "date": "2026-09-11",
+      "units_on_hand": 831,
+      "units_sold": 23
+    },
+    {
+      "sku_id": "HOOD-01",
+      "date": "2026-09-12",
+      "units_on_hand": 803,
+      "units_sold": 28
+    },
+    {
+      "sku_id": "HOOD-01",
+      "date": "2026-09-13",
+      "units_on_hand": 778,
+      "units_sold": 25
+    },
+    {
+      "sku_id": "HOOD-01",
+      "date": "2026-09-14",
+      "units_on_hand": 755,
+      "units_sold": 23
+    },
+    {
+      "sku_id": "HOOD-01",
+      "date": "2026-09-15",
+      "units_on_hand": 736,
+      "units_sold": 19
+    },
+    {
+      "sku_id": "HOOD-01",
+      "date": "2026-09-16",
+      "units_on_hand": 716,
+      "units_sold": 20
+    },
+    {
+      "sku_id": "HOOD-01",
+      "date": "2026-09-17",
+      "units_on_hand": 695,
+      "units_sold": 21
+    },
+    {
+      "sku_id": "HOOD-01",
+      "date": "2026-09-18",
+      "units_on_hand": 674,
+      "units_sold": 21
+    },
+    {
+      "sku_id": "HOOD-01",
+      "date": "2026-09-19",
+      "units_on_hand": 650,
+      "units_sold": 24
+    },
+    {
+      "sku_id": "HOOD-01",
+      "date": "2026-09-20",
+      "units_on_hand": 630,
+      "units_sold": 20
+    },
+    {
+      "sku_id": "HOOD-01",
+      "date": "2026-09-21",
+      "units_on_hand": 612,
+      "units_sold": 18
+    },
+    {
+      "sku_id": "HOOD-01",
+      "date": "2026-09-22",
+      "units_on_hand": 595,
+      "units_sold": 17
+    },
+    {
+      "sku_id": "HOOD-01",
+      "date": "2026-09-23",
+      "units_on_hand": 576,
+      "units_sold": 19
+    },
+    {
+      "sku_id": "HOOD-01",
+      "date": "2026-09-24",
+      "units_on_hand": 558,
+      "units_sold": 18
+    },
+    {
+      "sku_id": "HOOD-01",
+      "date": "2026-09-25",
+      "units_on_hand": 541,
+      "units_sold": 17
+    },
+    {
+      "sku_id": "HOOD-01",
+      "date": "2026-09-26",
+      "units_on_hand": 524,
+      "units_sold": 17
+    },
+    {
+      "sku_id": "HOOD-01",
+      "date": "2026-09-27",
+      "units_on_hand": 505,
+      "units_sold": 19
+    },
+    {
+      "sku_id": "HOOD-01",
+      "date": "2026-09-28",
+      "units_on_hand": 490,
+      "units_sold": 15
+    },
+    {
+      "sku_id": "HOOD-01",
+      "date": "2026-09-29",
+      "units_on_hand": 474,
+      "units_sold": 16
+    },
+    {
+      "sku_id": "HOOD-01",
+      "date": "2026-09-30",
+      "units_on_hand": 458,
+      "units_sold": 16
+    },
+    {
+      "sku_id": "HOOD-01",
+      "date": "2026-10-01",
+      "units_on_hand": 443,
+      "units_sold": 15
+    },
+    {
+      "sku_id": "HOOD-01",
+      "date": "2026-10-02",
+      "units_on_hand": 428,
+      "units_sold": 15
+    },
+    {
+      "sku_id": "HOOD-01",
+      "date": "2026-10-03",
+      "units_on_hand": 412,
+      "units_sold": 16
+    },
+    {
+      "sku_id": "HOOD-01",
+      "date": "2026-10-04",
+      "units_on_hand": 396,
+      "units_sold": 16
+    },
+    {
+      "sku_id": "HOOD-01",
+      "date": "2026-10-05",
+      "units_on_hand": 384,
+      "units_sold": 12
+    },
+    {
+      "sku_id": "HOOD-01",
+      "date": "2026-10-06",
+      "units_on_hand": 372,
+      "units_sold": 12
+    },
+    {
+      "sku_id": "HOOD-01",
+      "date": "2026-10-07",
+      "units_on_hand": 358,
+      "units_sold": 14
+    },
+    {
+      "sku_id": "JOG-01",
+      "date": "2026-08-24",
+      "units_on_hand": 1991,
+      "units_sold": 34
+    },
+    {
+      "sku_id": "JOG-01",
+      "date": "2026-08-25",
+      "units_on_hand": 1961,
+      "units_sold": 30
+    },
+    {
+      "sku_id": "JOG-01",
+      "date": "2026-08-26",
+      "units_on_hand": 1926,
+      "units_sold": 35
+    },
+    {
+      "sku_id": "JOG-01",
+      "date": "2026-08-27",
+      "units_on_hand": 1889,
+      "units_sold": 37
+    },
+    {
+      "sku_id": "JOG-01",
+      "date": "2026-08-28",
+      "units_on_hand": 1854,
+      "units_sold": 35
+    },
+    {
+      "sku_id": "JOG-01",
+      "date": "2026-08-29",
+      "units_on_hand": 1815,
+      "units_sold": 39
+    },
+    {
+      "sku_id": "JOG-01",
+      "date": "2026-08-30",
+      "units_on_hand": 1778,
+      "units_sold": 37
+    },
+    {
+      "sku_id": "JOG-01",
+      "date": "2026-08-31",
+      "units_on_hand": 1744,
+      "units_sold": 34
+    },
+    {
+      "sku_id": "JOG-01",
+      "date": "2026-09-01",
+      "units_on_hand": 1714,
+      "units_sold": 30
+    },
+    {
+      "sku_id": "JOG-01",
+      "date": "2026-09-02",
+      "units_on_hand": 1679,
+      "units_sold": 35
+    },
+    {
+      "sku_id": "JOG-01",
+      "date": "2026-09-03",
+      "units_on_hand": 1648,
+      "units_sold": 31
+    },
+    {
+      "sku_id": "JOG-01",
+      "date": "2026-09-04",
+      "units_on_hand": 1615,
+      "units_sold": 33
+    },
+    {
+      "sku_id": "JOG-01",
+      "date": "2026-09-05",
+      "units_on_hand": 1578,
+      "units_sold": 37
+    },
+    {
+      "sku_id": "JOG-01",
+      "date": "2026-09-06",
+      "units_on_hand": 1544,
+      "units_sold": 34
+    },
+    {
+      "sku_id": "JOG-01",
+      "date": "2026-09-07",
+      "units_on_hand": 1513,
+      "units_sold": 31
+    },
+    {
+      "sku_id": "JOG-01",
+      "date": "2026-09-08",
+      "units_on_hand": 1483,
+      "units_sold": 30
+    },
+    {
+      "sku_id": "JOG-01",
+      "date": "2026-09-09",
+      "units_on_hand": 1453,
+      "units_sold": 30
+    },
+    {
+      "sku_id": "JOG-01",
+      "date": "2026-09-10",
+      "units_on_hand": 1419,
+      "units_sold": 34
+    },
+    {
+      "sku_id": "JOG-01",
+      "date": "2026-09-11",
+      "units_on_hand": 1381,
+      "units_sold": 38
+    },
+    {
+      "sku_id": "JOG-01",
+      "date": "2026-09-12",
+      "units_on_hand": 1344,
+      "units_sold": 37
+    },
+    {
+      "sku_id": "JOG-01",
+      "date": "2026-09-13",
+      "units_on_hand": 1307,
+      "units_sold": 37
+    },
+    {
+      "sku_id": "JOG-01",
+      "date": "2026-09-14",
+      "units_on_hand": 1272,
+      "units_sold": 35
+    },
+    {
+      "sku_id": "JOG-01",
+      "date": "2026-09-15",
+      "units_on_hand": 1240,
+      "units_sold": 32
+    },
+    {
+      "sku_id": "JOG-01",
+      "date": "2026-09-16",
+      "units_on_hand": 1207,
+      "units_sold": 33
+    },
+    {
+      "sku_id": "JOG-01",
+      "date": "2026-09-17",
+      "units_on_hand": 1177,
+      "units_sold": 30
+    },
+    {
+      "sku_id": "JOG-01",
+      "date": "2026-09-18",
+      "units_on_hand": 1144,
+      "units_sold": 33
+    },
+    {
+      "sku_id": "JOG-01",
+      "date": "2026-09-19",
+      "units_on_hand": 1108,
+      "units_sold": 36
+    },
+    {
+      "sku_id": "JOG-01",
+      "date": "2026-09-20",
+      "units_on_hand": 1070,
+      "units_sold": 38
+    },
+    {
+      "sku_id": "JOG-01",
+      "date": "2026-09-21",
+      "units_on_hand": 1039,
+      "units_sold": 31
+    },
+    {
+      "sku_id": "JOG-01",
+      "date": "2026-09-22",
+      "units_on_hand": 1004,
+      "units_sold": 35
+    },
+    {
+      "sku_id": "JOG-01",
+      "date": "2026-09-23",
+      "units_on_hand": 968,
+      "units_sold": 36
+    },
+    {
+      "sku_id": "JOG-01",
+      "date": "2026-09-24",
+      "units_on_hand": 932,
+      "units_sold": 36
+    },
+    {
+      "sku_id": "JOG-01",
+      "date": "2026-09-25",
+      "units_on_hand": 902,
+      "units_sold": 30
+    },
+    {
+      "sku_id": "JOG-01",
+      "date": "2026-09-26",
+      "units_on_hand": 867,
+      "units_sold": 35
+    },
+    {
+      "sku_id": "JOG-01",
+      "date": "2026-09-27",
+      "units_on_hand": 827,
+      "units_sold": 40
+    },
+    {
+      "sku_id": "JOG-01",
+      "date": "2026-09-28",
+      "units_on_hand": 807,
+      "units_sold": 20
+    },
+    {
+      "sku_id": "JOG-01",
+      "date": "2026-09-29",
+      "units_on_hand": 787,
+      "units_sold": 20
+    },
+    {
+      "sku_id": "JOG-01",
+      "date": "2026-09-30",
+      "units_on_hand": 764,
+      "units_sold": 23
+    },
+    {
+      "sku_id": "JOG-01",
+      "date": "2026-10-01",
+      "units_on_hand": 737,
+      "units_sold": 27
+    },
+    {
+      "sku_id": "JOG-01",
+      "date": "2026-10-02",
+      "units_on_hand": 716,
+      "units_sold": 21
+    },
+    {
+      "sku_id": "JOG-01",
+      "date": "2026-10-03",
+      "units_on_hand": 692,
+      "units_sold": 24
+    },
+    {
+      "sku_id": "JOG-01",
+      "date": "2026-10-04",
+      "units_on_hand": 667,
+      "units_sold": 25
+    },
+    {
+      "sku_id": "JOG-01",
+      "date": "2026-10-05",
+      "units_on_hand": 645,
+      "units_sold": 22
+    },
+    {
+      "sku_id": "JOG-01",
+      "date": "2026-10-06",
+      "units_on_hand": 621,
+      "units_sold": 24
+    },
+    {
+      "sku_id": "JOG-01",
+      "date": "2026-10-07",
+      "units_on_hand": 597,
+      "units_sold": 24
+    },
+    {
+      "sku_id": "CAP-01",
+      "date": "2026-08-24",
+      "units_on_hand": 3832,
+      "units_sold": 58
+    },
+    {
+      "sku_id": "CAP-01",
+      "date": "2026-08-25",
+      "units_on_hand": 3779,
+      "units_sold": 53
+    },
+    {
+      "sku_id": "CAP-01",
+      "date": "2026-08-26",
+      "units_on_hand": 3719,
+      "units_sold": 60
+    },
+    {
+      "sku_id": "CAP-01",
+      "date": "2026-08-27",
+      "units_on_hand": 3664,
+      "units_sold": 55
+    },
+    {
+      "sku_id": "CAP-01",
+      "date": "2026-08-28",
+      "units_on_hand": 3604,
+      "units_sold": 60
+    },
+    {
+      "sku_id": "CAP-01",
+      "date": "2026-08-29",
+      "units_on_hand": 3542,
+      "units_sold": 62
+    },
+    {
+      "sku_id": "CAP-01",
+      "date": "2026-08-30",
+      "units_on_hand": 3478,
+      "units_sold": 64
+    },
+    {
+      "sku_id": "CAP-01",
+      "date": "2026-08-31",
+      "units_on_hand": 3423,
+      "units_sold": 55
+    },
+    {
+      "sku_id": "CAP-01",
+      "date": "2026-09-01",
+      "units_on_hand": 3370,
+      "units_sold": 53
+    },
+    {
+      "sku_id": "CAP-01",
+      "date": "2026-09-02",
+      "units_on_hand": 3309,
+      "units_sold": 61
+    },
+    {
+      "sku_id": "CAP-01",
+      "date": "2026-09-03",
+      "units_on_hand": 3244,
+      "units_sold": 65
+    },
+    {
+      "sku_id": "CAP-01",
+      "date": "2026-09-04",
+      "units_on_hand": 3185,
+      "units_sold": 59
+    },
+    {
+      "sku_id": "CAP-01",
+      "date": "2026-09-05",
+      "units_on_hand": 3122,
+      "units_sold": 63
+    },
+    {
+      "sku_id": "CAP-01",
+      "date": "2026-09-06",
+      "units_on_hand": 3058,
+      "units_sold": 64
+    },
+    {
+      "sku_id": "CAP-01",
+      "date": "2026-09-07",
+      "units_on_hand": 2998,
+      "units_sold": 60
+    },
+    {
+      "sku_id": "CAP-01",
+      "date": "2026-09-08",
+      "units_on_hand": 2940,
+      "units_sold": 58
+    },
+    {
+      "sku_id": "CAP-01",
+      "date": "2026-09-09",
+      "units_on_hand": 2885,
+      "units_sold": 55
+    },
+    {
+      "sku_id": "CAP-01",
+      "date": "2026-09-10",
+      "units_on_hand": 2829,
+      "units_sold": 56
+    },
+    {
+      "sku_id": "CAP-01",
+      "date": "2026-09-11",
+      "units_on_hand": 2772,
+      "units_sold": 57
+    },
+    {
+      "sku_id": "CAP-01",
+      "date": "2026-09-12",
+      "units_on_hand": 2710,
+      "units_sold": 62
+    },
+    {
+      "sku_id": "CAP-01",
+      "date": "2026-09-13",
+      "units_on_hand": 2640,
+      "units_sold": 70
+    },
+    {
+      "sku_id": "CAP-01",
+      "date": "2026-09-14",
+      "units_on_hand": 2590,
+      "units_sold": 50
+    },
+    {
+      "sku_id": "CAP-01",
+      "date": "2026-09-15",
+      "units_on_hand": 2539,
+      "units_sold": 51
+    },
+    {
+      "sku_id": "CAP-01",
+      "date": "2026-09-16",
+      "units_on_hand": 2482,
+      "units_sold": 57
+    },
+    {
+      "sku_id": "CAP-01",
+      "date": "2026-09-17",
+      "units_on_hand": 2418,
+      "units_sold": 64
+    },
+    {
+      "sku_id": "CAP-01",
+      "date": "2026-09-18",
+      "units_on_hand": 2361,
+      "units_sold": 57
+    },
+    {
+      "sku_id": "CAP-01",
+      "date": "2026-09-19",
+      "units_on_hand": 2297,
+      "units_sold": 64
+    },
+    {
+      "sku_id": "CAP-01",
+      "date": "2026-09-20",
+      "units_on_hand": 2229,
+      "units_sold": 68
+    },
+    {
+      "sku_id": "CAP-01",
+      "date": "2026-09-21",
+      "units_on_hand": 2172,
+      "units_sold": 57
+    },
+    {
+      "sku_id": "CAP-01",
+      "date": "2026-09-22",
+      "units_on_hand": 2123,
+      "units_sold": 49
+    },
+    {
+      "sku_id": "CAP-01",
+      "date": "2026-09-23",
+      "units_on_hand": 2065,
+      "units_sold": 58
+    },
+    {
+      "sku_id": "CAP-01",
+      "date": "2026-09-24",
+      "units_on_hand": 2004,
+      "units_sold": 61
+    },
+    {
+      "sku_id": "CAP-01",
+      "date": "2026-09-25",
+      "units_on_hand": 1946,
+      "units_sold": 58
+    },
+    {
+      "sku_id": "CAP-01",
+      "date": "2026-09-26",
+      "units_on_hand": 1882,
+      "units_sold": 64
+    },
+    {
+      "sku_id": "CAP-01",
+      "date": "2026-09-27",
+      "units_on_hand": 1820,
+      "units_sold": 62
+    },
+    {
+      "sku_id": "CAP-01",
+      "date": "2026-09-28",
+      "units_on_hand": 1775,
+      "units_sold": 45
+    },
+    {
+      "sku_id": "CAP-01",
+      "date": "2026-09-29",
+      "units_on_hand": 1721,
+      "units_sold": 54
+    },
+    {
+      "sku_id": "CAP-01",
+      "date": "2026-09-30",
+      "units_on_hand": 1669,
+      "units_sold": 52
+    },
+    {
+      "sku_id": "CAP-01",
+      "date": "2026-10-01",
+      "units_on_hand": 1619,
+      "units_sold": 50
+    },
+    {
+      "sku_id": "CAP-01",
+      "date": "2026-10-02",
+      "units_on_hand": 1563,
+      "units_sold": 56
+    },
+    {
+      "sku_id": "CAP-01",
+      "date": "2026-10-03",
+      "units_on_hand": 1509,
+      "units_sold": 54
+    },
+    {
+      "sku_id": "CAP-01",
+      "date": "2026-10-04",
+      "units_on_hand": 1453,
+      "units_sold": 56
+    },
+    {
+      "sku_id": "CAP-01",
+      "date": "2026-10-05",
+      "units_on_hand": 1402,
+      "units_sold": 51
+    },
+    {
+      "sku_id": "CAP-01",
+      "date": "2026-10-06",
+      "units_on_hand": 1350,
+      "units_sold": 52
+    },
+    {
+      "sku_id": "CAP-01",
+      "date": "2026-10-07",
+      "units_on_hand": 1304,
+      "units_sold": 46
+    },
+    {
+      "sku_id": "BAG-01",
+      "date": "2026-08-24",
+      "units_on_hand": 1773,
+      "units_sold": 23
+    },
+    {
+      "sku_id": "BAG-01",
+      "date": "2026-08-25",
+      "units_on_hand": 1749,
+      "units_sold": 24
+    },
+    {
+      "sku_id": "BAG-01",
+      "date": "2026-08-26",
+      "units_on_hand": 1723,
+      "units_sold": 26
+    },
+    {
+      "sku_id": "BAG-01",
+      "date": "2026-08-27",
+      "units_on_hand": 1698,
+      "units_sold": 25
+    },
+    {
+      "sku_id": "BAG-01",
+      "date": "2026-08-28",
+      "units_on_hand": 1670,
+      "units_sold": 28
+    },
+    {
+      "sku_id": "BAG-01",
+      "date": "2026-08-29",
+      "units_on_hand": 1643,
+      "units_sold": 27
+    },
+    {
+      "sku_id": "BAG-01",
+      "date": "2026-08-30",
+      "units_on_hand": 1615,
+      "units_sold": 28
+    },
+    {
+      "sku_id": "BAG-01",
+      "date": "2026-08-31",
+      "units_on_hand": 1591,
+      "units_sold": 24
+    },
+    {
+      "sku_id": "BAG-01",
+      "date": "2026-09-01",
+      "units_on_hand": 1566,
+      "units_sold": 25
+    },
+    {
+      "sku_id": "BAG-01",
+      "date": "2026-09-02",
+      "units_on_hand": 1540,
+      "units_sold": 26
+    },
+    {
+      "sku_id": "BAG-01",
+      "date": "2026-09-03",
+      "units_on_hand": 1513,
+      "units_sold": 27
+    },
+    {
+      "sku_id": "BAG-01",
+      "date": "2026-09-04",
+      "units_on_hand": 1487,
+      "units_sold": 26
+    },
+    {
+      "sku_id": "BAG-01",
+      "date": "2026-09-05",
+      "units_on_hand": 1458,
+      "units_sold": 29
+    },
+    {
+      "sku_id": "BAG-01",
+      "date": "2026-09-06",
+      "units_on_hand": 1429,
+      "units_sold": 29
+    },
+    {
+      "sku_id": "BAG-01",
+      "date": "2026-09-07",
+      "units_on_hand": 1403,
+      "units_sold": 26
+    },
+    {
+      "sku_id": "BAG-01",
+      "date": "2026-09-08",
+      "units_on_hand": 1379,
+      "units_sold": 24
+    },
+    {
+      "sku_id": "BAG-01",
+      "date": "2026-09-09",
+      "units_on_hand": 1353,
+      "units_sold": 26
+    },
+    {
+      "sku_id": "BAG-01",
+      "date": "2026-09-10",
+      "units_on_hand": 1326,
+      "units_sold": 27
+    },
+    {
+      "sku_id": "BAG-01",
+      "date": "2026-09-11",
+      "units_on_hand": 1298,
+      "units_sold": 28
+    },
+    {
+      "sku_id": "BAG-01",
+      "date": "2026-09-12",
+      "units_on_hand": 1267,
+      "units_sold": 31
+    },
+    {
+      "sku_id": "BAG-01",
+      "date": "2026-09-13",
+      "units_on_hand": 1239,
+      "units_sold": 28
+    },
+    {
+      "sku_id": "BAG-01",
+      "date": "2026-09-14",
+      "units_on_hand": 1216,
+      "units_sold": 23
+    },
+    {
+      "sku_id": "BAG-01",
+      "date": "2026-09-15",
+      "units_on_hand": 1192,
+      "units_sold": 24
+    },
+    {
+      "sku_id": "BAG-01",
+      "date": "2026-09-16",
+      "units_on_hand": 1167,
+      "units_sold": 25
+    },
+    {
+      "sku_id": "BAG-01",
+      "date": "2026-09-17",
+      "units_on_hand": 1141,
+      "units_sold": 26
+    },
+    {
+      "sku_id": "BAG-01",
+      "date": "2026-09-18",
+      "units_on_hand": 1115,
+      "units_sold": 26
+    },
+    {
+      "sku_id": "BAG-01",
+      "date": "2026-09-19",
+      "units_on_hand": 1089,
+      "units_sold": 26
+    },
+    {
+      "sku_id": "BAG-01",
+      "date": "2026-09-20",
+      "units_on_hand": 1059,
+      "units_sold": 30
+    },
+    {
+      "sku_id": "BAG-01",
+      "date": "2026-09-21",
+      "units_on_hand": 1035,
+      "units_sold": 24
+    },
+    {
+      "sku_id": "BAG-01",
+      "date": "2026-09-22",
+      "units_on_hand": 1011,
+      "units_sold": 24
+    },
+    {
+      "sku_id": "BAG-01",
+      "date": "2026-09-23",
+      "units_on_hand": 987,
+      "units_sold": 24
+    },
+    {
+      "sku_id": "BAG-01",
+      "date": "2026-09-24",
+      "units_on_hand": 962,
+      "units_sold": 25
+    },
+    {
+      "sku_id": "BAG-01",
+      "date": "2026-09-25",
+      "units_on_hand": 936,
+      "units_sold": 26
+    },
+    {
+      "sku_id": "BAG-01",
+      "date": "2026-09-26",
+      "units_on_hand": 909,
+      "units_sold": 27
+    },
+    {
+      "sku_id": "BAG-01",
+      "date": "2026-09-27",
+      "units_on_hand": 880,
+      "units_sold": 29
+    },
+    {
+      "sku_id": "BAG-01",
+      "date": "2026-09-28",
+      "units_on_hand": 854,
+      "units_sold": 26
+    },
+    {
+      "sku_id": "BAG-01",
+      "date": "2026-09-29",
+      "units_on_hand": 831,
+      "units_sold": 23
+    },
+    {
+      "sku_id": "BAG-01",
+      "date": "2026-09-30",
+      "units_on_hand": 805,
+      "units_sold": 26
+    },
+    {
+      "sku_id": "BAG-01",
+      "date": "2026-10-01",
+      "units_on_hand": 779,
+      "units_sold": 26
+    },
+    {
+      "sku_id": "BAG-01",
+      "date": "2026-10-02",
+      "units_on_hand": 754,
+      "units_sold": 25
+    },
+    {
+      "sku_id": "BAG-01",
+      "date": "2026-10-03",
+      "units_on_hand": 727,
+      "units_sold": 27
+    },
+    {
+      "sku_id": "BAG-01",
+      "date": "2026-10-04",
+      "units_on_hand": 700,
+      "units_sold": 27
+    },
+    {
+      "sku_id": "BAG-01",
+      "date": "2026-10-05",
+      "units_on_hand": 677,
+      "units_sold": 23
+    },
+    {
+      "sku_id": "BAG-01",
+      "date": "2026-10-06",
+      "units_on_hand": 653,
+      "units_sold": 24
+    },
+    {
+      "sku_id": "BAG-01",
+      "date": "2026-10-07",
+      "units_on_hand": 629,
+      "units_sold": 24
+    },
+    {
+      "sku_id": "SOCK-3P",
+      "date": "2026-08-24",
+      "units_on_hand": 2159,
+      "units_sold": 28
+    },
+    {
+      "sku_id": "SOCK-3P",
+      "date": "2026-08-25",
+      "units_on_hand": 2126,
+      "units_sold": 33
+    },
+    {
+      "sku_id": "SOCK-3P",
+      "date": "2026-08-26",
+      "units_on_hand": 2101,
+      "units_sold": 25
+    },
+    {
+      "sku_id": "SOCK-3P",
+      "date": "2026-08-27",
+      "units_on_hand": 2068,
+      "units_sold": 33
+    },
+    {
+      "sku_id": "SOCK-3P",
+      "date": "2026-08-28",
+      "units_on_hand": 2033,
+      "units_sold": 35
+    },
+    {
+      "sku_id": "SOCK-3P",
+      "date": "2026-08-29",
+      "units_on_hand": 1999,
+      "units_sold": 34
+    },
+    {
+      "sku_id": "SOCK-3P",
+      "date": "2026-08-30",
+      "units_on_hand": 1963,
+      "units_sold": 36
+    },
+    {
+      "sku_id": "SOCK-3P",
+      "date": "2026-08-31",
+      "units_on_hand": 1936,
+      "units_sold": 27
+    },
+    {
+      "sku_id": "SOCK-3P",
+      "date": "2026-09-01",
+      "units_on_hand": 1905,
+      "units_sold": 31
+    },
+    {
+      "sku_id": "SOCK-3P",
+      "date": "2026-09-02",
+      "units_on_hand": 1871,
+      "units_sold": 34
+    },
+    {
+      "sku_id": "SOCK-3P",
+      "date": "2026-09-03",
+      "units_on_hand": 1843,
+      "units_sold": 28
+    },
+    {
+      "sku_id": "SOCK-3P",
+      "date": "2026-09-04",
+      "units_on_hand": 1812,
+      "units_sold": 31
+    },
+    {
+      "sku_id": "SOCK-3P",
+      "date": "2026-09-05",
+      "units_on_hand": 1778,
+      "units_sold": 34
+    },
+    {
+      "sku_id": "SOCK-3P",
+      "date": "2026-09-06",
+      "units_on_hand": 1747,
+      "units_sold": 31
+    },
+    {
+      "sku_id": "SOCK-3P",
+      "date": "2026-09-07",
+      "units_on_hand": 1716,
+      "units_sold": 31
+    },
+    {
+      "sku_id": "SOCK-3P",
+      "date": "2026-09-08",
+      "units_on_hand": 1686,
+      "units_sold": 30
+    },
+    {
+      "sku_id": "SOCK-3P",
+      "date": "2026-09-09",
+      "units_on_hand": 1659,
+      "units_sold": 27
+    },
+    {
+      "sku_id": "SOCK-3P",
+      "date": "2026-09-10",
+      "units_on_hand": 1629,
+      "units_sold": 30
+    },
+    {
+      "sku_id": "SOCK-3P",
+      "date": "2026-09-11",
+      "units_on_hand": 1596,
+      "units_sold": 33
+    },
+    {
+      "sku_id": "SOCK-3P",
+      "date": "2026-09-12",
+      "units_on_hand": 1563,
+      "units_sold": 33
+    },
+    {
+      "sku_id": "SOCK-3P",
+      "date": "2026-09-13",
+      "units_on_hand": 1529,
+      "units_sold": 34
+    },
+    {
+      "sku_id": "SOCK-3P",
+      "date": "2026-09-14",
+      "units_on_hand": 1502,
+      "units_sold": 27
+    },
+    {
+      "sku_id": "SOCK-3P",
+      "date": "2026-09-15",
+      "units_on_hand": 1475,
+      "units_sold": 27
+    },
+    {
+      "sku_id": "SOCK-3P",
+      "date": "2026-09-16",
+      "units_on_hand": 1444,
+      "units_sold": 31
+    },
+    {
+      "sku_id": "SOCK-3P",
+      "date": "2026-09-17",
+      "units_on_hand": 1413,
+      "units_sold": 31
+    },
+    {
+      "sku_id": "SOCK-3P",
+      "date": "2026-09-18",
+      "units_on_hand": 1380,
+      "units_sold": 33
+    },
+    {
+      "sku_id": "SOCK-3P",
+      "date": "2026-09-19",
+      "units_on_hand": 1344,
+      "units_sold": 36
+    },
+    {
+      "sku_id": "SOCK-3P",
+      "date": "2026-09-20",
+      "units_on_hand": 1314,
+      "units_sold": 30
+    },
+    {
+      "sku_id": "SOCK-3P",
+      "date": "2026-09-21",
+      "units_on_hand": 1289,
+      "units_sold": 25
+    },
+    {
+      "sku_id": "SOCK-3P",
+      "date": "2026-09-22",
+      "units_on_hand": 1258,
+      "units_sold": 31
+    },
+    {
+      "sku_id": "SOCK-3P",
+      "date": "2026-09-23",
+      "units_on_hand": 1227,
+      "units_sold": 31
+    },
+    {
+      "sku_id": "SOCK-3P",
+      "date": "2026-09-24",
+      "units_on_hand": 1198,
+      "units_sold": 29
+    },
+    {
+      "sku_id": "SOCK-3P",
+      "date": "2026-09-25",
+      "units_on_hand": 1164,
+      "units_sold": 34
+    },
+    {
+      "sku_id": "SOCK-3P",
+      "date": "2026-09-26",
+      "units_on_hand": 1130,
+      "units_sold": 34
+    },
+    {
+      "sku_id": "SOCK-3P",
+      "date": "2026-09-27",
+      "units_on_hand": 1101,
+      "units_sold": 29
+    },
+    {
+      "sku_id": "SOCK-3P",
+      "date": "2026-09-28",
+      "units_on_hand": 1073,
+      "units_sold": 28
+    },
+    {
+      "sku_id": "SOCK-3P",
+      "date": "2026-09-29",
+      "units_on_hand": 1047,
+      "units_sold": 26
+    },
+    {
+      "sku_id": "SOCK-3P",
+      "date": "2026-09-30",
+      "units_on_hand": 1020,
+      "units_sold": 27
+    },
+    {
+      "sku_id": "SOCK-3P",
+      "date": "2026-10-01",
+      "units_on_hand": 989,
+      "units_sold": 31
+    },
+    {
+      "sku_id": "SOCK-3P",
+      "date": "2026-10-02",
+      "units_on_hand": 957,
+      "units_sold": 32
+    },
+    {
+      "sku_id": "SOCK-3P",
+      "date": "2026-10-03",
+      "units_on_hand": 925,
+      "units_sold": 32
+    },
+    {
+      "sku_id": "SOCK-3P",
+      "date": "2026-10-04",
+      "units_on_hand": 888,
+      "units_sold": 37
+    },
+    {
+      "sku_id": "SOCK-3P",
+      "date": "2026-10-05",
+      "units_on_hand": 860,
+      "units_sold": 28
+    },
+    {
+      "sku_id": "SOCK-3P",
+      "date": "2026-10-06",
+      "units_on_hand": 830,
+      "units_sold": 30
+    },
+    {
+      "sku_id": "SOCK-3P",
+      "date": "2026-10-07",
+      "units_on_hand": 797,
+      "units_sold": 33
+    }
+  ],
+  "anomalies": [],
+  "recommendations": [],
+  "action_log": [],
+  "outcomes": [],
+  "campaign_state": [
+    {
+      "campaign_id": "c-sneaker",
+      "daily_budget": 30000,
+      "status": "active",
+      "updated_at": "2026-10-07T00:00:00Z"
+    },
+    {
+      "campaign_id": "c-premium",
+      "daily_budget": 25000,
+      "status": "active",
+      "updated_at": "2026-10-07T00:00:00Z"
+    },
+    {
+      "campaign_id": "c-basic",
+      "daily_budget": 22000,
+      "status": "active",
+      "updated_at": "2026-10-07T00:00:00Z"
+    },
+    {
+      "campaign_id": "c-hoodie",
+      "daily_budget": 12000,
+      "status": "active",
+      "updated_at": "2026-10-07T00:00:00Z"
+    },
+    {
+      "campaign_id": "c-jogger",
+      "daily_budget": 10000,
+      "status": "active",
+      "updated_at": "2026-10-07T00:00:00Z"
+    },
+    {
+      "campaign_id": "c-cap",
+      "daily_budget": 7000,
+      "status": "active",
+      "updated_at": "2026-10-07T00:00:00Z"
+    },
+    {
+      "campaign_id": "c-bag",
+      "daily_budget": 8000,
+      "status": "active",
+      "updated_at": "2026-10-07T00:00:00Z"
+    },
+    {
+      "campaign_id": "c-socks",
+      "daily_budget": 5000,
+      "status": "active",
+      "updated_at": "2026-10-07T00:00:00Z"
+    },
+    {
+      "campaign_id": "c-cap-google",
+      "daily_budget": 4000,
+      "status": "active",
+      "updated_at": "2026-10-07T00:00:00Z"
+    },
+    {
+      "campaign_id": "c-bag-meta",
+      "daily_budget": 4000,
+      "status": "active",
+      "updated_at": "2026-10-07T00:00:00Z"
+    }
+  ],
+  "confidence_weights": [
+    {
+      "recommendation_type": "budget_reallocation",
+      "weight": 0.75,
+      "updated_at": "2026-10-07T00:00:00Z"
+    },
+    {
+      "recommendation_type": "stock_protection",
+      "weight": 0.75,
+      "updated_at": "2026-10-07T00:00:00Z"
+    },
+    {
+      "recommendation_type": "creative_refresh",
+      "weight": 0.75,
+      "updated_at": "2026-10-07T00:00:00Z"
+    }
+  ]
+}

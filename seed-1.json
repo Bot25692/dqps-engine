@@ -145,7 +145,7 @@
     }
   ],
   "opening_inventory": {
-    "SNK-01": 1906,
+    "SNK-01": 1834,
     "TEE-PRM": 4483,
     "TEE-BSC": 7454,
     "HOOD-01": 1264,
@@ -159,7 +159,7 @@
       "seed": 1,
       "id": "E1",
       "campaign": "c-sneaker",
-      "start_day": 45,
+      "start_day": 41,
       "expected_detector": "stock_runway",
       "expected_top_driver": "stock"
     },
@@ -4012,11 +4012,11 @@
     {
       "campaign_id": "c-sneaker",
       "date": "2026-10-04",
-      "spend": 32595.58,
-      "revenue": 175566.71,
-      "impressions": 181087,
-      "clicks": 4527,
-      "orders": 51
+      "spend": 14668.01,
+      "revenue": 79005.02,
+      "impressions": 81489,
+      "clicks": 2037,
+      "orders": 23
     },
     {
       "campaign_id": "c-premium",
@@ -4102,11 +4102,11 @@
     {
       "campaign_id": "c-sneaker",
       "date": "2026-10-05",
-      "spend": 33146.18,
-      "revenue": 146777.7,
-      "impressions": 184145,
-      "clicks": 4604,
-      "orders": 42
+      "spend": 14915.78,
+      "revenue": 66049.97,
+      "impressions": 82865,
+      "clicks": 2072,
+      "orders": 19
     },
     {
       "campaign_id": "c-premium",
@@ -4192,11 +4192,11 @@
     {
       "campaign_id": "c-sneaker",
       "date": "2026-10-06",
-      "spend": 33590.97,
-      "revenue": 155420.9,
-      "impressions": 186617,
-      "clicks": 4665,
-      "orders": 45
+      "spend": 15115.94,
+      "revenue": 69939.41,
+      "impressions": 83978,
+      "clicks": 2099,
+      "orders": 20
     },
     {
       "campaign_id": "c-premium",
@@ -4282,11 +4282,11 @@
     {
       "campaign_id": "c-sneaker",
       "date": "2026-10-07",
-      "spend": 33687.78,
-      "revenue": 153737.4,
-      "impressions": 187154,
-      "clicks": 4679,
-      "orders": 44
+      "spend": 15159.5,
+      "revenue": 69181.83,
+      "impressions": 84219,
+      "clicks": 2106,
+      "orders": 20
     },
     {
       "campaign_id": "c-premium",
@@ -4374,272 +4374,272 @@
     {
       "sku_id": "SNK-01",
       "date": "2026-08-24",
-      "units_on_hand": 1867,
+      "units_on_hand": 1795,
       "units_sold": 39
     },
     {
       "sku_id": "SNK-01",
       "date": "2026-08-25",
-      "units_on_hand": 1826,
+      "units_on_hand": 1754,
       "units_sold": 41
     },
     {
       "sku_id": "SNK-01",
       "date": "2026-08-26",
-      "units_on_hand": 1785,
+      "units_on_hand": 1713,
       "units_sold": 41
     },
     {
       "sku_id": "SNK-01",
       "date": "2026-08-27",
-      "units_on_hand": 1745,
+      "units_on_hand": 1673,
       "units_sold": 40
     },
     {
       "sku_id": "SNK-01",
       "date": "2026-08-28",
-      "units_on_hand": 1706,
+      "units_on_hand": 1634,
       "units_sold": 39
     },
     {
       "sku_id": "SNK-01",
       "date": "2026-08-29",
-      "units_on_hand": 1667,
+      "units_on_hand": 1595,
       "units_sold": 39
     },
     {
       "sku_id": "SNK-01",
       "date": "2026-08-30",
-      "units_on_hand": 1615,
+      "units_on_hand": 1543,
       "units_sold": 52
     },
     {
       "sku_id": "SNK-01",
       "date": "2026-08-31",
-      "units_on_hand": 1576,
+      "units_on_hand": 1504,
       "units_sold": 39
     },
     {
       "sku_id": "SNK-01",
       "date": "2026-09-01",
-      "units_on_hand": 1537,
+      "units_on_hand": 1465,
       "units_sold": 39
     },
     {
       "sku_id": "SNK-01",
       "date": "2026-09-02",
-      "units_on_hand": 1497,
+      "units_on_hand": 1425,
       "units_sold": 40
     },
     {
       "sku_id": "SNK-01",
       "date": "2026-09-03",
-      "units_on_hand": 1454,
+      "units_on_hand": 1382,
       "units_sold": 43
     },
     {
       "sku_id": "SNK-01",
       "date": "2026-09-04",
-      "units_on_hand": 1406,
+      "units_on_hand": 1334,
       "units_sold": 48
     },
     {
       "sku_id": "SNK-01",
       "date": "2026-09-05",
-      "units_on_hand": 1360,
+      "units_on_hand": 1288,
       "units_sold": 46
     },
     {
       "sku_id": "SNK-01",
       "date": "2026-09-06",
-      "units_on_hand": 1315,
+      "units_on_hand": 1243,
       "units_sold": 45
     },
     {
       "sku_id": "SNK-01",
       "date": "2026-09-07",
-      "units_on_hand": 1273,
+      "units_on_hand": 1201,
       "units_sold": 42
     },
     {
       "sku_id": "SNK-01",
       "date": "2026-09-08",
-      "units_on_hand": 1235,
+      "units_on_hand": 1163,
       "units_sold": 38
     },
     {
       "sku_id": "SNK-01",
       "date": "2026-09-09",
-      "units_on_hand": 1191,
+      "units_on_hand": 1119,
       "units_sold": 44
     },
     {
       "sku_id": "SNK-01",
       "date": "2026-09-10",
-      "units_on_hand": 1154,
+      "units_on_hand": 1082,
       "units_sold": 37
     },
     {
       "sku_id": "SNK-01",
       "date": "2026-09-11",
-      "units_on_hand": 1113,
+      "units_on_hand": 1041,
       "units_sold": 41
     },
     {
       "sku_id": "SNK-01",
       "date": "2026-09-12",
-      "units_on_hand": 1071,
+      "units_on_hand": 999,
       "units_sold": 42
     },
     {
       "sku_id": "SNK-01",
       "date": "2026-09-13",
-      "units_on_hand": 1022,
+      "units_on_hand": 950,
       "units_sold": 49
     },
     {
       "sku_id": "SNK-01",
       "date": "2026-09-14",
-      "units_on_hand": 984,
+      "units_on_hand": 912,
       "units_sold": 38
     },
     {
       "sku_id": "SNK-01",
       "date": "2026-09-15",
-      "units_on_hand": 947,
+      "units_on_hand": 875,
       "units_sold": 37
     },
     {
       "sku_id": "SNK-01",
       "date": "2026-09-16",
-      "units_on_hand": 901,
+      "units_on_hand": 829,
       "units_sold": 46
     },
     {
       "sku_id": "SNK-01",
       "date": "2026-09-17",
-      "units_on_hand": 859,
+      "units_on_hand": 787,
       "units_sold": 42
     },
     {
       "sku_id": "SNK-01",
       "date": "2026-09-18",
-      "units_on_hand": 822,
+      "units_on_hand": 750,
       "units_sold": 37
     },
     {
       "sku_id": "SNK-01",
       "date": "2026-09-19",
-      "units_on_hand": 775,
+      "units_on_hand": 703,
       "units_sold": 47
     },
     {
       "sku_id": "SNK-01",
       "date": "2026-09-20",
-      "units_on_hand": 735,
+      "units_on_hand": 663,
       "units_sold": 40
     },
     {
       "sku_id": "SNK-01",
       "date": "2026-09-21",
-      "units_on_hand": 695,
+      "units_on_hand": 623,
       "units_sold": 40
     },
     {
       "sku_id": "SNK-01",
       "date": "2026-09-22",
-      "units_on_hand": 651,
+      "units_on_hand": 579,
       "units_sold": 44
     },
     {
       "sku_id": "SNK-01",
       "date": "2026-09-23",
-      "units_on_hand": 615,
+      "units_on_hand": 543,
       "units_sold": 36
     },
     {
       "sku_id": "SNK-01",
       "date": "2026-09-24",
-      "units_on_hand": 575,
+      "units_on_hand": 503,
       "units_sold": 40
     },
     {
       "sku_id": "SNK-01",
       "date": "2026-09-25",
-      "units_on_hand": 536,
+      "units_on_hand": 464,
       "units_sold": 39
     },
     {
       "sku_id": "SNK-01",
       "date": "2026-09-26",
-      "units_on_hand": 488,
+      "units_on_hand": 416,
       "units_sold": 48
     },
     {
       "sku_id": "SNK-01",
       "date": "2026-09-27",
-      "units_on_hand": 439,
+      "units_on_hand": 367,
       "units_sold": 49
     },
     {
       "sku_id": "SNK-01",
       "date": "2026-09-28",
-      "units_on_hand": 405,
+      "units_on_hand": 333,
       "units_sold": 34
     },
     {
       "sku_id": "SNK-01",
       "date": "2026-09-29",
-      "units_on_hand": 361,
+      "units_on_hand": 289,
       "units_sold": 44
     },
     {
       "sku_id": "SNK-01",
       "date": "2026-09-30",
-      "units_on_hand": 315,
+      "units_on_hand": 243,
       "units_sold": 46
     },
     {
       "sku_id": "SNK-01",
       "date": "2026-10-01",
-      "units_on_hand": 273,
+      "units_on_hand": 201,
       "units_sold": 42
     },
     {
       "sku_id": "SNK-01",
       "date": "2026-10-02",
-      "units_on_hand": 226,
+      "units_on_hand": 154,
       "units_sold": 47
     },
     {
       "sku_id": "SNK-01",
       "date": "2026-10-03",
-      "units_on_hand": 182,
+      "units_on_hand": 110,
       "units_sold": 44
     },
     {
       "sku_id": "SNK-01",
       "date": "2026-10-04",
-      "units_on_hand": 131,
-      "units_sold": 51
+      "units_on_hand": 87,
+      "units_sold": 23
     },
     {
       "sku_id": "SNK-01",
       "date": "2026-10-05",
-      "units_on_hand": 89,
-      "units_sold": 42
+      "units_on_hand": 68,
+      "units_sold": 19
     },
     {
       "sku_id": "SNK-01",
       "date": "2026-10-06",
-      "units_on_hand": 44,
-      "units_sold": 45
+      "units_on_hand": 48,
+      "units_sold": 20
     },
     {
       "sku_id": "SNK-01",
       "date": "2026-10-07",
-      "units_on_hand": 0,
-      "units_sold": 44
+      "units_on_hand": 28,
+      "units_sold": 20
     },
     {
       "sku_id": "TEE-PRM",

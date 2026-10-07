@@ -71,6 +71,14 @@ export function generateSeed(seed = 1) {
       metrics.push({ campaign_id: campaign.id, date: dates[d], spend, revenue, impressions, clicks, orders });
     }
   }
+  // Stock-limited delivery after day 41 reduces volume, not advertising efficiency.
+  // Scale spend and revenue together to retain ROAS; consume no extra random draws.
+  for (const row of metrics.filter(m => m.campaign_id === 'c-sneaker' && m.date >= dates[41])) {
+    row.spend = money(row.spend * .45);
+    row.revenue = money(row.revenue * .45);
+    row.impressions = Math.round(row.impressions * .45);
+    row.clicks = Math.round(row.clicks * .45);
+  }
   const inventory: InventoryRow[] = [];
   const opening_inventory: Record<string, number> = {};
   for (const product of products) {
@@ -81,7 +89,9 @@ export function generateSeed(seed = 1) {
       metrics.filter(m => ids.has(m.campaign_id)).forEach((m, d) => { m.orders = Math.ceil(m.revenue / product.price); daily[d] = m.orders; });
     }
     // User-approved E5 stock increase: 900 units covers +40% budget even at fitted beta's 0.9 ceiling.
-    const finalStock = product.id === 'SNK-01' ? 0 : product.id === 'TEE-PRM' ? 900 : Math.ceil(daily.slice(-7).reduce((a, b) => a + b, 0) / 7 * 25);
+    // Leave about 0.9 days of sneaker cover, rounded to a whole stock unit.
+    const recentDailySales = daily.slice(-7).reduce((a, b) => a + b, 0) / 7;
+    const finalStock = product.id === 'SNK-01' ? Math.round(recentDailySales * .9) : product.id === 'TEE-PRM' ? 900 : Math.ceil(recentDailySales * 25);
     let stock = daily.reduce((a, b) => a + b, 0) + finalStock;
     opening_inventory[product.id] = stock;
     daily.forEach((units_sold, d) => {
@@ -91,7 +101,7 @@ export function generateSeed(seed = 1) {
   }
   const event = (id: string, campaign: string, start_day: number, expected_detector: string, expected_top_driver: string) => ({ seed, id, campaign, start_day, expected_detector, expected_top_driver });
   const planted_events = [
-    event('E1', 'c-sneaker', 45, 'stock_runway', 'stock'),
+    event('E1', 'c-sneaker', 41, 'stock_runway', 'stock'),
     event('E2', 'c-hoodie', 22, 'fatigue', 'ctr'),
     ...campaigns.filter(c => c.platform === 'google').map(c => event('E3', c.id, 36, 'cpm', 'cpm')),
     event('E4', 'c-basic', 1, 'negative_marginal_profit', 'margin_rate'),

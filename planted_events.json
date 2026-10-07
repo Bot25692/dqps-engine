@@ -3,7 +3,7 @@
     "seed": 1,
     "id": "E1",
     "campaign": "c-sneaker",
-    "start_day": 45,
+    "start_day": 41,
     "expected_detector": "stock_runway",
     "expected_top_driver": "stock"
   },
