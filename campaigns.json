@@ -1,0 +1,23 @@
+[
+  {
+    "id": "c-sneaker",
+    "name": "Court Sneaker Meta",
+    "sku_id": "SNK-01",
+    "platform": "meta",
+    "daily_budget": 1000
+  },
+  {
+    "id": "c-premium",
+    "name": "Premium Tee Meta",
+    "sku_id": "TEE-PRM",
+    "platform": "meta",
+    "daily_budget": 2500
+  },
+  {
+    "id": "c-hoodie",
+    "name": "Hoodie Google",
+    "sku_id": "HOOD-01",
+    "platform": "google",
+    "daily_budget": 1500
+  }
+]

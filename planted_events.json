@@ -1,0 +1,50 @@
+[
+  {
+    "seed": 1,
+    "id": "E1",
+    "campaign": "c-sneaker",
+    "start_day": 41,
+    "expected_detector": "stock_runway",
+    "expected_top_driver": "stock"
+  },
+  {
+    "seed": 1,
+    "id": "E2",
+    "campaign": "c-hoodie",
+    "start_day": 22,
+    "expected_detector": "fatigue",
+    "expected_top_driver": "ctr"
+  },
+  {
+    "seed": 1,
+    "id": "E3",
+    "campaign": "c-jogger",
+    "start_day": 36,
+    "expected_detector": "cpm",
+    "expected_top_driver": "cpm"
+  },
+  {
+    "seed": 1,
+    "id": "E3",
+    "campaign": "c-cap-google",
+    "start_day": 36,
+    "expected_detector": "cpm",
+    "expected_top_driver": "cpm"
+  },
+  {
+    "seed": 1,
+    "id": "E4",
+    "campaign": "c-basic",
+    "start_day": 1,
+    "expected_detector": "negative_marginal_profit",
+    "expected_top_driver": "margin_rate"
+  },
+  {
+    "seed": 1,
+    "id": "E5",
+    "campaign": "c-premium",
+    "start_day": 1,
+    "expected_detector": "positive_marginal_profit",
+    "expected_top_driver": "margin_rate"
+  }
+]
