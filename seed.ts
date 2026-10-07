@@ -1,8 +1,8 @@
 import { mkdir, writeFile } from 'node:fs/promises';
 import { resolve } from 'node:path';
 import { pathToFileURL } from 'node:url';
-import { fixtureSchemas } from '../lib/db/repo.ts';
-import type { Campaign, MetricRow, InventoryRow } from '../lib/types.ts';
+import { fixtureSchemas } from './lib/db/repo';
+import type { Campaign, MetricRow, InventoryRow } from './lib/types';
 
 export const products = [
   { id: 'SNK-01', name: 'Court Sneaker', price: 3499, margin_rate: .45 },
@@ -141,7 +141,7 @@ export async function main(args = process.argv.slice(2)) {
   const { seed, out } = parseArgs(args);
   const data = generateSeed(seed);
   if (out === 'db') {
-    const { SeedRepo } = await import('../lib/db/seed-repo.ts');
+    const { SeedRepo } = await import('./lib/db/seed-repo');
     await new SeedRepo().saveSeed(data);
   } else {
     await mkdir(new URL('../fixtures/', import.meta.url), { recursive: true });

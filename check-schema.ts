@@ -3,7 +3,7 @@
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 import { pathToFileURL } from 'node:url';
-import { fixtureSchemas } from '../lib/db/repo.ts';
+import { fixtureSchemas } from './lib/db/repo';
 
 const { PGlite } = await import(pathToFileURL(process.argv[2]).href);
 const db = new PGlite();

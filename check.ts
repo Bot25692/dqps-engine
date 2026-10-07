@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
 import { resolve } from 'node:path';
 import { pathToFileURL } from 'node:url';
-import type { SeedData } from './seed.ts';
+import type { SeedData } from './seed';
 
 const mean = (values: number[]) => values.reduce((sum, value) => sum + value, 0) / values.length;
 const labels = ['dates', 'nonnegative values', 'stock accounting / no SNK-01 restock',

@@ -1,5 +1,5 @@
-import { FixtureRepo, type Repo } from './lib/db/repo';
-import { assertServer, SupabaseRepo, type SupabaseClient } from './lib/db/supabase-repo';
+import { FixtureRepo, type Repo } from './repo';
+import { assertServer, SupabaseRepo, type SupabaseClient } from './supabase-repo';
 
 export const FALLBACK_BANNER = 'Showing saved demo data';
 export const SUPABASE_TIMEOUT_MS = 3000;
@@ -31,7 +31,7 @@ async function withDeadline<T>(operation: () => Promise<T>): Promise<T> {
 // Create one repository per request/session; after failure it stays on its own demo state.
 // A timed-out remote write may already have committed; fallback does not imply rollback.
 export function createRepo(options: {
-  dataSource?: string; fixtureDirectory?: string; client?: SupabaseClient;
+  dataSource?: string; fixtureDirectory?: string; fixtureSeed?: number; client?: SupabaseClient;
 } = {}): DataRepo {
   assertServer();
   const source = options.dataSource ?? process.env.DATA_SOURCE ?? 'fixtures';
@@ -39,7 +39,8 @@ export function createRepo(options: {
   let fallback = false;
   let fixtures: Repo | undefined;
   let supabase: SupabaseRepo | undefined;
-  const getFixtures = () => fixtures ??= new FixtureRepo(options.fixtureDirectory);
+  const getFixtures = () => fixtures ??= new FixtureRepo(options.fixtureDirectory
+    ?? (options.fixtureSeed === undefined ? undefined : { seed: options.fixtureSeed }));
   const status = (): DataStatus => ({
     dataSource: source === 'supabase' && !fallback ? 'supabase' : 'fixtures',
     isFallback: fallback, banner: fallback ? FALLBACK_BANNER : null,

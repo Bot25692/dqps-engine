@@ -1,6 +1,7 @@
 import { z } from 'zod';
-import { fixtureSchemas, type Repo } from './lib/db/repo';
-import * as T from './lib/types';
+import { fixtureSchemas, type Repo } from './repo';
+import * as T from '../types';
+
 
 export type SupabaseClient = typeof fetch;
 type Table = 'skus' | 'campaigns' | 'ad_metrics_daily' | 'inventory_daily' |

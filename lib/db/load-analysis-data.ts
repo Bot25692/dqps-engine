@@ -1,6 +1,6 @@
-import type { Repo } from './lib/db/repo';
-import { createRepo, type DataRepo } from './lib/db/data-source';
-import { validateRange } from './lib/db/supabase-repo';
+import type { Repo } from './repo';
+import { createRepo, type DataRepo } from './data-source';
+import { validateRange } from './supabase-repo';
 
 // Fetch one coherent dataset of plain arrays; analysis functions receive no database objects.
 export async function loadAnalysisData(from: string, to: string, repo: DataRepo = createRepo()) {
