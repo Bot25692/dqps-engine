@@ -68,7 +68,7 @@
 }
 
 /* ─── Tailwind v4 theme mapping ─────────────────────────────────────────── */
-@theme inline {
+:root {
   --color-bg-base:          var(--bg-base);
   --color-bg-surface:       var(--bg-surface);
   --color-bg-elevated:      var(--bg-elevated);
