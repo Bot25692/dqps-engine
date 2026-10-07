@@ -1,4 +1,4 @@
-﻿import type { Repo } from './repo';
+import type { Repo } from './repo';
 import { createRepo, type DataRepo } from './data-source';
 import { validateRange } from './supabase-repo';
 

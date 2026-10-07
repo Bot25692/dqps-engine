@@ -1,4 +1,4 @@
-﻿import { FixtureRepo, type Repo } from './repo';
+import { FixtureRepo, type Repo } from './repo';
 import { assertServer, SupabaseRepo, type SupabaseClient } from './supabase-repo';
 
 export const FALLBACK_BANNER = 'Showing saved demo data';
