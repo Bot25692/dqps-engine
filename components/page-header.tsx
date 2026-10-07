@@ -1,24 +1,51 @@
-/* ─── PageHeader component ────────────────────────────────────────────────── */
-/* Renders the top banner for every page: title, subtitle, and an optional     */
-/* right-side slot for actions (buttons, badges, etc.).                        */
+/* ─── PageHeader component ──────────────────────────────────────────────────
+   Dark enterprise top banner. Title + subtitle + optional right slot.
+   ─────────────────────────────────────────────────────────────────────────── */
 
 interface PageHeaderProps {
-  /** Main page title */
   title: string;
-  /** Short description shown below the title */
   subtitle?: string;
-  /** Optional right-aligned content (e.g. action buttons) */
   actions?: React.ReactNode;
+  /** Decorative left accent colour (CSS variable name or hex) */
+  accent?: string;
 }
 
-export function PageHeader({ title, subtitle, actions }: PageHeaderProps) {
+export function PageHeader({ title, subtitle, actions, accent }: PageHeaderProps) {
   return (
-    <header className="flex items-start justify-between px-6 py-5 border-b bg-white">
-      <div>
-        <h2 className="text-xl font-semibold text-gray-900">{title}</h2>
-        {subtitle && (
-          <p className="mt-0.5 text-sm text-gray-500">{subtitle}</p>
-        )}
+    <header
+      className="flex items-center justify-between px-6 py-4 shrink-0"
+      style={{
+        backgroundColor: "var(--bg-surface)",
+        borderBottom: "1px solid var(--border-subtle)",
+        minHeight: 60,
+      }}
+    >
+      <div className="flex items-center gap-3 min-w-0">
+        {/* Accent bar */}
+        <div
+          className="shrink-0 h-5 rounded-full"
+          style={{
+            width: 3,
+            backgroundColor: accent ?? "var(--brand-orange)",
+            boxShadow: `0 0 6px ${accent ?? "var(--brand-orange)"}`,
+          }}
+        />
+        <div className="min-w-0">
+          <h2
+            className="text-base font-semibold leading-tight truncate"
+            style={{ color: "var(--text-primary)" }}
+          >
+            {title}
+          </h2>
+          {subtitle && (
+            <p
+              className="text-xs mt-0.5 truncate"
+              style={{ color: "var(--text-tertiary)" }}
+            >
+              {subtitle}
+            </p>
+          )}
+        </div>
       </div>
       {actions && (
         <div className="flex items-center gap-2 shrink-0 ml-4">{actions}</div>

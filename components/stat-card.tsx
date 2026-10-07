@@ -1,48 +1,76 @@
-/* ─── StatCard component ──────────────────────────────────────────────────── */
-/* Displays a single KPI metric in a card.                                     */
-/* Colour follows CONTEXT.md: green = good, red = problem, amber = warning.   */
-/* No real data yet — accepts static props. Business logic is in lib/analysis. */
+/* ─── StatCard component ────────────────────────────────────────────────────
+   Premium dark KPI metric card.
+   Semantic colour rules from CONTEXT.md: green=good, red=problem, amber=warning.
+   No business logic — all values pre-computed upstream.
+   ─────────────────────────────────────────────────────────────────────────── */
 
-type Trend = "good" | "problem" | "warning" | "neutral";
+type Trend = "good" | "problem" | "warning" | "neutral" | "info";
 
 interface StatCardProps {
-  /** KPI label */
   label: string;
-  /** Formatted value string (e.g. "₹1,23,456" or "4.8x") */
   value: string;
-  /** Optional change description (e.g. "+12% vs last week") */
   change?: string;
-  /** Optional subtitle/secondary description */
   sub?: string;
-  /** Semantic colour for the change indicator */
   trend?: Trend;
+  /** Optional top-left icon */
+  icon?: React.ReactNode;
 }
 
-/* Map trend to CSS variable names defined in globals.css */
-const trendColour: Record<Trend, string> = {
-  good: "var(--color-good)",
-  problem: "var(--color-problem)",
-  warning: "var(--color-warning)",
-  neutral: "var(--muted-foreground)",
+const trendToken: Record<Trend, { color: string; bg: string; border: string }> = {
+  good:    { color: "var(--color-good)",    bg: "var(--color-good-dim)",    border: "var(--color-good-muted)" },
+  problem: { color: "var(--color-problem)", bg: "var(--color-problem-dim)", border: "var(--color-problem-muted)" },
+  warning: { color: "var(--color-warning)", bg: "var(--color-warning-dim)", border: "var(--color-warning-muted)" },
+  info:    { color: "var(--color-info)",    bg: "var(--color-info-dim)",    border: "var(--color-info-muted)" },
+  neutral: { color: "var(--text-secondary)",bg: "var(--bg-elevated)",       border: "var(--border-default)" },
 };
 
-export function StatCard({ label, value, change, sub, trend = "neutral" }: StatCardProps) {
-  const secondaryText = sub ?? change;
+export function StatCard({ label, value, change, sub, trend = "neutral", icon }: StatCardProps) {
+  const t = trendToken[trend];
+  const secondary = sub ?? change;
   return (
     <div
-      className="rounded-lg border bg-white px-5 py-4 shadow-sm"
-      style={{ borderColor: "var(--border)" }}
+      className="rounded-lg px-4 py-4 flex flex-col gap-2"
+      style={{
+        backgroundColor: "var(--bg-surface)",
+        border: "1px solid var(--border-subtle)",
+        transition: "border-color 0.15s",
+      }}
+      onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.borderColor = "var(--border-strong)"; }}
+      onMouseLeave={(e) => { (e.currentTarget as HTMLElement).style.borderColor = "var(--border-subtle)"; }}
     >
-      <p className="text-sm font-medium" style={{ color: "var(--muted-foreground)" }}>
-        {label}
-      </p>
-      <p className="mt-1 text-2xl font-semibold" style={{ color: "var(--foreground)" }}>
+      {/* Label row */}
+      <div className="flex items-center justify-between gap-2">
+        <p
+          className="text-xs font-medium uppercase tracking-wider"
+          style={{ color: "var(--text-tertiary)", letterSpacing: "0.1em" }}
+        >
+          {label}
+        </p>
+        {icon && (
+          <span style={{ color: "var(--text-tertiary)", opacity: 0.7 }}>{icon}</span>
+        )}
+      </div>
+
+      {/* Primary value */}
+      <p
+        className="text-2xl font-bold leading-none font-mono-num"
+        style={{ color: "var(--text-primary)" }}
+      >
         {value}
       </p>
-      {secondaryText && (
-        <p className="mt-1 text-xs font-medium" style={{ color: trendColour[trend] }}>
-          {secondaryText}
-        </p>
+
+      {/* Change / sub label */}
+      {secondary && (
+        <span
+          className="inline-flex items-center self-start text-xs font-semibold rounded px-1.5 py-0.5"
+          style={{
+            color: t.color,
+            backgroundColor: t.bg,
+            border: `1px solid ${t.border}`,
+          }}
+        >
+          {secondary}
+        </span>
       )}
     </div>
   );

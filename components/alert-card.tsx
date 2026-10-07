@@ -1,62 +1,40 @@
 import Link from "next/link";
 
-/* ─── AlertCard component ─────────────────────────────────────────────────── */
-/* Displays a single campaign-level insight card — either a warning (stock    */
-/* risk, anomaly) or an opportunity (receiver candidate).                      */
-/* Colour-coded per CONTEXT.md: green = good, red = problem, amber = warning. */
-/* No business logic inside — all values are pre-computed in the fixture layer.*/
+/* ─── AlertCard component ────────────────────────────────────────────────────
+   Dark enterprise insight card for STOCK RISK / OPPORTUNITY signals.
+   Semantic colours: red=problem/critical, green=good/opportunity, amber=warning.
+   No business logic — values pre-computed upstream.
+   ─────────────────────────────────────────────────────────────────────────── */
 
-type Trend = "good" | "problem" | "warning" | "neutral";
+type Trend = "good" | "problem" | "warning" | "neutral" | "info";
 
-/* A single metric row shown inside the card */
 interface Metric {
   label: string;
   value: string;
   trend?: Trend;
+  mono?: boolean;
 }
 
 interface AlertCardProps {
-  /** Section heading label (e.g. "Needs Attention") */
   sectionLabel: string;
   sectionTrend: Trend;
-  /** Product / campaign name */
   name: string;
   sku: string;
   platform: string;
-  /** Status badge text (e.g. "STOCK RISK", "OPPORTUNITY") */
   statusLabel: string;
   statusTrend: Trend;
-  /** Metric rows to display in the card body */
   metrics: Metric[];
-  /** Plain-English insight — never from the LLM at this gate */
   insight: string;
-  /** If provided, renders a CTA link at the bottom */
   ctaLabel?: string;
   ctaHref?: string;
 }
 
-/* Map trend to CSS variable colour */
-const trendColor: Record<Trend, string> = {
-  good: "var(--color-good)",
-  problem: "var(--color-problem)",
-  warning: "var(--color-warning)",
-  neutral: "var(--muted-foreground)",
-};
-
-/* Map trend to light background for badges */
-const trendBg: Record<Trend, string> = {
-  good: "#f0fdf4",
-  problem: "#fef2f2",
-  warning: "#fffbeb",
-  neutral: "var(--muted)",
-};
-
-/* Map trend to border color for badges */
-const trendBorder: Record<Trend, string> = {
-  good: "#bbf7d0",
-  problem: "#fecaca",
-  warning: "#fde68a",
-  neutral: "var(--border)",
+const trendToken: Record<Trend, { color: string; bg: string; border: string; strip: string }> = {
+  good:    { color: "var(--color-good)",    bg: "var(--color-good-dim)",    border: "var(--color-good-muted)",    strip: "#22c55e" },
+  problem: { color: "var(--color-problem)", bg: "var(--color-problem-dim)", border: "var(--color-problem-muted)", strip: "#ef4444" },
+  warning: { color: "var(--color-warning)", bg: "var(--color-warning-dim)", border: "var(--color-warning-muted)", strip: "#f59e0b" },
+  info:    { color: "var(--color-info)",    bg: "var(--color-info-dim)",    border: "var(--color-info-muted)",    strip: "#22d3ee" },
+  neutral: { color: "var(--text-secondary)",bg: "var(--bg-elevated)",       border: "var(--border-default)",      strip: "#475569" },
 };
 
 export function AlertCard({
@@ -72,73 +50,122 @@ export function AlertCard({
   ctaLabel,
   ctaHref,
 }: AlertCardProps) {
+  const st = trendToken[sectionTrend];
+  const badge = trendToken[statusTrend];
+
   return (
     <div
-      className="rounded-lg border bg-white shadow-sm overflow-hidden"
-      style={{ borderColor: "var(--border)" }}
+      className="rounded-lg overflow-hidden flex flex-col"
+      style={{
+        backgroundColor: "var(--bg-surface)",
+        border: `1px solid var(--border-subtle)`,
+        borderLeft: `3px solid ${st.strip}`,
+      }}
     >
-      {/* ── Section label strip ── */}
+      {/* ── Section label strip ────────────────────────────────────────── */}
       <div
-        className="px-4 py-2 text-xs font-semibold uppercase tracking-widest"
+        className="px-4 py-1.5 flex items-center gap-2"
         style={{
-          backgroundColor: trendBg[sectionTrend],
-          color: trendColor[sectionTrend],
-          borderBottom: `1px solid var(--border)`,
+          backgroundColor: st.bg,
+          borderBottom: `1px solid var(--border-subtle)`,
         }}
       >
-        {sectionLabel}
+        {/* Pulse dot for critical alerts */}
+        {sectionTrend === "problem" && (
+          <span
+            className="w-1.5 h-1.5 rounded-full shrink-0"
+            style={{ backgroundColor: st.strip, boxShadow: `0 0 6px ${st.strip}` }}
+          />
+        )}
+        <span
+          className="text-xs font-semibold uppercase tracking-widest"
+          style={{ color: st.color, letterSpacing: "0.12em" }}
+        >
+          {sectionLabel}
+        </span>
       </div>
 
-      <div className="px-5 py-4">
-        {/* ── Header row: name + status badge ── */}
+      {/* ── Body ──────────────────────────────────────────────────────── */}
+      <div className="px-4 py-4 flex-1 flex flex-col gap-4">
+        {/* Header: name + status badge */}
         <div className="flex items-start justify-between gap-3">
           <div>
-            <h4 className="text-base font-semibold text-gray-900">{name}</h4>
-            <p className="text-xs text-gray-400 mt-0.5">
+            <h4
+              className="text-base font-semibold leading-tight"
+              style={{ color: "var(--text-primary)" }}
+            >
+              {name}
+            </h4>
+            <p
+              className="text-xs mt-0.5 font-mono-num"
+              style={{ color: "var(--text-tertiary)" }}
+            >
               {sku} · {platform}
             </p>
           </div>
           <span
             className="shrink-0 inline-flex items-center rounded px-2 py-0.5 text-xs font-bold tracking-wide"
             style={{
-              backgroundColor: trendBg[statusTrend],
-              color: trendColor[statusTrend],
-              border: `1px solid ${trendBorder[statusTrend]}`,
+              color: badge.color,
+              backgroundColor: badge.bg,
+              border: `1px solid ${badge.border}`,
+              letterSpacing: "0.08em",
             }}
           >
             {statusLabel}
           </span>
         </div>
 
-        {/* ── Metric grid ── */}
-        <dl className="mt-4 grid grid-cols-2 gap-x-4 gap-y-3 sm:grid-cols-4">
-          {metrics.map((m) => (
-            <div key={m.label}>
-              <dt className="text-xs text-gray-400">{m.label}</dt>
-              <dd
-                className="mt-0.5 text-sm font-semibold"
-                style={{
-                  color: m.trend ? trendColor[m.trend] : "var(--foreground)",
-                }}
-              >
-                {m.value}
-              </dd>
-            </div>
-          ))}
+        {/* Metric grid */}
+        <dl className="grid grid-cols-2 gap-x-4 gap-y-3 sm:grid-cols-4">
+          {metrics.map((m) => {
+            const mt = m.trend ? trendToken[m.trend] : null;
+            return (
+              <div key={m.label}>
+                <dt
+                  className="text-xs uppercase tracking-wide"
+                  style={{ color: "var(--text-tertiary)", fontSize: "10px", letterSpacing: "0.08em" }}
+                >
+                  {m.label}
+                </dt>
+                <dd
+                  className={`mt-0.5 text-sm font-semibold ${m.mono ? "font-mono-num" : ""}`}
+                  style={{ color: mt ? mt.color : "var(--text-primary)" }}
+                >
+                  {m.value}
+                </dd>
+              </div>
+            );
+          })}
         </dl>
 
-        {/* ── Insight text ── */}
-        <p className="mt-4 text-sm text-gray-600 leading-relaxed border-t pt-3" style={{ borderColor: "var(--border)" }}>
+        {/* Insight */}
+        <p
+          className="text-sm leading-relaxed border-t pt-3"
+          style={{ color: "var(--text-secondary)", borderColor: "var(--border-subtle)" }}
+        >
           {insight}
         </p>
 
-        {/* ── CTA link ── */}
+        {/* CTA */}
         {ctaLabel && ctaHref && (
-          <div className="mt-3">
+          <div>
             <Link
               href={ctaHref}
-              className="inline-flex items-center gap-1 text-sm font-medium hover:underline"
-              style={{ color: "var(--primary)" }}
+              className="inline-flex items-center gap-1.5 text-sm font-semibold rounded px-3 py-1.5 transition-all duration-150"
+              style={{
+                color: "#ffffff",
+                backgroundColor: "var(--brand-orange)",
+                border: "1px solid transparent",
+              }}
+              onMouseEnter={(e) => {
+                (e.currentTarget as HTMLAnchorElement).style.backgroundColor = "#ea580c";
+                (e.currentTarget as HTMLAnchorElement).style.boxShadow = "0 0 12px rgba(249,115,22,0.3)";
+              }}
+              onMouseLeave={(e) => {
+                (e.currentTarget as HTMLAnchorElement).style.backgroundColor = "var(--brand-orange)";
+                (e.currentTarget as HTMLAnchorElement).style.boxShadow = "none";
+              }}
             >
               {ctaLabel}
               <span aria-hidden="true">→</span>

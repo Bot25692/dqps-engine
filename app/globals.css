@@ -1,72 +1,133 @@
 @import "tailwindcss";
 
-/* ─── Design tokens ──────────────────────────────────────────────────────────
-   These CSS variables are the single source of truth for the ADAPT colour
-   palette. shadcn/ui will reference these same variable names when installed.
-   Colours follow the CONTEXT.md rule: green = good, red = problem, amber = warning.
+/* ─── A.D.A.P.T. Design Tokens ──────────────────────────────────────────────
+   Dark enterprise console theme.
+   Semantic colours follow CONTEXT.md: green=good, red=problem, amber=warning.
+   Orange = primary brand action accent.
    ─────────────────────────────────────────────────────────────────────────── */
 :root {
-  /* Backgrounds */
-  --background: #f8f9fb;
-  --background-card: #ffffff;
-  --foreground: #111827;
+  /* ── Surface stack ─────────────────────────────────────────────────────── */
+  --bg-base:        #07090e;   /* deepest background */
+  --bg-surface:     #0d111a;   /* card / panel surface */
+  --bg-elevated:    #131824;   /* slightly raised element */
+  --bg-hover:       #1a2133;   /* hover state */
 
-  /* Brand / sidebar */
-  --sidebar-bg: #0f172a;
-  --sidebar-fg: #e2e8f0;
-  --sidebar-accent: #3b82f6;
-  --sidebar-muted: #64748b;
+  /* ── Borders ───────────────────────────────────────────────────────────── */
+  --border-subtle:  #1e2a3b;   /* hairline borders */
+  --border-default: #232f44;   /* standard borders */
+  --border-strong:  #2d3f5a;   /* stronger / active borders */
 
-  /* Semantic colours (CONTEXT.md §Colours) */
-  --color-good: #16a34a;    /* green */
-  --color-problem: #dc2626; /* red   */
-  --color-warning: #d97706; /* amber */
+  /* ── Brand: orange primary ─────────────────────────────────────────────── */
+  --brand-orange:       #f97316;
+  --brand-orange-dim:   #7c3a0f;
+  --brand-orange-glow:  rgba(249,115,22,0.12);
 
-  /* shadcn/ui-compatible variable stubs (populated when shadcn is installed) */
-  --card: var(--background-card);
-  --card-foreground: var(--foreground);
-  --border: #e5e7eb;
-  --input: #e5e7eb;
-  --ring: var(--sidebar-accent);
-  --primary: var(--sidebar-accent);
-  --primary-foreground: #ffffff;
-  --muted: #f1f5f9;
-  --muted-foreground: #64748b;
-  --accent: #eff6ff;
-  --accent-foreground: #1d4ed8;
-  --destructive: var(--color-problem);
-  --radius: 0.5rem;
+  /* ── Semantic: exact CONTEXT.md colours ───────────────────────────────── */
+  --color-good:         #22c55e;   /* green  – profitable / success */
+  --color-good-dim:     #052e16;
+  --color-good-muted:   #166534;
+  --color-problem:      #ef4444;   /* red    – critical / stock risk */
+  --color-problem-dim:  #2d0a0a;
+  --color-problem-muted:#991b1b;
+  --color-warning:      #f59e0b;   /* amber  – caution / watch */
+  --color-warning-dim:  #2d1a00;
+  --color-warning-muted:#92400e;
+  --color-info:         #22d3ee;   /* cyan   – informational / analytical */
+  --color-info-dim:     #022c3d;
+  --color-info-muted:   #155e75;
+
+  /* ── Typography ────────────────────────────────────────────────────────── */
+  --text-primary:   #f1f5f9;   /* strong white */
+  --text-secondary: #94a3b8;   /* muted slate */
+  --text-tertiary:  #475569;   /* very muted */
+  --text-inverse:   #07090e;   /* on bright backgrounds */
+
+  /* ── Sidebar ────────────────────────────────────────────────────────────── */
+  --sidebar-bg:     #070b14;
+  --sidebar-width:  220px;
+
+  /* ── shadcn/ui compat stubs ─────────────────────────────────────────────── */
+  --background:        var(--bg-base);
+  --foreground:        var(--text-primary);
+  --card:              var(--bg-surface);
+  --card-foreground:   var(--text-primary);
+  --border:            var(--border-default);
+  --input:             var(--border-default);
+  --primary:           var(--brand-orange);
+  --primary-foreground:#ffffff;
+  --muted:             var(--bg-elevated);
+  --muted-foreground:  var(--text-secondary);
+  --accent:            var(--bg-elevated);
+  --accent-foreground: var(--text-primary);
+  --destructive:       var(--color-problem);
+  --radius:            0.5rem;
+  --ring:              var(--brand-orange);
+  --sidebar-accent:    var(--brand-orange);
+  --sidebar-fg:        var(--text-secondary);
+  --sidebar-muted:     var(--text-tertiary);
 }
 
-/* ─── Tailwind v4 theme mapping ─────────────────────────────────────────────
-   Expose CSS vars as Tailwind utility classes via @theme inline.
-   ─────────────────────────────────────────────────────────────────────────── */
+/* ─── Tailwind v4 theme mapping ─────────────────────────────────────────── */
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --color-sidebar-bg: var(--sidebar-bg);
-  --color-sidebar-fg: var(--sidebar-fg);
-  --color-sidebar-accent: var(--sidebar-accent);
-  --color-sidebar-muted: var(--sidebar-muted);
-  --color-good: var(--color-good);
-  --color-problem: var(--color-problem);
-  --color-warning: var(--color-warning);
-  --color-card: var(--card);
-  --color-border: var(--border);
-  --color-muted: var(--muted);
-  --color-muted-fg: var(--muted-foreground);
+  --color-bg-base:          var(--bg-base);
+  --color-bg-surface:       var(--bg-surface);
+  --color-bg-elevated:      var(--bg-elevated);
+  --color-bg-hover:         var(--bg-hover);
+  --color-border-subtle:    var(--border-subtle);
+  --color-border-default:   var(--border-default);
+  --color-border-strong:    var(--border-strong);
+  --color-brand-orange:     var(--brand-orange);
+  --color-brand-orange-dim: var(--brand-orange-dim);
+  --color-good:             var(--color-good);
+  --color-good-dim:         var(--color-good-dim);
+  --color-problem:          var(--color-problem);
+  --color-problem-dim:      var(--color-problem-dim);
+  --color-warning:          var(--color-warning);
+  --color-warning-dim:      var(--color-warning-dim);
+  --color-info:             var(--color-info);
+  --color-info-dim:         var(--color-info-dim);
+  --color-text-primary:     var(--text-primary);
+  --color-text-secondary:   var(--text-secondary);
+  --color-text-tertiary:    var(--text-tertiary);
+  --color-sidebar-bg:       var(--sidebar-bg);
+  --color-sidebar-fg:       var(--sidebar-fg);
+  --color-sidebar-accent:   var(--brand-orange);
+  --color-sidebar-muted:    var(--sidebar-muted);
+  --color-card:             var(--bg-surface);
+  --color-border:           var(--border-default);
+  --color-muted:            var(--bg-elevated);
+  --color-muted-fg:         var(--text-secondary);
+  --color-background:       var(--bg-base);
+  --color-foreground:       var(--text-primary);
+  --color-good-muted:       var(--color-good-muted);
+  --color-problem-muted:    var(--color-problem-muted);
+  --color-warning-muted:    var(--color-warning-muted);
+  --color-info-muted:       var(--color-info-muted);
 }
 
-/* ─── Base styles ────────────────────────────────────────────────────────── */
-html,
-body {
+/* ─── Base reset ─────────────────────────────────────────────────────────── */
+html, body {
   height: 100%;
 }
 
 body {
-  background-color: var(--background);
-  color: var(--foreground);
+  background-color: var(--bg-base);
+  color: var(--text-primary);
   font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
     Roboto, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
+
+/* ─── Monospaced numeric utility ─────────────────────────────────────────── */
+.font-mono-num {
+  font-family: "JetBrains Mono", "Fira Code", "Cascadia Code", ui-monospace,
+    "SFMono-Regular", Menlo, Consolas, monospace;
+  font-variant-numeric: tabular-nums;
+}
+
+/* ─── Custom scrollbar (dark) ────────────────────────────────────────────── */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: var(--bg-base); }
+::-webkit-scrollbar-thumb { background: var(--border-strong); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--text-tertiary); }

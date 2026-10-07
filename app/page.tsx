@@ -11,54 +11,29 @@ import { overviewData } from "@/lib/demo/overview-data";
 export const instant = false;
 
 /* ─── Overview page (/) ──────────────────────────────────────────────────── */
-/* Gate G1: Functional Overview.                                               */
-/* All metrics and series sourced cleanly from fixtures; no math in the UI.   */
+/* All metrics sourced from fixtures via overviewData(). No math in the UI.   */
 export default async function OverviewPage() {
   await connection();
   const repo = await getRuntimeRepo();
-  const { kpiStats, portfolioTimeSeries, attentionItem, opportunityItem } = overviewData(await repo.run(loadAnalysisInputs));
-  /* Format display metrics for Court Sneaker alert */
+  const { kpiStats, portfolioTimeSeries, attentionItem, opportunityItem } =
+    overviewData(await repo.run(loadAnalysisInputs));
+
+  /* ── Court Sneaker: Stock Risk ── */
   const attentionMetrics = [
-    { label: "Platform", value: attentionItem.platform },
-    {
-      label: "ROAS",
-      value: `${attentionItem.roas.toFixed(1)}×`,
-      trend: "good" as const,
-    },
-    {
-      label: "Inventory",
-      value: `${attentionItem.inventoryUnits} units`,
-      trend: "problem" as const,
-    },
-    {
-      label: "Stock Runway",
-      value: `${attentionItem.stockRunwayDays.toFixed(1)} days`,
-      trend: "problem" as const,
-    },
-    {
-      label: "Margin",
-      value: `${attentionItem.marginPct}%`,
-    },
+    { label: "Platform",      value: attentionItem.platform,                              mono: false },
+    { label: "ROAS",          value: `${attentionItem.roas.toFixed(1)}×`,                 trend: "good"    as const, mono: true },
+    { label: "Inventory",     value: `${attentionItem.inventoryUnits} units`,              trend: "problem" as const, mono: true },
+    { label: "Stock Runway",  value: `${attentionItem.stockRunwayDays.toFixed(1)} days`,  trend: "problem" as const, mono: true },
+    { label: "Margin",        value: `${attentionItem.marginPct}%`,                        mono: true },
+    { label: "Status",        value: attentionItem.statusLabel,                            trend: "problem" as const },
   ];
 
-  /* Format display metrics for Premium T-Shirt opportunity */
+  /* ── Premium T-Shirt: Growth Opportunity ── */
   const opportunityMetrics = [
-    { label: "Platform", value: opportunityItem.platform },
-    {
-      label: "ROAS",
-      value: `${opportunityItem.roas.toFixed(1)}×`,
-      trend: "good" as const,
-    },
-    {
-      label: "Inventory",
-      value: `${opportunityItem.inventoryUnits} units`,
-      trend: "good" as const,
-    },
-    {
-      label: "Margin",
-      value: `${opportunityItem.marginPct}%`,
-      trend: "good" as const,
-    },
+    { label: "Platform",  value: opportunityItem.platform,                              mono: false },
+    { label: "ROAS",      value: `${opportunityItem.roas.toFixed(1)}×`,                 trend: "good" as const, mono: true },
+    { label: "Inventory", value: `${opportunityItem.inventoryUnits} units`,              trend: "good" as const, mono: true },
+    { label: "Margin",    value: `${opportunityItem.marginPct}%`,                        trend: "good" as const, mono: true },
   ];
 
   return (
@@ -67,26 +42,67 @@ export default async function OverviewPage() {
         title="Overview"
         subtitle="Day 45 · D2C Apparel & Footwear · 4 Platforms · 8 SKUs · INR"
         actions={
-          <span
-            className="inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-medium"
-            style={{
-              backgroundColor: "var(--muted)",
-              color: "var(--muted-foreground)",
-            }}
-          >
-            <span className="w-1.5 h-1.5 rounded-full bg-green-500" />
-            {repo.status.banner ?? `${repo.status.dataSource} mode`}
-          </span>
+          <div className="flex items-center gap-3">
+            {/* Decision workflow breadcrumb */}
+            <div
+              className="hidden sm:flex items-center gap-1.5 text-xs"
+              style={{ color: "var(--text-tertiary)" }}
+            >
+              {["Detect", "Diagnose", "Decide", "Approve", "Simulate", "Learn"].map((step, i) => (
+                <span key={step} className="flex items-center gap-1.5">
+                  {i > 0 && (
+                    <span style={{ color: "var(--border-strong)" }}>›</span>
+                  )}
+                  <span
+                    style={{
+                      color: i === 0 ? "var(--brand-orange)" : "var(--text-tertiary)",
+                      fontWeight: i === 0 ? 600 : 400,
+                    }}
+                  >
+                    {step}
+                  </span>
+                </span>
+              ))}
+            </div>
+            {/* Data source pill */}
+            <span
+              className="inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-xs font-medium"
+              style={{
+                backgroundColor: "var(--bg-elevated)",
+                border: "1px solid var(--border-default)",
+                color: "var(--text-secondary)",
+              }}
+            >
+              <span
+                className="w-1.5 h-1.5 rounded-full"
+                style={{ backgroundColor: "var(--color-good)", boxShadow: "0 0 4px var(--color-good)" }}
+              />
+              {repo.status.banner ?? `${repo.status.dataSource} mode`}
+            </span>
+          </div>
         }
       />
 
-      <MainContent className="space-y-8">
-        {/* ── 1. KPI Summary ── */}
+      <MainContent>
+        {/* ── SECTION LABEL UTILITY ── */}
+        {/* ── 1. KPI Summary ────────────────────────────────────────────── */}
         <section aria-label="Key performance indicators">
-          <h3 className="text-sm font-semibold text-gray-500 uppercase tracking-wide mb-3">
-            Portfolio KPI Summary
-          </h3>
-          <div className="grid grid-cols-2 gap-4 lg:grid-cols-4">
+          <div className="flex items-center gap-2 mb-3">
+            <span
+              className="text-xs font-semibold uppercase tracking-widest"
+              style={{ color: "var(--text-tertiary)", letterSpacing: "0.14em", fontSize: "10px" }}
+            >
+              Portfolio KPIs
+            </span>
+            <div className="flex-1 h-px" style={{ backgroundColor: "var(--border-subtle)" }} />
+            <span
+              className="text-xs"
+              style={{ color: "var(--text-tertiary)", fontSize: "10px" }}
+            >
+              Day 45 as-of
+            </span>
+          </div>
+          <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
             {kpiStats.map((stat) => (
               <StatCard
                 key={stat.label}
@@ -99,63 +115,123 @@ export default async function OverviewPage() {
           </div>
         </section>
 
-        {/* ── 2. Action Alerts (Needs Attention & Growth Opportunity) ── */}
-        <section
-          aria-label="Action alerts"
-          className="grid grid-cols-1 gap-6 lg:grid-cols-2"
-        >
-          {/* Needs Attention: Court Sneaker (E1) */}
-          <AlertCard
-            sectionLabel="Needs Attention"
-            sectionTrend="problem"
-            name={attentionItem.name}
-            sku={attentionItem.sku}
-            platform={attentionItem.platform}
-            statusLabel={attentionItem.statusLabel}
-            statusTrend={attentionItem.statusTrend}
-            metrics={attentionMetrics}
-            insight={attentionItem.insight}
-            ctaLabel="View Analysis"
-            ctaHref="/recommendations"
-          />
+        {/* ── 2. Needs Attention (hero) + Growth Opportunity ─────────────── */}
+        <section aria-label="Action alerts">
+          <div className="flex items-center gap-2 mb-3">
+            <span
+              className="text-xs font-semibold uppercase tracking-widest"
+              style={{ color: "var(--text-tertiary)", letterSpacing: "0.14em", fontSize: "10px" }}
+            >
+              Action Required
+            </span>
+            <div className="flex-1 h-px" style={{ backgroundColor: "var(--border-subtle)" }} />
+            {/* Key differentiator callout */}
+            <span
+              className="text-xs px-2 py-0.5 rounded"
+              style={{
+                backgroundColor: "var(--brand-orange-glow)",
+                color: "var(--brand-orange)",
+                border: "1px solid rgba(249,115,22,0.2)",
+                fontSize: "10px",
+              }}
+            >
+              High ROAS ≠ Scale
+            </span>
+          </div>
 
-          {/* Growth Opportunity: Premium T-Shirt (E5) */}
-          <AlertCard
-            sectionLabel="Growth Opportunity"
-            sectionTrend="good"
-            name={opportunityItem.name}
-            sku={opportunityItem.sku}
-            platform={opportunityItem.platform}
-            statusLabel={opportunityItem.statusLabel}
-            statusTrend={opportunityItem.statusTrend}
-            metrics={opportunityMetrics}
-            insight={opportunityItem.insight}
-          />
+          <div className="grid grid-cols-1 gap-4 lg:grid-cols-2">
+            {/* Stock Risk: Court Sneaker — HERO alert */}
+            <AlertCard
+              sectionLabel="⚠ Needs Attention — Stock Risk"
+              sectionTrend="problem"
+              name={attentionItem.name}
+              sku={attentionItem.sku}
+              platform={attentionItem.platform}
+              statusLabel={attentionItem.statusLabel}
+              statusTrend={attentionItem.statusTrend}
+              metrics={attentionMetrics}
+              insight={attentionItem.insight}
+              ctaLabel="View Analysis →"
+              ctaHref="/recommendations"
+            />
+
+            {/* Growth Opportunity: Premium T-Shirt */}
+            <AlertCard
+              sectionLabel="Growth Opportunity"
+              sectionTrend="good"
+              name={opportunityItem.name}
+              sku={opportunityItem.sku}
+              platform={opportunityItem.platform}
+              statusLabel={opportunityItem.statusLabel}
+              statusTrend={opportunityItem.statusTrend}
+              metrics={opportunityMetrics}
+              insight={opportunityItem.insight}
+            />
+          </div>
         </section>
 
-        {/* ── 3. Portfolio Performance Chart ── */}
+        {/* ── 3. Portfolio Performance Chart ──────────────────────────── */}
         <section aria-label="Portfolio performance">
-          <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-3 gap-1">
-            <h3 className="text-sm font-semibold text-gray-500 uppercase tracking-wide">
-              Portfolio Performance (30-Day Trajectory)
-            </h3>
-            <span className="text-xs text-gray-400">
-              D16 to D45 · Revenue, Contribution Profit & Ad Spend
+          {/* Section header */}
+          <div className="flex items-center gap-2 mb-3">
+            <span
+              className="text-xs font-semibold uppercase tracking-widest"
+              style={{ color: "var(--text-tertiary)", letterSpacing: "0.14em", fontSize: "10px" }}
+            >
+              Portfolio Performance
+            </span>
+            <div className="flex-1 h-px" style={{ backgroundColor: "var(--border-subtle)" }} />
+            <span style={{ color: "var(--text-tertiary)", fontSize: "10px" }}>
+              D16 → D45 · Revenue, Contribution Profit & Ad Spend
             </span>
           </div>
 
           <div
-            className="rounded-lg border bg-white p-5 shadow-sm"
-            style={{ borderColor: "var(--border)" }}
+            className="rounded-lg p-4"
+            style={{
+              backgroundColor: "var(--bg-surface)",
+              border: "1px solid var(--border-subtle)",
+            }}
           >
-            <div className="mb-4">
-              <p className="text-sm font-medium text-gray-900">
-                Daily Revenue vs Contribution Profit
-              </p>
-              <p className="text-xs text-gray-500 mt-0.5">
-                Simulated advertising data. Contribution profit accounts for
-                SKU margins and advertising expenses.
-              </p>
+            {/* Chart header */}
+            <div className="flex items-start justify-between mb-4">
+              <div>
+                <p
+                  className="text-sm font-semibold"
+                  style={{ color: "var(--text-primary)" }}
+                >
+                  Daily Revenue vs Contribution Profit
+                </p>
+                <p
+                  className="text-xs mt-0.5"
+                  style={{ color: "var(--text-tertiary)" }}
+                >
+                  Contribution profit = Revenue × margin − Ad Spend.
+                  The objective metric — not ROAS.
+                </p>
+              </div>
+              {/* Legend pills */}
+              <div className="hidden sm:flex items-center gap-3 text-xs shrink-0">
+                {[
+                  { color: "#f97316", label: "Revenue" },
+                  { color: "#22c55e", label: "Contribution Profit" },
+                  { color: "#f59e0b", label: "Ad Spend", dashed: true },
+                ].map((l) => (
+                  <span key={l.label} className="flex items-center gap-1.5" style={{ color: "var(--text-secondary)" }}>
+                    <span
+                      style={{
+                        width: 20,
+                        height: 2,
+                        backgroundColor: l.color,
+                        display: "inline-block",
+                        opacity: l.dashed ? 0.7 : 1,
+                        borderBottom: l.dashed ? `2px dashed ${l.color}` : "none",
+                      }}
+                    />
+                    {l.label}
+                  </span>
+                ))}
+              </div>
             </div>
 
             <PortfolioChart data={portfolioTimeSeries} />

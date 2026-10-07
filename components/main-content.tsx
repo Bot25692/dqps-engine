@@ -1,16 +1,18 @@
-/* ─── MainContent container ───────────────────────────────────────────────── */
-/* Wraps page body content with consistent padding and max-width.              */
-/* Every page's primary content (cards, tables, charts) renders inside this.  */
+/* ─── MainContent wrapper ───────────────────────────────────────────────────
+   Scrollable padded content area on the dark surface.
+   ─────────────────────────────────────────────────────────────────────────── */
 
 interface MainContentProps {
   children: React.ReactNode;
-  /** Extra Tailwind classes to pass through (e.g. "grid grid-cols-2") */
   className?: string;
 }
 
 export function MainContent({ children, className = "" }: MainContentProps) {
   return (
-    <main className={`flex-1 p-6 ${className}`}>
+    <main
+      className={`flex-1 px-6 py-5 space-y-5 ${className}`}
+      style={{ backgroundColor: "var(--bg-base)" }}
+    >
       {children}
     </main>
   );
