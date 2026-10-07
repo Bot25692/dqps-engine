@@ -1,0 +1,3 @@
+# lib/ directory is owned by Builder A (lib/analysis/, lib/db/, lib/types.ts)
+# and Builder B (lib/simulation/, lib/llm/, lib/demo/).
+# This file reserves the directory. Remove it once real files are added.

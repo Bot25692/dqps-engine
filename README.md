@@ -1,9 +1,36 @@
-Fixed, hand-authored demo data for September 1–20, 2026 (INR).
+This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
-Three campaigns and three SKUs have one metric/inventory row per day. Court Sneaker sells its final five units on day 20; historical ROAS remains 4.8. Hoodie CTR drops 40% on day 20, yielding the single anomaly. The pending recommendation reallocates the sneaker budget to Premium Tee. Stock-protection profit assumes no future sneaker revenue during the stockout; receiver revenue uses beta 0.7. Logs and outcomes start empty because approval has not happened.
+## Getting Started
 
-All JSON files contain arrays validated by the schemas in lib/types.ts. Driver contribution_pct, anomaly change_pct, and outcome error_pct use percentage points; margin_rate and confidence use fractions. Budgets and profit are INR. Move entries express before/after campaign budgets.
+First, run the development server:
 
-FixtureRepo accepts an optional fixture directory. Saves upsert by record ID (campaign state by campaign ID, confidence by recommendation type); action logs append with unique IDs. Changes are instance-local and in memory. resetDecisions restores the original seed, including the pending recommendation and empty logs/outcomes. Date filters are inclusive. Missing state/confidence returns null.
+```bash
+npm run dev
+# or
+yarn dev
+# or
+pnpm dev
+# or
+bun dev
+```
 
-Run `pnpm typecheck` and `pnpm test` with Node 24 after `pnpm install`.
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+
+You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+
+This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+
+## Learn More
+
+To learn more about Next.js, take a look at the following resources:
+
+- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
+- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+
+You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+
+## Deploy on Vercel
+
+The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+
+Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
