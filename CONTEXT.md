@@ -102,4 +102,21 @@ Seeded brand: D2C apparel and footwear, 4 platforms, 8 SKUs, about 10 campaigns,
 - Verified missing-variable failures. Live Supabase access is untested.
 - Credentials are not configured. Application and database are not implemented.
 - Repo created and teammates added. This file replaced by the Final Build Plan v2 rules.
-- Next: Gate G0 (types, Repo interface, fixtures, starter app on main, accounts live).
+- **[Builder B] Gate G0 complete.** Next.js 16.4.0 App Router (TypeScript + Tailwind v4) scaffolded.
+  - Routes live: / · /recommendations · /campaigns · /learning
+  - Components: Sidebar, PageHeader, MainContent, StatCard
+  - Fixture data isolated in lib/demo/overview-fixtures.ts
+  - Stack packages installed: recharts, zod (+ base Next.js deps)
+  - .env.local: DATA_SOURCE=fixtures. .gitignore: .env.example unignored.
+  - No Supabase, no analysis, no optimizer, no simulation, no LLM.
+- **[Builder B] Gate G1 complete.** Functional Overview page built with fixture data.
+  - KPI summary: Revenue, Ad Spend, Contribution Profit, Blended ROAS (lib/demo/g1-fixtures.ts)
+  - Portfolio Performance: Recharts 30-day area+line chart (PortfolioChart client component)
+  - Needs Attention: Court Sneaker (SNK-01/Meta) STOCK RISK card with View Analysis → /recommendations
+  - Growth Opportunity: Premium T-Shirt (TEE-PRM/Amazon) OPPORTUNITY card
+  - Bugs fixed: alert-card CSS border, portfolio-chart Recharts Tooltip formatter typing, stat-card sub prop
+- **[Merge verified]** ADAPT-ASTRA.zip (Builder B prep) applied over ADAPT.zip (M1 base).
+  - All source files match or supersede ASTRA zip; local has G1 session improvements.
+  - npm run build: ✓ exit code 0 · Compiled in 21.3s · TypeScript in 5.9s · 0 errors
+  - All 5 routes static-prerendered: / · /_not-found · /campaigns · /learning · /recommendations
+- Next: Gate G0 (Builder A — types, Repo interface, fixtures). Gate G2 after both G0 tasks merge.
