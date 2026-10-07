@@ -1,0 +1,662 @@
+{
+  "anomalies": [
+    {
+      "id": "profit:c-basic:roas:2026-08-24",
+      "campaign_id": "c-basic",
+      "date": "2026-08-24",
+      "metric": "roas",
+      "baseline": 7.936507936507937,
+      "observed": 3.141226419641127,
+      "z_score": 0,
+      "change_pct": -60.4205471125218,
+      "severity": "warning",
+      "drivers": [
+        {
+          "name": "negative_marginal_profit",
+          "contribution_pct": -60.4205471125218,
+          "impact": "high",
+          "description": "The next rupee of advertising loses 60.4% in contribution profit."
+        }
+      ]
+    },
+    {
+      "id": "profit:c-cap:roas:2026-08-24",
+      "campaign_id": "c-cap",
+      "date": "2026-08-24",
+      "metric": "roas",
+      "baseline": 3.1746031746031744,
+      "observed": 2.7847246924191373,
+      "z_score": 0,
+      "change_pct": -12.281172188797173,
+      "severity": "warning",
+      "drivers": [
+        {
+          "name": "negative_marginal_profit",
+          "contribution_pct": -12.281172188797173,
+          "impact": "low",
+          "description": "The next rupee of advertising loses 12.3% in contribution profit."
+        }
+      ]
+    },
+    {
+      "id": "profit:c-socks:roas:2026-08-24",
+      "campaign_id": "c-socks",
+      "date": "2026-08-24",
+      "metric": "roas",
+      "baseline": 3.4013605442176873,
+      "observed": 2.9000656207587476,
+      "z_score": 0,
+      "change_pct": -14.738070749692822,
+      "severity": "warning",
+      "drivers": [
+        {
+          "name": "negative_marginal_profit",
+          "contribution_pct": -14.738070749692822,
+          "impact": "low",
+          "description": "The next rupee of advertising loses 14.7% in contribution profit."
+        }
+      ]
+    },
+    {
+      "id": "profit:c-cap:roas:2026-08-30",
+      "campaign_id": "c-cap",
+      "date": "2026-08-30",
+      "metric": "roas",
+      "baseline": 3.1746031746031744,
+      "observed": 3.011795787004081,
+      "z_score": 0,
+      "change_pct": -5.128432709371444,
+      "severity": "warning",
+      "drivers": [
+        {
+          "name": "negative_marginal_profit",
+          "contribution_pct": -5.128432709371456,
+          "impact": "low",
+          "description": "The next rupee of advertising loses 5.1% in contribution profit."
+        }
+      ]
+    },
+    {
+      "id": "profit:c-socks:roas:2026-08-31",
+      "campaign_id": "c-socks",
+      "date": "2026-08-31",
+      "metric": "roas",
+      "baseline": 3.4013605442176873,
+      "observed": 2.876822814194609,
+      "z_score": 0,
+      "change_pct": -15.421409262678509,
+      "severity": "warning",
+      "drivers": [
+        {
+          "name": "negative_marginal_profit",
+          "contribution_pct": -15.421409262678509,
+          "impact": "low",
+          "description": "The next rupee of advertising loses 15.4% in contribution profit."
+        }
+      ]
+    },
+    {
+      "id": "profit:c-cap-google:roas:2026-09-01",
+      "campaign_id": "c-cap-google",
+      "date": "2026-09-01",
+      "metric": "roas",
+      "baseline": 3.1746031746031744,
+      "observed": 3.0585945294036794,
+      "z_score": 0,
+      "change_pct": -3.6542723237840913,
+      "severity": "warning",
+      "drivers": [
+        {
+          "name": "negative_marginal_profit",
+          "contribution_pct": -3.6542723237841024,
+          "impact": "low",
+          "description": "The next rupee of advertising loses 3.7% in contribution profit."
+        }
+      ]
+    },
+    {
+      "id": "profit:c-cap-google:roas:2026-09-07",
+      "campaign_id": "c-cap-google",
+      "date": "2026-09-07",
+      "metric": "roas",
+      "baseline": 3.1746031746031744,
+      "observed": 3.151741758858443,
+      "z_score": 0,
+      "change_pct": -0.7201345959590322,
+      "severity": "warning",
+      "drivers": [
+        {
+          "name": "negative_marginal_profit",
+          "contribution_pct": -0.7201345959590433,
+          "impact": "low",
+          "description": "The next rupee of advertising loses 0.7% in contribution profit."
+        }
+      ]
+    },
+    {
+      "id": "profit:c-cap:roas:2026-09-07",
+      "campaign_id": "c-cap",
+      "date": "2026-09-07",
+      "metric": "roas",
+      "baseline": 3.1746031746031744,
+      "observed": 2.8117783659906346,
+      "z_score": 0,
+      "change_pct": -11.428981471295007,
+      "severity": "warning",
+      "drivers": [
+        {
+          "name": "negative_marginal_profit",
+          "contribution_pct": -11.428981471295007,
+          "impact": "low",
+          "description": "The next rupee of advertising loses 11.4% in contribution profit."
+        }
+      ]
+    },
+    {
+      "id": "profit:c-socks:roas:2026-09-07",
+      "campaign_id": "c-socks",
+      "date": "2026-09-07",
+      "metric": "roas",
+      "baseline": 3.4013605442176873,
+      "observed": 2.6986793536508773,
+      "z_score": 0,
+      "change_pct": -20.658827002664214,
+      "severity": "warning",
+      "drivers": [
+        {
+          "name": "negative_marginal_profit",
+          "contribution_pct": -20.658827002664214,
+          "impact": "medium",
+          "description": "The next rupee of advertising loses 20.7% in contribution profit."
+        }
+      ]
+    },
+    {
+      "id": "profit:c-cap-google:roas:2026-09-14",
+      "campaign_id": "c-cap-google",
+      "date": "2026-09-14",
+      "metric": "roas",
+      "baseline": 3.1746031746031744,
+      "observed": 3.134061520157088,
+      "z_score": 0,
+      "change_pct": -1.2770621150517192,
+      "severity": "warning",
+      "drivers": [
+        {
+          "name": "negative_marginal_profit",
+          "contribution_pct": -1.2770621150517303,
+          "impact": "low",
+          "description": "The next rupee of advertising loses 1.3% in contribution profit."
+        }
+      ]
+    },
+    {
+      "id": "profit:c-cap:roas:2026-09-14",
+      "campaign_id": "c-cap",
+      "date": "2026-09-14",
+      "metric": "roas",
+      "baseline": 3.1746031746031744,
+      "observed": 2.821771174106268,
+      "z_score": 0,
+      "change_pct": -11.11420801565255,
+      "severity": "warning",
+      "drivers": [
+        {
+          "name": "negative_marginal_profit",
+          "contribution_pct": -11.11420801565255,
+          "impact": "low",
+          "description": "The next rupee of advertising loses 11.1% in contribution profit."
+        }
+      ]
+    },
+    {
+      "id": "profit:c-cap:roas:2026-09-16",
+      "campaign_id": "c-cap",
+      "date": "2026-09-16",
+      "metric": "roas",
+      "baseline": 3.1746031746031744,
+      "observed": 2.891688946705365,
+      "z_score": 0,
+      "change_pct": -8.911798178780995,
+      "severity": "warning",
+      "drivers": [
+        {
+          "name": "negative_marginal_profit",
+          "contribution_pct": -8.911798178781005,
+          "impact": "low",
+          "description": "The next rupee of advertising loses 8.9% in contribution profit."
+        }
+      ]
+    },
+    {
+      "id": "profit:c-cap:roas:2026-09-19",
+      "campaign_id": "c-cap",
+      "date": "2026-09-19",
+      "metric": "roas",
+      "baseline": 3.1746031746031744,
+      "observed": 3.083529124681719,
+      "z_score": 0,
+      "change_pct": -2.868832572525837,
+      "severity": "warning",
+      "drivers": [
+        {
+          "name": "negative_marginal_profit",
+          "contribution_pct": -2.868832572525848,
+          "impact": "low",
+          "description": "The next rupee of advertising loses 2.9% in contribution profit."
+        }
+      ]
+    },
+    {
+      "id": "mad:c-hoodie:ctr:2026-09-20",
+      "campaign_id": "c-hoodie",
+      "date": "2026-09-20",
+      "metric": "ctr",
+      "baseline": 0.024998300886080925,
+      "observed": 0.021238867789702128,
+      "z_score": 5.012918162599406,
+      "change_pct": -15.038754487798222,
+      "severity": "critical",
+      "drivers": []
+    },
+    {
+      "id": "profit:c-cap:roas:2026-09-21",
+      "campaign_id": "c-cap",
+      "date": "2026-09-21",
+      "metric": "roas",
+      "baseline": 3.1746031746031744,
+      "observed": 2.88966495123832,
+      "z_score": 0,
+      "change_pct": -8.975554035992916,
+      "severity": "warning",
+      "drivers": [
+        {
+          "name": "negative_marginal_profit",
+          "contribution_pct": -8.975554035992928,
+          "impact": "low",
+          "description": "The next rupee of advertising loses 9.0% in contribution profit."
+        }
+      ]
+    },
+    {
+      "id": "profit:c-socks:roas:2026-09-27",
+      "campaign_id": "c-socks",
+      "date": "2026-09-27",
+      "metric": "roas",
+      "baseline": 3.4013605442176873,
+      "observed": 3.2930389983423525,
+      "z_score": 0,
+      "change_pct": -3.184653448734842,
+      "severity": "warning",
+      "drivers": [
+        {
+          "name": "negative_marginal_profit",
+          "contribution_pct": -3.184653448734842,
+          "impact": "low",
+          "description": "The next rupee of advertising loses 3.2% in contribution profit."
+        }
+      ]
+    },
+    {
+      "id": "mad:c-cap-google:cpm:2026-09-28",
+      "campaign_id": "c-cap-google",
+      "date": "2026-09-28",
+      "metric": "cpm",
+      "baseline": 180.00051773233238,
+      "observed": 251.99445421344515,
+      "z_score": 13.3321721122622,
+      "change_pct": 39.996516336786605,
+      "severity": "critical",
+      "drivers": []
+    },
+    {
+      "id": "mad:c-cap-google:roas:2026-09-28",
+      "campaign_id": "c-cap-google",
+      "date": "2026-09-28",
+      "metric": "roas",
+      "baseline": 3.543076684990842,
+      "observed": 2.4552025099369565,
+      "z_score": 5.237133295434188,
+      "change_pct": -30.704223243666462,
+      "severity": "critical",
+      "drivers": []
+    },
+    {
+      "id": "mad:c-jogger:cpm:2026-09-28",
+      "campaign_id": "c-jogger",
+      "date": "2026-09-28",
+      "metric": "cpm",
+      "baseline": 179.99979173608796,
+      "observed": 251.99752645320874,
+      "z_score": 13.332929262992778,
+      "change_pct": 39.99878778897834,
+      "severity": "critical",
+      "drivers": []
+    },
+    {
+      "id": "mad:c-jogger:roas:2026-09-28",
+      "campaign_id": "c-jogger",
+      "date": "2026-09-28",
+      "metric": "roas",
+      "baseline": 5.996043936477574,
+      "observed": 4.191182613456532,
+      "z_score": 3.535627023957104,
+      "change_pct": -30.10086887524247,
+      "severity": "warning",
+      "drivers": []
+    },
+    {
+      "id": "profit:c-cap-google:roas:2026-09-28",
+      "campaign_id": "c-cap-google",
+      "date": "2026-09-28",
+      "metric": "roas",
+      "baseline": 3.1746031746031744,
+      "observed": 2.4552025099369565,
+      "z_score": 0,
+      "change_pct": -22.661120936985867,
+      "severity": "warning",
+      "drivers": [
+        {
+          "name": "negative_marginal_profit",
+          "contribution_pct": -22.661120936985867,
+          "impact": "medium",
+          "description": "The next rupee of advertising loses 22.7% in contribution profit."
+        }
+      ]
+    },
+    {
+      "id": "profit:c-cap:roas:2026-09-28",
+      "campaign_id": "c-cap",
+      "date": "2026-09-28",
+      "metric": "roas",
+      "baseline": 3.1746031746031744,
+      "observed": 3.027925742944831,
+      "z_score": 0,
+      "change_pct": -4.620339097237814,
+      "severity": "warning",
+      "drivers": [
+        {
+          "name": "negative_marginal_profit",
+          "contribution_pct": -4.620339097237814,
+          "impact": "low",
+          "description": "The next rupee of advertising loses 4.6% in contribution profit."
+        }
+      ]
+    },
+    {
+      "id": "profit:c-hoodie:roas:2026-09-28",
+      "campaign_id": "c-hoodie",
+      "date": "2026-09-28",
+      "metric": "roas",
+      "baseline": 2.857142857142857,
+      "observed": 2.8511765408553074,
+      "z_score": 0,
+      "change_pct": -0.20882107006424677,
+      "severity": "warning",
+      "drivers": [
+        {
+          "name": "CTR",
+          "contribution_pct": 126.85130302093974,
+          "impact": "high",
+          "description": "CTR fell 18.1%, explaining 126.9% of the ROAS decline versus the preceding fourteen days."
+        },
+        {
+          "name": "AOV",
+          "contribution_pct": 0.9378718261880024,
+          "impact": "low",
+          "description": "AOV fell 0.1%, explaining 0.9% of the ROAS decline versus the preceding fourteen days."
+        },
+        {
+          "name": "CPM",
+          "contribution_pct": -0.003350774458660786,
+          "impact": "low",
+          "description": "CPM fell 0.0%, offsetting 0.0% of the ROAS decline versus the preceding fourteen days."
+        },
+        {
+          "name": "CVR",
+          "contribution_pct": -27.785824072668795,
+          "impact": "medium",
+          "description": "CVR rose 4.5%, offsetting 27.8% of the ROAS decline versus the preceding fourteen days."
+        },
+        {
+          "name": "negative_marginal_profit",
+          "contribution_pct": -0.20882107006424677,
+          "impact": "low",
+          "description": "The next rupee of advertising loses 0.2% in contribution profit."
+        }
+      ]
+    },
+    {
+      "id": "profit:c-hoodie:roas:2026-09-30",
+      "campaign_id": "c-hoodie",
+      "date": "2026-09-30",
+      "metric": "roas",
+      "baseline": 2.857142857142857,
+      "observed": 2.6953444590047684,
+      "z_score": 0,
+      "change_pct": -5.662943934833109,
+      "severity": "warning",
+      "drivers": [
+        {
+          "name": "CTR",
+          "contribution_pct": 82.15162317929399,
+          "impact": "high",
+          "description": "CTR fell 18.2%, explaining 82.2% of the ROAS decline versus the preceding fourteen days."
+        },
+        {
+          "name": "CVR",
+          "contribution_pct": 15.530342085370732,
+          "impact": "low",
+          "description": "CVR fell 3.7%, explaining 15.5% of the ROAS decline versus the preceding fourteen days."
+        },
+        {
+          "name": "AOV",
+          "contribution_pct": 2.319784667278553,
+          "impact": "low",
+          "description": "AOV fell 0.6%, explaining 2.3% of the ROAS decline versus the preceding fourteen days."
+        },
+        {
+          "name": "CPM",
+          "contribution_pct": -0.0017499319431938192,
+          "impact": "low",
+          "description": "CPM fell 0.0%, offsetting 0.0% of the ROAS decline versus the preceding fourteen days."
+        },
+        {
+          "name": "negative_marginal_profit",
+          "contribution_pct": -5.662943934833109,
+          "impact": "low",
+          "description": "The next rupee of advertising loses 5.7% in contribution profit."
+        }
+      ]
+    },
+    {
+      "id": "stock:c-sneaker:stock_runway:2026-10-01",
+      "campaign_id": "c-sneaker",
+      "date": "2026-10-01",
+      "metric": "stock_runway",
+      "baseline": 5,
+      "observed": 4.658940397350993,
+      "z_score": 0,
+      "change_pct": -6.8211920529801295,
+      "severity": "critical",
+      "drivers": [
+        {
+          "name": "Stock risk",
+          "contribution_pct": 0,
+          "impact": "high",
+          "description": "Stock covers 4.7 days at the seven-day sales rate, below five days."
+        }
+      ]
+    },
+    {
+      "id": "fatigue:c-hoodie:ctr:2026-10-02",
+      "campaign_id": "c-hoodie",
+      "date": "2026-10-02",
+      "metric": "ctr",
+      "baseline": 0.022486863063309874,
+      "observed": 0.016842651454942216,
+      "z_score": 0,
+      "change_pct": -25.100039932101037,
+      "severity": "warning",
+      "drivers": [
+        {
+          "name": "CTR",
+          "contribution_pct": 97.72398173794862,
+          "impact": "high",
+          "description": "CTR fell 18.3%, explaining 97.7% of the ROAS decline versus the preceding fourteen days."
+        },
+        {
+          "name": "CVR",
+          "contribution_pct": 6.157748267159391,
+          "impact": "low",
+          "description": "CVR fell 1.3%, explaining 6.2% of the ROAS decline versus the preceding fourteen days."
+        },
+        {
+          "name": "CPM",
+          "contribution_pct": -0.0016842074844023872,
+          "impact": "low",
+          "description": "CPM fell 0.0%, offsetting 0.0% of the ROAS decline versus the preceding fourteen days."
+        },
+        {
+          "name": "AOV",
+          "contribution_pct": -3.8800457976232794,
+          "impact": "low",
+          "description": "AOV rose 0.8%, offsetting 3.9% of the ROAS decline versus the preceding fourteen days."
+        }
+      ]
+    },
+    {
+      "id": "profit:c-socks:roas:2026-10-04",
+      "campaign_id": "c-socks",
+      "date": "2026-10-04",
+      "metric": "roas",
+      "baseline": 3.4013605442176873,
+      "observed": 3.290029926820623,
+      "z_score": 0,
+      "change_pct": -3.273120151473685,
+      "severity": "warning",
+      "drivers": [
+        {
+          "name": "negative_marginal_profit",
+          "contribution_pct": -3.273120151473685,
+          "impact": "low",
+          "description": "The next rupee of advertising loses 3.3% in contribution profit."
+        }
+      ]
+    },
+    {
+      "id": "profit:c-cap:roas:2026-10-05",
+      "campaign_id": "c-cap",
+      "date": "2026-10-05",
+      "metric": "roas",
+      "baseline": 3.1746031746031744,
+      "observed": 2.775732324592106,
+      "z_score": 0,
+      "change_pct": -12.56443177534865,
+      "severity": "warning",
+      "drivers": [
+        {
+          "name": "negative_marginal_profit",
+          "contribution_pct": -12.56443177534865,
+          "impact": "low",
+          "description": "The next rupee of advertising loses 12.6% in contribution profit."
+        }
+      ]
+    },
+    {
+      "id": "profit:c-hoodie:roas:2026-10-05",
+      "campaign_id": "c-hoodie",
+      "date": "2026-10-05",
+      "metric": "roas",
+      "baseline": 2.857142857142857,
+      "observed": 2.494037486773915,
+      "z_score": 0,
+      "change_pct": -12.708687962912979,
+      "severity": "warning",
+      "drivers": [
+        {
+          "name": "CTR",
+          "contribution_pct": 137.72693421316282,
+          "impact": "high",
+          "description": "CTR fell 18.2%, explaining 137.7% of the ROAS decline versus the preceding fourteen days."
+        },
+        {
+          "name": "AOV",
+          "contribution_pct": 7.9084805295514125,
+          "impact": "low",
+          "description": "AOV fell 1.1%, explaining 7.9% of the ROAS decline versus the preceding fourteen days."
+        },
+        {
+          "name": "CPM",
+          "contribution_pct": -0.0006345694960408198,
+          "impact": "low",
+          "description": "CPM fell 0.0%, offsetting 0.0% of the ROAS decline versus the preceding fourteen days."
+        },
+        {
+          "name": "CVR",
+          "contribution_pct": -45.634780173218196,
+          "impact": "medium",
+          "description": "CVR rose 6.9%, offsetting 45.6% of the ROAS decline versus the preceding fourteen days."
+        },
+        {
+          "name": "negative_marginal_profit",
+          "contribution_pct": -12.708687962912979,
+          "impact": "low",
+          "description": "The next rupee of advertising loses 12.7% in contribution profit."
+        }
+      ]
+    }
+  ],
+  "recommendations": [
+    {
+      "id": "analysis:2026-10-07:budget_reallocation",
+      "created_at": "2026-10-07T00:00:00.000Z",
+      "type": "budget_reallocation",
+      "moves": [
+        {
+          "campaign_id": "c-bag-meta",
+          "old_budget": 4000,
+          "new_budget": 5500,
+          "reason": "Increase profitable spend with at least seven days of projected cover."
+        },
+        {
+          "campaign_id": "c-hoodie",
+          "old_budget": 12000,
+          "new_budget": 16500,
+          "reason": "Increase profitable spend with at least seven days of projected cover."
+        },
+        {
+          "campaign_id": "c-jogger",
+          "old_budget": 10000,
+          "new_budget": 14000,
+          "reason": "Increase profitable spend with at least seven days of projected cover."
+        },
+        {
+          "campaign_id": "c-premium",
+          "old_budget": 25000,
+          "new_budget": 35000,
+          "reason": "Increase profitable spend with at least seven days of projected cover."
+        },
+        {
+          "campaign_id": "c-sneaker",
+          "old_budget": 30000,
+          "new_budget": 8800,
+          "reason": "Protect stock below three days of cover."
+        }
+      ],
+      "expected_profit_gain_per_day": 8516.262572526524,
+      "confidence": 0.75,
+      "constraints_checked": [
+        "budget conserved",
+        "donor cap",
+        "receiver cap",
+        "platform floor",
+        "receiver cover",
+        "min gain",
+        "max moves"
+      ],
+      "explanation": "Adjust 5 campaign budgets to increase expected contribution profit by INR 8516.26 per day, with INR 1200.00 held back and all budget and stock guardrails satisfied.",
+      "status": "pending"
+    }
+  ]
+}

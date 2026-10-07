@@ -1,3 +1,4 @@
+import path from 'path';
 import { readFile } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 import { join } from 'node:path';
@@ -67,7 +68,7 @@ export class FixtureRepo implements Repo {
   private readonly ready: Promise<Data>;
   private baseline!: Data;
 
-  constructor(directory: string | { seed: number } = fileURLToPath(new URL('../../fixtures/', import.meta.url))) {
+  constructor(directory: string | { seed: number } = path.join(process.cwd(), 'fixtures'))  {
     this.ready = (typeof directory === 'string' ? loadFixtures(directory) : loadSeedFixtures(directory.seed)).then(data => {
       this.baseline = structuredClone(data);
       return data;

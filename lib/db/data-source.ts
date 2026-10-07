@@ -2,7 +2,7 @@ import { FixtureRepo, type Repo } from './repo.ts';
 import { assertServer, SupabaseRepo, type SupabaseClient } from './supabase-repo.ts';
 
 export const FALLBACK_BANNER = 'Showing saved demo data';
-export const SUPABASE_TIMEOUT_MS = 3000;
+export const SUPABASE_TIMEOUT_MS = 5000;
 export interface DataStatus {
   dataSource: 'fixtures' | 'supabase';
   isFallback: boolean;

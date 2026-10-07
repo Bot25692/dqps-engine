@@ -1,0 +1,17 @@
+[
+  {
+    "recommendation_type": "budget_reallocation",
+    "weight": 0.75,
+    "updated_at": "2026-09-20T18:00:00Z"
+  },
+  {
+    "recommendation_type": "stock_protection",
+    "weight": 0.75,
+    "updated_at": "2026-09-20T18:00:00Z"
+  },
+  {
+    "recommendation_type": "creative_refresh",
+    "weight": 0.75,
+    "updated_at": "2026-09-20T18:00:00Z"
+  }
+]
