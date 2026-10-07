@@ -11,7 +11,6 @@
  * No business logic in this file. All numbers from code.
  */
 
-export const instant = false;
 
 import { PageHeader } from "@/components/page-header";
 import { MainContent } from "@/components/main-content";

@@ -11,7 +11,6 @@
 
 // Allow this route to block at prerender (it reads from the filesystem at request time).
 // See: next.js docs — route-segment-config/instant.md
-export const instant = false;
 
 import { PageHeader } from "@/components/page-header";
 import { MainContent } from "@/components/main-content";

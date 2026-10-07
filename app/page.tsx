@@ -8,7 +8,6 @@ import { getRuntimeRepo } from "@/lib/db/runtime-repo";
 import { loadAnalysisInputs } from "@/lib/run-analysis";
 import { overviewData } from "@/lib/demo/overview-data";
 
-export const instant = false;
 
 /* ─── Overview page (/) ──────────────────────────────────────────────────── */
 /* All metrics sourced from fixtures via overviewData(). No math in the UI.   */

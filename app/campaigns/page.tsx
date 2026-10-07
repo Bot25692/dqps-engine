@@ -5,7 +5,6 @@ import { getRuntimeRepo } from "@/lib/db/runtime-repo";
 import { loadAnalysisInputs } from "@/lib/run-analysis";
 import type { Campaign, Sku, MetricRow, InventoryRow } from "@/lib/types";
 
-export const instant = false;
 
 /* ─── Platform badge colours ─────────────────────────────────────────────── */
 const platformStyle: Record<string, { color: string; bg: string; border: string; label: string }> = {
