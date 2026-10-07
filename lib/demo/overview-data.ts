@@ -3,17 +3,26 @@ import type { AttentionItem, DailyPortfolioRow, KpiStat, OpportunityItem } from 
 
 // Derive the existing Overview display from the same Repo snapshot used by analysis.
 export function overviewData(data: { campaigns: Campaign[]; skus: Sku[]; metrics: MetricRow[]; inventory: InventoryRow[] }) {
+  if (!data.metrics?.length) {
+    throw new Error('No daily metric records found for the requested period. Check that the date range overlaps fixture data (canonical: 2026-08-24 to 2026-10-07).');
+  }
   const skuMap = new Map(data.skus.map(sku => [sku.id, sku]));
   const campaignMap = new Map(data.campaigns.map(campaign => [campaign.id, campaign]));
   const dates = [...new Set(data.metrics.map(row => row.date))].sort();
-  const latest = dates.at(-1)!;
+  const latest = dates.at(-1);
+  if (!latest) {
+    throw new Error('No metric dates available for the requested period.');
+  }
   const daily = dates.map(date => {
     const rows = data.metrics.filter(row => row.date === date);
     return { day: date, revenue: rows.reduce((sum, row) => sum + row.revenue, 0),
       spend: rows.reduce((sum, row) => sum + row.spend, 0),
       profit: rows.reduce((sum, row) => sum + row.revenue * skuMap.get(campaignMap.get(row.campaign_id)!.sku_id)!.margin_rate - row.spend, 0) };
   });
-  const current = daily.at(-1)!;
+  const current = daily.at(-1);
+  if (!current) {
+    throw new Error('No daily metric records found for the requested period.');
+  }
   const inr = (n: number) => `₹${n.toLocaleString('en-IN', { maximumFractionDigits: 0 })}`;
   const kpiStats: KpiStat[] = [
     { label: 'Revenue', value: inr(current.revenue), sub: `${latest} · all platforms`, trend: 'neutral' },

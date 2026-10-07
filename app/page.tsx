@@ -5,7 +5,8 @@ import { PortfolioChart } from "@/components/portfolio-chart";
 import { AlertCard } from "@/components/alert-card";
 import { connection } from "next/server";
 import { getRuntimeRepo } from "@/lib/db/runtime-repo";
-import { loadAnalysisInputs } from "@/lib/run-analysis";
+import { ANALYSIS_FROM, ANALYSIS_AS_OF } from "@/lib/run-analysis";
+import { loadAnalysisData } from "@/lib/db/load-analysis-data";
 import { overviewData } from "@/lib/demo/overview-data";
 
 export const instant = false;
@@ -15,8 +16,9 @@ export const instant = false;
 export default async function OverviewPage() {
   await connection();
   const repo = await getRuntimeRepo();
+  const data = await loadAnalysisData(ANALYSIS_FROM, ANALYSIS_AS_OF, repo);
   const { kpiStats, portfolioTimeSeries, attentionItem, opportunityItem } =
-    overviewData(await repo.run(loadAnalysisInputs));
+    overviewData(data);
 
   /* ── Court Sneaker: Stock Risk ── */
   const attentionMetrics = [

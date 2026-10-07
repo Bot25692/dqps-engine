@@ -1,3 +1,5 @@
+"use client";
+
 /* ─── StatCard component ────────────────────────────────────────────────────
    Premium dark KPI metric card.
    Semantic colour rules from CONTEXT.md: green=good, red=problem, amber=warning.

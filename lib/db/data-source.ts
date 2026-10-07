@@ -40,7 +40,7 @@ export function createRepo(options: {
   let fixtures: Repo | undefined;
   let supabase: SupabaseRepo | undefined;
   const getFixtures = () => fixtures ??= new FixtureRepo(options.fixtureDirectory
-    ?? (options.fixtureSeed === undefined ? undefined : { seed: options.fixtureSeed }));
+    ?? { seed: options.fixtureSeed ?? 1 });
   const status = (): DataStatus => ({
     dataSource: source === 'supabase' && !fallback ? 'supabase' : 'fixtures',
     isFallback: fallback, banner: fallback ? FALLBACK_BANNER : null,

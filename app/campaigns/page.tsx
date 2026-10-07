@@ -191,15 +191,11 @@ export default async function CampaignsPage() {
                   return (
                     <tr
                       key={row.campaign.id}
+                      className="hover:bg-[var(--bg-hover)]"
                       style={{
                         borderBottom: i < rows.length - 1 ? "1px solid var(--border-subtle)" : "none",
                         backgroundColor: isHighlighted ? "rgba(239,68,68,0.04)" : "transparent",
                         transition: "background-color 0.12s",
-                      }}
-                      onMouseEnter={(e) => { (e.currentTarget as HTMLElement).style.backgroundColor = "var(--bg-hover)"; }}
-                      onMouseLeave={(e) => {
-                        (e.currentTarget as HTMLElement).style.backgroundColor =
-                          isHighlighted ? "rgba(239,68,68,0.04)" : "transparent";
                       }}
                     >
                       {/* Campaign name */}
