@@ -410,4 +410,143 @@ describe('Dataset Independence & Dynamic Bounds', () => {
       dayCount: 14,
     });
   });
+
+  it('zero-order SKU protection does not prevent valid reallocations between other SKUs in the portfolio', async () => {
+    const dates = generateDates('2025-10-01', 14);
+    const asOf = dates.at(-1)!;
+
+    const skus: T.Sku[] = [
+      { id: 'SKU-DONOR', name: 'Low Stock Donor Item', margin_rate: 0.50 },
+      { id: 'SKU-RECEIVER', name: 'High Margin Receiver Item', margin_rate: 0.70 },
+      { id: 'SKU-ZERO', name: 'Zero Order Protected Item', margin_rate: 0.60 },
+    ];
+
+    const campaigns: T.Campaign[] = [
+      { id: 'cmp-donor', name: 'Donor Campaign', sku_id: 'SKU-DONOR', platform: 'meta', daily_budget: 10000 },
+      { id: 'cmp-receiver', name: 'Receiver Campaign', sku_id: 'SKU-RECEIVER', platform: 'google', daily_budget: 10000 },
+      { id: 'cmp-zero', name: 'Zero Order Campaign', sku_id: 'SKU-ZERO', platform: 'tiktok', daily_budget: 5000 },
+    ];
+
+    const metrics: T.MetricRow[] = [];
+    const inventory: T.InventoryRow[] = [];
+
+    for (const d of dates) {
+      metrics.push({ campaign_id: 'cmp-donor', date: d, spend: 10000, revenue: 20000, impressions: 20000, clicks: 500, orders: 20 });
+      metrics.push({ campaign_id: 'cmp-receiver', date: d, spend: 10000, revenue: 50000, impressions: 30000, clicks: 1000, orders: 50 });
+      // Zero order campaign has spend but 0 revenue and 0 orders
+      metrics.push({ campaign_id: 'cmp-zero', date: d, spend: 5000, revenue: 0, impressions: 5000, clicks: 100, orders: 0 });
+
+      // Donor has very low stock (10 units, sold 20/day -> 0.5 days runway)
+      inventory.push({ sku_id: 'SKU-DONOR', date: d, units_on_hand: d === asOf ? 10 : 100, units_sold: 20 });
+      // Receiver has ample stock (1000 units, sold 50/day -> 20 days runway)
+      inventory.push({ sku_id: 'SKU-RECEIVER', date: d, units_on_hand: 1000, units_sold: 50 });
+      // Zero-order SKU has units on hand
+      inventory.push({ sku_id: 'SKU-ZERO', date: d, units_on_hand: 100, units_sold: 0 });
+    }
+
+    const repo = new MemoryRepo({ skus, campaigns, metrics, inventory });
+    const analysis = await runAnalysis(repo);
+
+    expect(analysis.recommendations).toHaveLength(1);
+    const rec = analysis.recommendations[0];
+
+    // Verify donor is cut and receiver is increased
+    const donorMove = rec.moves.find(m => m.campaign_id === 'cmp-donor');
+    const receiverMove = rec.moves.find(m => m.campaign_id === 'cmp-receiver');
+    const zeroMove = rec.moves.find(m => m.campaign_id === 'cmp-zero');
+
+    expect(donorMove).toBeDefined();
+    expect(donorMove!.new_budget).toBeLessThan(donorMove!.old_budget);
+    expect(receiverMove).toBeDefined();
+    expect(receiverMove!.new_budget).toBeGreaterThan(receiverMove!.old_budget);
+
+    // Zero-order campaign was NOT modified
+    expect(zeroMove).toBeUndefined();
+  });
+
+  it('executes full Golden Path via HTTP POST /api/decide with arbitrary 2025 dataset', async () => {
+    const { POST: decideRoute } = await import('@/app/api/decide/route');
+    const dates = generateDates('2025-02-01', 20);
+    const asOf = dates.at(-1)!;
+
+    const skus: T.Sku[] = [
+      { id: 'ARBITRARY-SKU-1', name: 'Alpha Brand Product', margin_rate: 0.65 },
+      { id: 'ARBITRARY-SKU-2', name: 'Beta Brand Product', margin_rate: 0.50 },
+    ];
+    const campaigns: T.Campaign[] = [
+      { id: 'cmp-alpha', name: 'Alpha Campaign', sku_id: 'ARBITRARY-SKU-1', platform: 'meta', daily_budget: 10000 },
+      { id: 'cmp-beta', name: 'Beta Campaign', sku_id: 'ARBITRARY-SKU-2', platform: 'google', daily_budget: 10000 },
+    ];
+    const metrics: T.MetricRow[] = [];
+    const inventory: T.InventoryRow[] = [];
+
+    for (const d of dates) {
+      metrics.push({ campaign_id: 'cmp-alpha', date: d, spend: 10000, revenue: 45000, impressions: 30000, clicks: 800, orders: 45 });
+      metrics.push({ campaign_id: 'cmp-beta', date: d, spend: 10000, revenue: 15000, impressions: 20000, clicks: 400, orders: 15 });
+      inventory.push({ sku_id: 'ARBITRARY-SKU-1', date: d, units_on_hand: 800, units_sold: 45 });
+      inventory.push({ sku_id: 'ARBITRARY-SKU-2', date: d, units_on_hand: d === asOf ? 5 : 60, units_sold: 15 });
+    }
+
+    const testRepo = new MemoryRepo({ skus, campaigns, metrics, inventory });
+    await runAnalysis(testRepo);
+
+    const rec = (await testRepo.getRecommendations())[0];
+    expect(rec).toBeDefined();
+    expect(rec.id).toBe(`analysis:${asOf}:budget_reallocation`);
+
+    // Attach to adaptRuntime
+    const previousRuntime = (globalThis as unknown as { adaptRuntime?: unknown }).adaptRuntime;
+    const testDataRepo = Object.assign(testRepo, {
+      status: { dataSource: 'fixtures' as const, isFallback: false, banner: null },
+      run: <T>(op: (r: Repo) => Promise<T>) => op(testRepo),
+    });
+    (globalThis as unknown as { adaptRuntime?: unknown }).adaptRuntime = {
+      repo: testDataRepo,
+      queue: Promise.resolve(),
+      ready: Promise.resolve(),
+    };
+
+    try {
+      // 1. Register
+      const regRes = await decideRoute(new Request('http://localhost/api/decide', {
+        method: 'POST',
+        body: JSON.stringify({ recommendationId: rec.id, action: 'register' }),
+      }));
+      expect(regRes.status).toBe(200);
+
+      // 2. Approve
+      const appRes = await decideRoute(new Request('http://localhost/api/decide', {
+        method: 'POST',
+        body: JSON.stringify({ recommendationId: rec.id, action: 'approve' }),
+      }));
+      expect(appRes.status).toBe(200);
+
+      // 3. Simulate
+      const simRes = await decideRoute(new Request('http://localhost/api/decide', {
+        method: 'POST',
+        body: JSON.stringify({ recommendationId: rec.id, action: 'simulate', seed: 42 }),
+      }));
+      expect(simRes.status).toBe(200);
+      const simData = await simRes.json();
+      expect(simData.ok).toBe(true);
+      expect(simData.status).toBe('simulated');
+      expect(simData.simulationResult).toBeDefined();
+      expect(simData.confidenceUpdate).toBeDefined();
+
+      // Verify outcomes persisted
+      const outcomes = await testRepo.getOutcomes();
+      expect(outcomes).toHaveLength(1);
+      expect(outcomes[0].recommendation_id).toBe(rec.id);
+
+      // 4. Reset
+      const resetRes = await decideRoute(new Request('http://localhost/api/decide', {
+        method: 'POST',
+        body: JSON.stringify({ recommendationId: rec.id, action: 'reset' }),
+      }));
+      expect(resetRes.status).toBe(200);
+      expect(await testRepo.getOutcomes()).toHaveLength(0);
+    } finally {
+      (globalThis as unknown as { adaptRuntime?: unknown }).adaptRuntime = previousRuntime;
+    }
+  });
 });
