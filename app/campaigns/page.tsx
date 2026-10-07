@@ -154,6 +154,7 @@ export default async function CampaignsPage() {
               border: "1px solid var(--border-subtle)",
             }}
           >
+            <div className="overflow-x-auto">
             <table className="min-w-full text-sm" style={{ borderCollapse: "collapse" }}>
               <thead>
                 <tr style={{ borderBottom: "1px solid var(--border-subtle)" }}>
@@ -290,6 +291,7 @@ export default async function CampaignsPage() {
                 })}
               </tbody>
             </table>
+            </div>
           </div>
 
           {/* Table footnote */}
