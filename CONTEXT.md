@@ -119,4 +119,14 @@ Seeded brand: D2C apparel and footwear, 4 platforms, 8 SKUs, about 10 campaigns,
   - All source files match or supersede ASTRA zip; local has G1 session improvements.
   - npm run build: ✓ exit code 0 · Compiled in 21.3s · TypeScript in 5.9s · 0 errors
   - All 5 routes static-prerendered: / · /_not-found · /campaigns · /learning · /recommendations
+- **[Builder B] M4 complete.** Deterministic 3-day simulation + approval workflow.
+  - lib/simulation/types.ts — simulation-only types (never imports lib/types.ts)
+  - lib/simulation/seeded-rng.ts — mulberry32 deterministic PRNG
+  - lib/simulation/engine.ts — hidden-world simulator: 3-day horizon, beta_true∈[0.8,1.2]×beta_est, ±8% noise, Day-1 50% ramp, non-negative inventory
+  - lib/simulation/approval-store.ts — human-in-the-loop state machine (pending→approved→simulated; reject permanently blocks)
+  - lib/simulation/boundary.ts — public entry point with zod validation; all integration points documented
+  - app/api/decide/route.ts — POST handler for approve/reject/simulate/register actions
+  - vitest.config.ts + npm test script added (vitest@2.1, pre-approved)
+  - Tests: 32/32 passed · Build: ✓ exit code 0 · TypeScript: 0 errors
+  - /api/decide listed as ƒ (Dynamic) in build output
 - Next: Gate G0 (Builder A — types, Repo interface, fixtures). Gate G2 after both G0 tasks merge.
