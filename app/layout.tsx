@@ -24,7 +24,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className={`h-full ${jetbrainsMono.variable}`}>
-      <body className="h-full flex antialiased" style={{ backgroundColor: "var(--bg-base)" }}>
+      <body suppressHydrationWarning className="h-full flex antialiased" style={{ backgroundColor: "var(--bg-base)" }}>
         {/* Fixed sidebar */}
         <Sidebar />
 
