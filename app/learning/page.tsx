@@ -8,6 +8,7 @@ import { LearningView } from "@/components/learning/learning-view";
 import type { Outcome } from "@/lib/types";
 import { connection } from "next/server";
 import { cookies } from "next/headers";
+import { unsealSession } from "@/lib/session";
 
 export default async function LearningPage() {
   await connection();
@@ -16,11 +17,9 @@ export default async function LearningPage() {
   let cookieOutcome: Outcome | null = null;
   let cookieConfidence: number | null = null;
   if (sessionCookie) {
-    try {
-      const parsed = JSON.parse(decodeURIComponent(sessionCookie));
-      if (parsed.outcome) cookieOutcome = parsed.outcome;
-      if (parsed.confidence?.weight) cookieConfidence = parsed.confidence.weight;
-    } catch {}
+    const session = unsealSession(sessionCookie);
+    if (session?.outcome) cookieOutcome = session.outcome;
+    if (session?.confidence?.weight) cookieConfidence = session.confidence.weight;
   }
 
   const repo = await getRuntimeRepo();

@@ -8,6 +8,7 @@ import { RecommendationDetail } from "@/components/recommendations/recommendatio
 import { connection } from "next/server";
 import { cookies } from "next/headers";
 import type { Outcome, Recommendation } from "@/lib/types";
+import { unsealSession } from "@/lib/session";
 
 export default async function RecommendationsPage() {
   await connection();
@@ -17,12 +18,10 @@ export default async function RecommendationsPage() {
   let cookieRecStatus: string | null = null;
   let cookieConfidence: number | null = null;
   if (sessionCookie) {
-    try {
-      const parsed = JSON.parse(decodeURIComponent(sessionCookie));
-      if (parsed.outcome) cookieOutcome = parsed.outcome;
-      if (parsed.status) cookieRecStatus = parsed.status;
-      if (parsed.confidence?.weight) cookieConfidence = parsed.confidence.weight;
-    } catch {}
+    const session = unsealSession(sessionCookie);
+    if (session?.outcome) cookieOutcome = session.outcome;
+    if (session?.status) cookieRecStatus = session.status;
+    if (session?.confidence?.weight) cookieConfidence = session.confidence.weight;
   }
 
   // Fetch from fixture repo (server component — safe)

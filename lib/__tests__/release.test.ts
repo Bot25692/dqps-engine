@@ -133,9 +133,21 @@ describe('Release regressions', () => {
     const simCookie = simRes.headers.get('set-cookie');
     expect(simCookie).toBeTruthy();
     expect(simCookie).toContain('adapt_session=');
-    const decoded = decodeURIComponent(simCookie!);
-    expect(decoded).toContain('"status":"executed"');
-    expect(decoded).toContain('"outcome"');
+    expect(simCookie).toContain('HttpOnly');
+    const tokenMatch = simCookie!.match(/adapt_session=([^;]+)/);
+    expect(tokenMatch).toBeTruthy();
+    const token = tokenMatch![1];
+
+    const { unsealSession } = await import('../session');
+    const unsealed = unsealSession(token);
+    expect(unsealed).toBeTruthy();
+    expect(unsealed?.status).toBe('executed');
+    expect(unsealed?.outcome?.predicted).toBeGreaterThan(0);
+    expect(unsealed?.outcome?.actual).toBeDefined();
+
+    // Tampered token must fail cryptographic authentication
+    const tampered = token.slice(0, -4) + 'AAAA';
+    expect(unsealSession(tampered)).toBeNull();
 
     const resetRes = await decide('reset');
     const resetCookie = resetRes.headers.get('set-cookie');

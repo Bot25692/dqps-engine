@@ -8,6 +8,7 @@ import { allocationState, loadAnalysisInputs, runAnalysis } from '@/lib/run-anal
 import { revenue } from '@/lib/analysis/optimize';
 import { OutcomeSchema, RecommendationSchema, type ActionLogEntry } from '@/lib/types';
 import type { Repo } from '@/lib/db/repo';
+import { sealSession, unsealSession } from '@/lib/session';
 
 const RequestSchema = z.object({
   recommendationId: z.string().min(1).optional(),
@@ -69,14 +70,14 @@ export async function POST(request: Request): Promise<Response> {
         // Keep the confidence used for this outcome in the recommendation snapshot.
         const weight = await repo.getConfidence(rec.type);
         await repo.saveRecommendations([{ ...rec, status, confidence: weight?.weight ?? .75 }]);
-        const sessionPayload = {
+        const token = sealSession({
           recommendationId: rec.id,
           status,
           approvedAt: action === 'approve' ? new Date().toISOString() : undefined,
-        };
+        });
         return Response.json(result, {
           headers: {
-            'Set-Cookie': `adapt_session=${encodeURIComponent(JSON.stringify(sessionPayload))}; Path=/; Max-Age=86400; SameSite=Lax`,
+            'Set-Cookie': `adapt_session=${token}; Path=/; Max-Age=86400; SameSite=Lax; HttpOnly`,
           },
         });
       }
@@ -91,13 +92,11 @@ export async function POST(request: Request): Promise<Response> {
           const cookieHeader = request.headers.get('cookie') || '';
           const match = cookieHeader.match(/adapt_session=([^;]+)/);
           if (match) {
-            try {
-              const session = JSON.parse(decodeURIComponent(match[1]));
-              if (session.recommendationId === rec.id && session.status === 'approved' && session.approvedAt) {
-                approval = { id: `${rec.id}:approved`, recommendation_id: rec.id, created_at: session.approvedAt, actor: 'human', action: 'approved', note: '' };
-                await logOnce(repo, rec.id, 'approved');
-              }
-            } catch {}
+            const session = unsealSession(match[1]);
+            if (session && session.recommendationId === rec.id && session.status === 'approved' && session.approvedAt) {
+              approval = { id: `${rec.id}:approved`, recommendation_id: rec.id, created_at: session.approvedAt, actor: 'human', action: 'approved', note: '' };
+              await logOnce(repo, rec.id, 'approved');
+            }
           }
         }
         if (!approval || (await repo.getActionLog()).some(entry => entry.action === 'rejected')) {
@@ -138,7 +137,7 @@ export async function POST(request: Request): Promise<Response> {
       await repo.saveRecommendations([{ ...rec, status: 'executed' }]);
       await logOnce(repo, rec.id, 'executed');
       await repo.saveOutcome(outcome);
-      const sessionPayload = {
+      const token = sealSession({
         recommendationId: rec.id,
         status: 'executed',
         outcome,
@@ -149,12 +148,12 @@ export async function POST(request: Request): Promise<Response> {
         actualGain,
         errorPct: outcome.error_pct,
         confidenceUpdate,
-      };
+      });
       return Response.json({ ok: true, recommendationId: rec.id, status: 'simulated', simulationResult,
         predictedGainPerDay, predictedTotal: outcome.predicted, actualGain,
         errorFraction, errorPct: outcome.error_pct, confidenceUpdate }, {
         headers: {
-          'Set-Cookie': `adapt_session=${encodeURIComponent(JSON.stringify(sessionPayload))}; Path=/; Max-Age=86400; SameSite=Lax`,
+          'Set-Cookie': `adapt_session=${token}; Path=/; Max-Age=86400; SameSite=Lax; HttpOnly`,
         },
       });
     } catch {
