@@ -162,6 +162,8 @@ export interface LearningViewModel {
 }
 
 export interface DecisionHandlers {
+  workflowStage?: import('./workflow-state').WorkflowStage;
+  errorDisplay?: string;
   onApprove: () => void | Promise<void>;
   onReject: () => void | Promise<void>;
   onSimulate?: () => void | Promise<void>;

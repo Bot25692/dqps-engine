@@ -252,6 +252,7 @@ export function restoreApproval(recommendationId: string, approvedAt: number): v
  * Clear all approval state. Used only by demo reset / test teardown.
  * In production this would be a no-op (state lives in Builder A's tables).
  */
-export function resetStore(): void {
-  store.clear();
+export function resetStore(recommendationIds?: string[]): void {
+  if (recommendationIds) recommendationIds.forEach(id => store.delete(id));
+  else store.clear();
 }

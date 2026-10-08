@@ -186,8 +186,8 @@ function runApprovedSimulation(
  * Allows deterministic replay from scratch (e.g. "Reset Demo" button).
  * In production this is a no-op; state lives in Builder A's tables.
  */
-function reset(): void {
-  resetStore();
+function reset(recommendationIds?: string[]): void {
+  resetStore(recommendationIds);
 }
 
 // ── Exported boundary object ──────────────────────────────────────────────────

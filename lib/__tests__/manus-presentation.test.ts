@@ -55,6 +55,6 @@ describe('Manus integration presentation regressions',()=>{
   it('empty learning has no fake actual or history',()=>{
     const view=learningView([],[],.75);
     expect(view.records).toEqual([]);expect(view.confidenceHistory).toEqual([]);
-    expect(renderToStaticMarkup(createElement(LearningScreen,{data:view}))).toContain('No simulation outcomes yet');
+    expect(renderToStaticMarkup(createElement(LearningScreen,{data:view}))).toContain('No simulation completed yet');
   });
 });

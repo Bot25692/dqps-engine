@@ -20,6 +20,7 @@ import { useRouter } from "next/navigation";
 import { RecommendationsScreen } from "@/components/manus/recommendations/RecommendationsScreen";
 import { recommendationView } from "@/lib/presentation/manus-adapters";
 import type { Recommendation, Anomaly, Campaign, Sku, Outcome } from "@/lib/types";
+import { workflowStage, type WorkflowStage } from "@/lib/presentation/workflow-state";
 import { presentOutcome } from "@/lib/integration/presentation";
 import type { SimulationResult } from "@/lib/simulation/types";
 
@@ -31,15 +32,6 @@ interface Props {
   outcome?: Outcome | null;
   currentRunways?: Record<string, number | null>;
 }
-
-type WorkflowStatus =
-  | "idle"
-  | "registered"
-  | "approved"
-  | "rejected"
-  | "simulating"
-  | "simulated"
-  | "error";
 
 interface SimulateResponse {
   ok: boolean;
@@ -69,16 +61,8 @@ export function RecommendationDetail({
   currentRunways = {},
 }: Props) {
   const router = useRouter();
-  const [status, setStatus] = useState<WorkflowStatus>(
-    recommendation?.status === "executed"
-      ? "simulated"
-      : recommendation?.status === "approved"
-      ? "approved"
-      : recommendation?.status === "rejected"
-      ? "rejected"
-      : "idle"
-  );
-  const [simResult, setSimResult] = useState<SimulateResponse | null>(outcome && recommendation ? presentOutcome(outcome, recommendation) : null);
+  const [status, setStatus] = useState<WorkflowStage>(workflowStage(recommendation, outcome));
+  const [simResult, setSimResult] = useState<SimulateResponse | null>(workflowStage(recommendation, outcome) === 'COMPLETED' && outcome && recommendation ? presentOutcome(outcome, recommendation) : null);
   const [error, setError] = useState<string | null>(null);
   const [busy, setBusy] = useState(false);
 
@@ -102,7 +86,9 @@ export function RecommendationDetail({
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ recommendationId: recId, action, ...extra }),
     });
-    return res.json();
+    const result = await res.json();
+    if (!res.ok || !result.ok) throw new Error(result.error ?? result.message ?? 'Decision request failed');
+    return result;
   }
 
   async function handleRegisterAndApprove() {
@@ -111,14 +97,15 @@ export function RecommendationDetail({
       await callDecide("register");
       const res = await callDecide("approve");
       if (res.ok) {
-        setStatus("approved");
+        setStatus("APPROVED");
+        router.refresh();
       } else {
         setError(res.error ?? "Approval failed");
-        setStatus("error");
+        
       }
     } catch (e) {
       setError(String(e));
-      setStatus("error");
+      
     }
   }
 
@@ -127,7 +114,7 @@ export function RecommendationDetail({
     try {
       await callDecide("register");
       const res = await callDecide("reject");
-      if (res.ok) setStatus("rejected");
+      if (res.ok) setStatus("REJECTED");
       else setError(res.error ?? "Rejection failed");
     } catch (e) {
       setError(String(e));
@@ -135,37 +122,22 @@ export function RecommendationDetail({
   }
 
   async function handleSimulate() {
-    if (!rec) return;
-    setStatus("simulating");
+    if (!rec || status !== 'APPROVED') return;
+    setStatus('SIMULATING');
     setError(null);
     try {
-      const res: SimulateResponse = await callDecide("simulate", { seed: SEED });
-      setSimResult(res);
-      setStatus(res.ok ? "simulated" : "error");
-      if (!res.ok) {
-        setError(res.error ?? "Simulation failed");
-      } else {
-        try {
-          const outcomeRecord = {
-            id: `${rec.id}:outcome`,
-            recommendation_id: rec.id,
-            created_at: new Date(res.simulationResult?.simulatedAt || Date.now()).toISOString(),
-            predicted: res.predictedTotal ?? rec.expected_profit_gain_per_day * 3,
-            actual: res.actualGain ?? 0,
-            error_pct: res.errorPct ?? 0,
-            horizon_days: 3,
-          };
-          localStorage.setItem("adapt_client_outcome", JSON.stringify({
-            outcome: outcomeRecord,
-            confidenceUpdate: res.confidenceUpdate,
-            simulationResult: res.simulationResult,
-          }));
-        } catch {}
-        window.location.reload(); // Load the saved outcome and clear stale Learning snapshots.
+      const res: SimulateResponse = await callDecide('simulate', { seed: SEED });
+      if (![res.actualGain, res.predictedTotal, res.errorPct, res.confidenceUpdate?.newConfidence].every(value => typeof value === 'number' && Number.isFinite(value))) {
+        throw new Error('Simulation response is incomplete. Reload to recover the saved outcome.');
       }
+      setSimResult(res);
+      setStatus('COMPLETED');
+      // The API has persisted the real outcome and applied M5 once. No browser
+      // outcome copy and no automatic navigation that hides the completed step.
+      router.refresh();
     } catch (e) {
-      setError(String(e));
-      setStatus("error");
+      setError(e instanceof Error ? e.message : String(e));
+      setStatus('APPROVED');
     }
   }
 
@@ -181,7 +153,7 @@ export function RecommendationDetail({
         return;
       }
       window.location.reload(); // Reset invalidates every visited workflow page.
-      setStatus("idle");
+      setStatus("PENDING");
       setSimResult(null);
       setError(null);
     } catch (error) { setError(error instanceof Error ? error.message : 'Reset failed'); }
@@ -196,14 +168,14 @@ export function RecommendationDetail({
   // in sync with the same confirmed lifecycle state as the action controls.
   const presentationRec = rec ? {
     ...rec,
-    status: status === 'simulated' ? 'executed' as const
-      : status === 'approved' || status === 'simulating' ? 'approved' as const
-      : status === 'rejected' ? 'rejected' as const : rec.status,
+    status: status === 'COMPLETED' ? 'executed' as const
+      : status === 'APPROVED' || status === 'SIMULATING' ? 'approved' as const
+      : status === 'REJECTED' ? 'rejected' as const : rec.status,
   } : null;
   const view = presentationRec ? recommendationView(presentationRec,stockAnomalies,campaigns,skus,currentRunways) : null;
   return <>
-    <div className="host-toolbar"><span className="host-mode"><i/>Simulated execution only · INR</span><div><button className="action-secondary" onClick={handleAnalyze} disabled={busy || status !== 'idle'}>{busy?'Working…':'Run Analysis'}</button><button className="action-secondary" onClick={()=>runAction(handleReset)} disabled={busy}>Reset Demo</button></div></div>
+    <div className="host-toolbar"><span className="host-mode"><i/>Simulated execution only · INR</span><div><button className="action-secondary" onClick={handleAnalyze} disabled={busy || status !== 'PENDING'}>{busy?'Working…':'Run Analysis'}</button><button className="action-secondary" onClick={()=>runAction(handleReset)} disabled={busy}>Reset Demo</button></div></div>
     {error&&<p className="host-error" role="alert">{error}</p>}
-    {!view?<section className="host-empty"><h1>No eligible recommendation</h1><p>Run Analysis to evaluate the selected dataset. The engine may find no move that meets every guardrail.</p></section>:<RecommendationsScreen data={view} handlers={{state:status==='simulated'?'simulated':status==='approved'||status==='simulating'?'approved':status==='rejected'?'rejected':'review',isBusy:busy||status==='simulating',onApprove:()=>runAction(handleRegisterAndApprove),onReject:()=>runAction(handleReject),onSimulate:()=>runAction(handleSimulate),actualDisplay:simResult?.actualGain==null?undefined:`₹${simResult.actualGain.toLocaleString('en-IN',{maximumFractionDigits:0})}`,confidenceAfterDisplay:simResult?.confidenceUpdate?`${(simResult.confidenceUpdate.newConfidence*100).toFixed(1)}%`:undefined,statusMessage:'Human approval is mandatory. No live advertising campaigns or budgets are modified.'}}/>}
+    {!view?<section className="host-empty"><h1>No eligible recommendation</h1><p>Run Analysis to evaluate the selected dataset. The engine may find no move that meets every guardrail.</p></section>:<RecommendationsScreen data={view} handlers={{state:status==='COMPLETED'?'simulated':status==='APPROVED'||status==='SIMULATING'?'approved':status==='REJECTED'?'rejected':'review',workflowStage:status,isBusy:busy||status==='SIMULATING',onApprove:()=>runAction(handleRegisterAndApprove),onReject:()=>runAction(handleReject),onSimulate:()=>runAction(handleSimulate),actualDisplay:simResult?.actualGain==null?undefined:`₹${simResult.actualGain.toLocaleString('en-IN',{maximumFractionDigits:0})}`,errorDisplay:simResult?.errorPct==null?undefined:`${simResult.errorPct.toFixed(1)}%`,confidenceAfterDisplay:simResult?.confidenceUpdate?`${(simResult.confidenceUpdate.newConfidence*100).toFixed(1)}%`:undefined,statusMessage:'Human approval is mandatory. No live advertising campaigns or budgets are modified.'}}/>}
   </>;
 }

@@ -23,7 +23,7 @@ function ConfidenceHistory({ data }: { data: LearningViewModel }) {
         {points.length > 1 && <path d={path} className="history-trace" />}
         {points.map((point, index) => <g key={`${point.label}-${index}`}><circle cx={xFor(index)} cy={yFor(point.value)} r="4" className="history-point"><title>{`${point.label}: ${point.displayValue}`}</title></circle><text x={xFor(index)} y={height - 8} textAnchor={index === 0 ? "start" : index === points.length - 1 ? "end" : "middle"}>{point.label}</text></g>)}
       </svg>
-      {!points.length && <div className="history-empty"><span className="history-empty-mark"><Icon name="trend" /></span><strong>No simulation outcomes yet</strong><p>Confidence history appears after an approved simulation measures prediction error.</p></div>}
+      {!points.length && <div className="history-empty"><span className="history-empty-mark"><Icon name="trend" /></span><strong>No simulation completed yet</strong><p>Confidence history appears after an approved simulation measures prediction error.</p></div>}
     </div>
   </section>;
 }
@@ -40,7 +40,7 @@ function ConfidenceBand({ data }: { data: LearningViewModel }) {
 }
 
 export function LearningScreen({ data, decisionState = "review" }: { data: LearningViewModel; decisionState?: DecisionState }) {
-  return <div className="page-stack learning-page">
+  return <div className="page-stack learning-page" data-workflow-stage={data.records.length ? "LEARNED" : "PENDING"}>
     <section className="route-intro learning-intro">
       <div><Eyebrow tone="glacier">Observe / measure / learn</Eyebrow><h1>Trust is <em>measured.</em></h1><p>Prediction earns confidence only after the outcome is observed.</p></div>
       <div className="learning-current-chip"><span className="learning-chip-mark"><Icon name="spark" /></span><div><span>MODEL CONFIDENCE</span><strong>{data.currentConfidenceDisplay}</strong></div></div>
@@ -69,7 +69,7 @@ export function LearningScreen({ data, decisionState = "review" }: { data: Learn
           <div className="measurement-confidence"><span>Confidence</span><strong>{record.confidenceBeforeDisplay} <i>→</i> {record.confidenceAfterDisplay}</strong></div>
         </div>)}</div> : <div className="measurement-empty">
           <div className="forecast-compare"><div className="forecast-cell"><span>Current 3-day projection</span><strong>{data.pendingPredictionDisplay ?? "—"}</strong><small>{data.pendingPeriodDisplay ?? "Predicted contribution-profit impact"}</small></div><span className="forecast-arrow">→</span><div className="forecast-cell forecast-actual"><span>Actual Simulated contribution profit</span><strong>Not recorded</strong><small>Awaiting observed outcome</small></div></div>
-          <p>No simulation outcomes yet. Approve and simulate a recommendation to measure forecast error and update confidence.</p>
+          <p>No simulation completed yet. Approve and simulate a recommendation to measure forecast error and update confidence.</p>
         </div>}
       </article>
     </section>

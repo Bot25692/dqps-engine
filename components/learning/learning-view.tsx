@@ -17,22 +17,8 @@
 import type { Outcome, Recommendation } from "@/lib/types";
 import { learningView } from "@/lib/presentation/manus-adapters";
 import { LearningScreen } from "@/components/manus/learning/LearningScreen";
-import { useState, useSyncExternalStore } from "react";
-
-function subscribe(callback: () => void) {
-  window.addEventListener("storage", callback);
-  return () => window.removeEventListener("storage", callback);
-}
-function getSnapshot(): string | null {
-  try {
-    return localStorage.getItem("adapt_client_outcome");
-  } catch {
-    return null;
-  }
-}
-function getServerSnapshot(): string | null {
-  return null;
-}
+import { useRef, useState } from "react";
+import { hasCompletedOutcome } from "@/lib/presentation/workflow-state";
 
 interface Props {
   outcomes: Outcome[];
@@ -46,21 +32,14 @@ export function LearningView({
   recommendations,
 }: Props) {
   const [resetError, setResetError] = useState<string | null>(null);
-  const clientStoreRaw = useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
-  let clientOutcome: Outcome | null = null;
-  if (clientStoreRaw) {
-    try {
-      const parsed = JSON.parse(clientStoreRaw);
-      if (parsed.outcome) clientOutcome = parsed.outcome;
-    } catch {}
-  }
-
-  const recMap = new Map(recommendations.map((r) => [r.id, r]));
-
-  const effectiveOutcomes = outcomes.length > 0
-    ? outcomes
-    : (clientOutcome && recMap.has(clientOutcome.recommendation_id) ? [clientOutcome] : []);
+  const resetLock = useRef(false);
+  const [resetting, setResetting] = useState(false);
+  // Only server-validated records are eligible. Legacy browser storage is not evidence.
+  const effectiveOutcomes = outcomes.filter(outcome => recommendations.some(rec => hasCompletedOutcome(rec, outcome)));
   async function handleReset() {
+    if (resetLock.current) return;
+    resetLock.current = true;
+    setResetting(true);
     setResetError(null);
     try {
       try {
@@ -77,8 +56,12 @@ export function LearningView({
       // Clear visited-route snapshots as well as the current Learning page.
       window.location.reload();
     } catch (error) { setResetError(error instanceof Error ? error.message : 'Reset failed'); }
+    finally { resetLock.current = false; setResetting(false); }
   }
 
   const view=learningView(effectiveOutcomes,recommendations,currentConfidence);
-  return <><div className="host-toolbar"><span className="host-mode"><i/>Simulated outcomes · 3-day horizon</span><button className="action-secondary" onClick={handleReset}>Reset Demo</button></div>{resetError&&<p className="host-error" role="alert">{resetError}</p>}<LearningScreen data={view}/></>;
+  const isApproved = recommendations.some((r) => r.status === "approved");
+  const isRejected = recommendations.some((r) => r.status === "rejected");
+  const decisionState = effectiveOutcomes.length > 0 ? "review" : isApproved ? "approved" : isRejected ? "rejected" : "review";
+  return <><div className="host-toolbar"><span className="host-mode"><i/>Simulated outcomes · 3-day horizon</span><button className="action-secondary" onClick={handleReset} disabled={resetting}>{resetting ? 'Resetting…' : 'Reset Demo'}</button></div>{resetError&&<p className="host-error" role="alert">{resetError}</p>}<LearningScreen data={view} decisionState={decisionState}/></>;
 }

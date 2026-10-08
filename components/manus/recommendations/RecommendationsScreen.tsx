@@ -1,6 +1,6 @@
 "use client";
 
-import Link from "next/link";
+import { useEffect, useRef } from 'react';
 import type { DecisionHandlers, RecommendationViewModel } from "@/lib/presentation/manus-contracts";
 import { Icon } from "@/components/manus/ui/Icons";
 import { Eyebrow, StatePill } from "@/components/manus/ui/Primitives";
@@ -13,25 +13,37 @@ function WorkflowRibbon({ stages }: { stages: RecommendationViewModel["workflowS
 }
 
 function ResultState({ data, handlers }: { data: RecommendationViewModel; handlers: DecisionHandlers }) {
-  if (handlers.state === "review") return null;
+  if (handlers.state !== "simulated" && handlers.state !== "rejected") return null;
   const isPreview = handlers.isPreview ?? false;
-  const approved = handlers.state === "approved" || handlers.state === "simulated";
+  const approved = handlers.state === "simulated";
   return <section className={`decision-result${approved ? " result-approved" : " result-rejected"}`} aria-live="polite" aria-labelledby="decision-result-title">
     <div className="result-stamp"><span className="result-stamp-icon"><Icon name={approved ? "check" : "warning"} /></span><div><Eyebrow tone={approved ? "copper" : "default"}>{isPreview ? "Local preview state" : "Decision state"}</Eyebrow><h3 id="decision-result-title">{approved ? (isPreview ? "Approval shown · engine not called" : handlers.state === "simulated" ? "Simulated outcome recorded" : "Approval recorded") : (isPreview ? "Rejected in preview · no changes made" : "Recommendation rejected")}</h3></div></div>
     {approved && <div className="result-observation-grid">
       <div><span>Existing projection · {data.asOfDisplay}</span><strong>{data.projectedThreeDayContributionProfitDisplay}</strong><small>3-day projected contribution-profit impact</small></div>
       <div><span>Actual Simulated contribution-profit outcome</span><strong className={handlers.actualDisplay ? "" : "pending-value"}>{handlers.actualDisplay ?? "Not recorded"}</strong><small>Three-day simulated incremental contribution profit</small></div>
       <div><span>Confidence after measurement</span><strong className={handlers.confidenceAfterDisplay ? "" : "pending-value"}>{handlers.confidenceAfterDisplay ?? "Pending"}</strong><small>Existing model updates only after measured error</small></div>
+      <div><span>Prediction error</span><strong>{handlers.errorDisplay ?? 'Unavailable'}</strong><small>Actual versus expected over three Simulated days</small></div>
     </div>}
-    {handlers.state === "simulated" && <Link href="/learning" className="action-primary">Inspect Learning Loop <Icon name="arrow"/></Link>}
+    {handlers.state === "simulated" && <a href="/learning" className="action-primary">Inspect Learning Loop <Icon name="arrow"/></a>}
     <p className="result-boundary">{handlers.statusMessage ?? (isPreview ? "This isolated preview only changes its local display state. It does not approve a live campaign, execute ads, run a simulation, persist Learning, or update confidence." : "Workflow status is owned by the existing application.")}</p>
   </section>;
 }
 
 export function RecommendationsScreen({ data, handlers }: { data: RecommendationViewModel; handlers: DecisionHandlers }) {
+  const simulationPanel = useRef<HTMLElement>(null);
+  useEffect(() => {
+    if (handlers.state === 'approved') simulationPanel.current?.focus();
+  }, [handlers.state]);
   const onApprove = handlers.onApprove;
   const onReject = handlers.onReject;
-  return <div className="page-stack recommendations-page">
+  return <div className="page-stack recommendations-page" data-workflow-stage={handlers.workflowStage}>
+    {handlers.state === 'approved' && <section ref={simulationPanel} tabIndex={-1} className="decision-result result-approved simulation-panel" aria-labelledby="simulation-title" aria-busy={handlers.isBusy}>
+      <Eyebrow tone="copper">APPROVED / SIMULATED EXECUTION ONLY</Eyebrow>
+      <h2 id="simulation-title">3-Day Simulation</h2>
+      <p>Your approval is recorded. Run the real simulation engine to measure this plan over three simulated days. Approval alone does not execute it.</p>
+      <button className="action-primary" onClick={handlers.onSimulate} disabled={handlers.isBusy || !handlers.onSimulate}>{handlers.workflowStage === 'SIMULATING' ? 'Running 3-Day Simulation…' : 'Run 3-Day Simulation'} <Icon name="arrow"/></button>
+      {handlers.workflowStage === 'SIMULATING' && <div role="status"><p>Running the three-day scenario, measuring contribution profit and saving the outcome. Please wait; duplicate execution is blocked.</p><progress aria-label="Simulation in progress" /></div>}
+    </section>}
     <section className="recommendation-masthead">
       <div className="recommendation-title-block"><Eyebrow tone="copper">Decision review <span className="eyebrow-separator">/</span> {data.asOfDisplay}</Eyebrow><h1>Protect the<br /><em>profit opportunity.</em></h1><p>The highest return is not always the safest place to keep spending.</p></div>
       <aside className="impact-monument" aria-label="Expected contribution profit impact">
@@ -85,10 +97,49 @@ export function RecommendationsScreen({ data, handlers }: { data: Recommendation
           <div className="approval-card-top"><span className="approval-icon"><Icon name="spark" /></span><div><Eyebrow tone="copper">HUMAN APPROVAL REQUIRED</Eyebrow><h2 id="approval-title">Your decision.</h2></div></div>
           <StatePill tone={handlers.state === "review" ? "warning" : handlers.state === "approved" || handlers.state === "simulated" ? "positive" : "neutral"}>{handlers.state === "review" ? "Awaiting approval" : handlers.state === "approved" ? (handlers.isPreview ? "Preview approval" : "Approved") : handlers.state === "simulated" ? "Simulated" : "Rejected"}</StatePill>
           <div className="approval-actions">
-            <button type="button" className="action-primary" onClick={handlers.state === "approved" ? handlers.onSimulate : onApprove} disabled={handlers.isBusy || (handlers.state !== "review" && handlers.state !== "approved")} aria-describedby="approval-boundary">{handlers.isBusy ? "Working…" : handlers.state === "approved" ? "Run 3-Day Simulation" : handlers.state === "simulated" ? "Simulation complete" : "Approve & Proceed"} <Icon name="arrow" /></button>
-            <button type="button" className="action-secondary" onClick={onReject} disabled={handlers.isBusy || handlers.state !== "review"}>Reject</button>
+            {handlers.state === "approved" ? (
+              <button
+                type="button"
+                className="action-primary"
+                onClick={handlers.onSimulate}
+                disabled={handlers.isBusy || !handlers.onSimulate}
+                aria-describedby="approval-boundary"
+              >
+                {handlers.workflowStage === "SIMULATING" ? "Running 3-Day Simulation…" : "Run 3-Day Simulation"} <Icon name="arrow" />
+              </button>
+            ) : handlers.state === "simulated" ? (
+              <a href="/learning" className="action-primary" aria-describedby="approval-boundary">
+                Inspect Learning Loop <Icon name="arrow" />
+              </a>
+            ) : (
+              <>
+                <button
+                  type="button"
+                  className="action-primary"
+                  onClick={onApprove}
+                  disabled={handlers.isBusy || handlers.state !== 'review'}
+                  aria-describedby="approval-boundary"
+                >
+                  {handlers.isBusy ? "Working…" : "Approve & Proceed"} <Icon name="arrow" />
+                </button>
+                <button
+                  type="button"
+                  className="action-secondary"
+                  onClick={onReject}
+                  disabled={handlers.isBusy || handlers.state !== "review"}
+                >
+                  Reject
+                </button>
+              </>
+            )}
           </div>
-          <p id="approval-boundary">Approve this plan, then run the three-day simulation. No live ad execution.</p>
+          <p id="approval-boundary">
+            {handlers.state === "approved"
+              ? "Plan approved. Run the three-day simulation to measure outcome and calibrate confidence."
+              : handlers.state === "simulated"
+              ? "Three-day simulation complete. Inspect the Learning page to view outcome and error calibration."
+              : "Approve this plan, then run the three-day simulation. No live ad execution."}
+          </p>
         </section>
       </aside>
     </section>

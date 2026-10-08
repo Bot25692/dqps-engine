@@ -46,17 +46,29 @@ export async function POST(request: Request): Promise<Response> {
     try {
       const repo = await getRuntimeRepo(datasetKey);
       if (action === 'reset') {
+        const activeIds = (await repo.getRecommendations()).map(rec => rec.id);
         await repo.resetDecisions();
         await runAnalysis(repo);
-        boundary.reset();
-        logged.clear();
+        boundary.reset(activeIds);
+        for (const id of activeIds) for (const action of ['approved', 'rejected', 'executed']) logged.delete(`${id}:${action}`);
         return Response.json(
           { ok: true, recommendationId, status: 'reset' },
           { headers: { 'Set-Cookie': 'adapt_session=; Path=/; Max-Age=0; SameSite=Lax' } }
         );
       }
-      const rec = (await repo.getRecommendations()).find(row => row.id === recommendationId);
+      let rec = (await repo.getRecommendations()).find(row => row.id === recommendationId);
       if (!rec) return fail('Unknown recommendation', 404);
+      // Recover a human approval after a cold start, before enforcing the gate.
+      // Only the authenticated cookie for this exact dataset and plan is eligible.
+      const sessionToken = cookieHeader.match(/(?:^|;\s*)adapt_session=([^;]+)/)?.[1];
+      const session = sessionToken ? unsealSession(sessionToken) : null;
+      if (action === 'simulate' && rec.status === 'pending' && session?.dataset === datasetKey
+          && session.recommendationId === rec.id && session.status === 'approved' && session.approvedAt) {
+        restoreApproval(rec.id, Date.parse(session.approvedAt));
+        rec = {...rec, status:'approved'};
+        await repo.saveRecommendations([rec]);
+        await logOnce(repo, rec.id, 'approved');
+      }
       if (recommendation && (recommendation.id !== rec.id
         || JSON.stringify(recommendation.moves) !== JSON.stringify(rec.moves)
         || recommendation.expected_profit_gain_per_day !== rec.expected_profit_gain_per_day)) {
@@ -99,7 +111,7 @@ export async function POST(request: Request): Promise<Response> {
           const match = cookieHeader.match(/adapt_session=([^;]+)/);
           if (match) {
             const session = unsealSession(match[1]);
-            if (session && session.recommendationId === rec.id && session.status === 'approved' && session.approvedAt) {
+            if (session && session.dataset === datasetKey && session.recommendationId === rec.id && session.status === 'approved' && session.approvedAt) {
               approval = { id: `${rec.id}:approved`, recommendation_id: rec.id, created_at: session.approvedAt, actor: 'human', action: 'approved', note: '' };
               await logOnce(repo, rec.id, 'approved');
             }
@@ -166,5 +178,5 @@ export async function POST(request: Request): Promise<Response> {
     } catch {
       return fail('Decision could not be completed. Please retry.', 500);
     }
-  });
+  }, datasetKey);
 }
