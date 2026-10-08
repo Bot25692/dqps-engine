@@ -87,4 +87,59 @@ describe('Release regressions', () => {
     expect(view.attentionItem.name).toBe('Gentle Foaming Cleanser');
     expect(buildCampaignRows(inputs.campaigns,inputs.skus,inputs.metrics,inputs.inventory)).toHaveLength(2);
   });
+  it('persists decisions and outcomes across independent FixtureRepo instances via storage overlay', async () => {
+    const { tmpdir } = await import('node:os');
+    const { join } = await import('node:path');
+    const { rm } = await import('node:fs/promises');
+    const testDir = join(tmpdir(), `adapt_test_overlay_${Date.now()}`);
+    try {
+      const repoA = new FixtureRepo({ seed: 1, storageDir: testDir });
+      const rec = (await repoA.getRecommendations())[0] ?? {
+        id: 'rec_overlay_test', created_at: '2026-03-31T00:00:00.000Z', type: 'budget_reallocation',
+        moves: [{ campaign_id: 'c1', old_budget: 100, new_budget: 80, reason: 'reallocation test' }], expected_profit_gain_per_day: 100, confidence: 0.75, constraints_checked: [],
+        explanation: 'test', status: 'pending',
+      };
+      await repoA.saveRecommendations([{ ...rec, status: 'executed' }]);
+      await repoA.saveOutcome({
+        id: 'rec_overlay_test:outcome', recommendation_id: rec.id, created_at: '2026-03-31T00:00:00.000Z',
+        predicted: 300, actual: 310, error_pct: 3.3, horizon_days: 3,
+      });
+
+      // Independent instance B reading the same storage directory
+      const repoB = new FixtureRepo({ seed: 1, storageDir: testDir });
+      const outcomesB = await repoB.getOutcomes();
+      expect(outcomesB).toHaveLength(1);
+      expect(outcomesB[0].actual).toBe(310);
+      const recB = (await repoB.getRecommendations()).find(r => r.id === rec.id);
+      expect(recB?.status).toBe('executed');
+
+      // Reset on instance B cleans the overlay
+      await repoB.resetDecisions();
+      const repoC = new FixtureRepo({ seed: 1, storageDir: testDir });
+      expect(await repoC.getOutcomes()).toHaveLength(0);
+    } finally {
+      await rm(testDir, { recursive: true, force: true }).catch(() => {});
+    }
+  });
+  it('POST /api/decide sets adapt_session cookie on approval and simulation and clears on reset', async () => {
+    await decide('register');
+    const approveRes = await decide('approve');
+    const approveCookie = approveRes.headers.get('set-cookie');
+    expect(approveCookie).toBeTruthy();
+    expect(approveCookie).toContain('adapt_session=');
+    expect(approveCookie).toContain('Max-Age=86400');
+
+    const simRes = await decide('simulate');
+    const simCookie = simRes.headers.get('set-cookie');
+    expect(simCookie).toBeTruthy();
+    expect(simCookie).toContain('adapt_session=');
+    const decoded = decodeURIComponent(simCookie!);
+    expect(decoded).toContain('"status":"executed"');
+    expect(decoded).toContain('"outcome"');
+
+    const resetRes = await decide('reset');
+    const resetCookie = resetRes.headers.get('set-cookie');
+    expect(resetCookie).toBeTruthy();
+    expect(resetCookie).toContain('Max-Age=0');
+  });
 });

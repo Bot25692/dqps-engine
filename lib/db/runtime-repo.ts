@@ -1,14 +1,17 @@
 import { createRepo, type DataRepo } from './data-source';
 import { runAnalysis } from '../run-analysis';
+import { join } from 'node:path';
+import { tmpdir } from 'node:os';
 
 type Runtime = { repo: DataRepo; ready?: Promise<void>; queue: Promise<unknown> };
 const shared = globalThis as typeof globalThis & { adaptRuntime?: Runtime };
 
 // Keep the demo's existing in-memory Repo across route/page bundles and requests.
-// This is process-local demo state; durable deployments use the Supabase Repo.
+// This is process-local demo state with disk overlay; durable deployments use the Supabase Repo.
 function runtime(): Runtime {
   return shared.adaptRuntime ??= { repo: createRepo({ fixtureSeed: 1,
-    fixtureDirectory: process.env.ADAPT_FIXTURE_DIRECTORY || undefined }), queue: Promise.resolve() };
+    fixtureDirectory: process.env.ADAPT_FIXTURE_DIRECTORY || undefined,
+    storageDir: process.env.ADAPT_STORAGE_DIR || join(tmpdir(), 'adapt_store') }), queue: Promise.resolve() };
 }
 
 // Generate Builder A's actual recommendation once, rather than showing legacy fixture claims.

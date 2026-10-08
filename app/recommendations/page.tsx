@@ -6,9 +6,25 @@ import { getRuntimeRepo } from "@/lib/db/runtime-repo";
 import { loadAnalysisInputs, getDatasetDates, allocationState } from "@/lib/run-analysis";
 import { RecommendationDetail } from "@/components/recommendations/recommendation-detail";
 import { connection } from "next/server";
+import { cookies } from "next/headers";
+import type { Outcome, Recommendation } from "@/lib/types";
 
 export default async function RecommendationsPage() {
   await connection();
+  const cookieStore = await cookies();
+  const sessionCookie = cookieStore.get("adapt_session")?.value;
+  let cookieOutcome: Outcome | null = null;
+  let cookieRecStatus: string | null = null;
+  let cookieConfidence: number | null = null;
+  if (sessionCookie) {
+    try {
+      const parsed = JSON.parse(decodeURIComponent(sessionCookie));
+      if (parsed.outcome) cookieOutcome = parsed.outcome;
+      if (parsed.status) cookieRecStatus = parsed.status;
+      if (parsed.confidence?.weight) cookieConfidence = parsed.confidence.weight;
+    } catch {}
+  }
+
   // Fetch from fixture repo (server component — safe)
   const repo = await getRuntimeRepo();
   const [recommendations, anomalies, campaigns, skus, outcomes, inputs] =
@@ -26,13 +42,33 @@ export default async function RecommendationsPage() {
     recommendations[0] ??
     null;
 
+  let effectiveRec = topRec;
+  if (effectiveRec && cookieRecStatus && effectiveRec.status === "pending") {
+    effectiveRec = {
+      ...effectiveRec,
+      status: cookieRecStatus as Recommendation["status"],
+      confidence: cookieConfidence ?? effectiveRec.confidence,
+    };
+  }
+
+  const effectiveOutcome =
+    outcomes.find((row) => row.recommendation_id === effectiveRec?.id) ??
+    (cookieOutcome && cookieOutcome.recommendation_id === effectiveRec?.id
+      ? cookieOutcome
+      : null);
+
   const stockAnomalies = anomalies
     .filter((a) => a.metric === "stock_runway")
     .sort((a, b) => b.z_score - a.z_score)
     .slice(0, 5);
 
   const asOf = getDatasetDates(inputs.metrics, inputs.inventory).asOf;
-  const currentRunways = Object.fromEntries(allocationState(inputs).campaigns.map(c => [c.id, Number.isFinite(c.sku.runway) ? c.sku.runway : null]));
+  const currentRunways = Object.fromEntries(
+    allocationState(inputs).campaigns.map((c) => [
+      c.id,
+      Number.isFinite(c.sku.runway) ? c.sku.runway : null,
+    ])
+  );
 
   return (
     <>
@@ -44,12 +80,12 @@ export default async function RecommendationsPage() {
       <MainContent>
         {repo.status.banner && <p role="status">{repo.status.banner}</p>}
         <RecommendationDetail
-          key={`${topRec?.id}:${topRec?.status}`}
-          recommendation={topRec}
+          key={`${effectiveRec?.id}:${effectiveRec?.status}`}
+          recommendation={effectiveRec}
           stockAnomalies={stockAnomalies}
           campaigns={campaigns}
           skus={skus}
-          outcome={outcomes.find(row => row.recommendation_id === topRec?.id)}
+          outcome={effectiveOutcome}
           currentRunways={currentRunways}
         />
       </MainContent>

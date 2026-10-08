@@ -31,7 +31,7 @@ async function withDeadline<T>(operation: () => Promise<T>): Promise<T> {
 // Create one repository per request/session; after failure it stays on its own demo state.
 // A timed-out remote write may already have committed; fallback does not imply rollback.
 export function createRepo(options: {
-  dataSource?: string; fixtureDirectory?: string; fixtureSeed?: number; client?: SupabaseClient;
+  dataSource?: string; fixtureDirectory?: string; fixtureSeed?: number; client?: SupabaseClient; storageDir?: string | null;
 } = {}): DataRepo {
   assertServer();
   const source = options.dataSource ?? process.env.DATA_SOURCE ?? 'fixtures';
@@ -39,8 +39,11 @@ export function createRepo(options: {
   let fallback = false;
   let fixtures: Repo | undefined;
   let supabase: SupabaseRepo | undefined;
-  const getFixtures = () => fixtures ??= new FixtureRepo(options.fixtureDirectory
-    ?? (options.fixtureSeed === undefined ? undefined : { seed: options.fixtureSeed }));
+  const getFixtures = () => fixtures ??= new FixtureRepo({
+    directory: options.fixtureDirectory,
+    seed: options.fixtureSeed ?? (options.fixtureDirectory ? undefined : 1),
+    storageDir: options.storageDir,
+  });
   const status = (): DataStatus => ({
     dataSource: source === 'supabase' && !fallback ? 'supabase' : 'fixtures',
     isFallback: fallback, banner: fallback ? FALLBACK_BANNER : null,
