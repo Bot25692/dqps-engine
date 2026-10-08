@@ -103,6 +103,7 @@ export class SupabaseRepo implements Repo {
   async getAnomalies() { return this.read('anomalies', T.AnomalySchema, 'id'); }
   async getRecommendations() { return this.read('recommendations', T.RecommendationSchema, 'id'); }
   async getOutcomes() { return this.read('outcomes', T.OutcomeSchema, 'id'); }
+  async getActionLog() { return this.read('action_log', T.ActionLogEntrySchema, 'created_at,id'); }
   async saveAnomalies(rows: T.Anomaly[]) { await this.write('anomalies', fixtureSchemas.anomalies.parse(rows)); }
   async saveRecommendations(rows: T.Recommendation[]) { await this.write('recommendations', fixtureSchemas.recommendations.parse(rows)); }
   async logAction(entry: T.ActionLogEntry) { await this.write('action_log', [T.ActionLogEntrySchema.parse(entry)], false); }

@@ -1,0 +1,422 @@
+[
+  {
+    "sku_id": "SKN-SERUM-01",
+    "date": "2025-01-05",
+    "units_on_hand": 2360,
+    "units_sold": 40
+  },
+  {
+    "sku_id": "SKN-CLEANSE-02",
+    "date": "2025-01-05",
+    "units_on_hand": 684,
+    "units_sold": 20
+  },
+  {
+    "sku_id": "SKN-SERUM-01",
+    "date": "2025-01-06",
+    "units_on_hand": 2320,
+    "units_sold": 40
+  },
+  {
+    "sku_id": "SKN-CLEANSE-02",
+    "date": "2025-01-06",
+    "units_on_hand": 664,
+    "units_sold": 20
+  },
+  {
+    "sku_id": "SKN-SERUM-01",
+    "date": "2025-01-07",
+    "units_on_hand": 2280,
+    "units_sold": 40
+  },
+  {
+    "sku_id": "SKN-CLEANSE-02",
+    "date": "2025-01-07",
+    "units_on_hand": 644,
+    "units_sold": 20
+  },
+  {
+    "sku_id": "SKN-SERUM-01",
+    "date": "2025-01-08",
+    "units_on_hand": 2240,
+    "units_sold": 40
+  },
+  {
+    "sku_id": "SKN-CLEANSE-02",
+    "date": "2025-01-08",
+    "units_on_hand": 624,
+    "units_sold": 20
+  },
+  {
+    "sku_id": "SKN-SERUM-01",
+    "date": "2025-01-09",
+    "units_on_hand": 2200,
+    "units_sold": 40
+  },
+  {
+    "sku_id": "SKN-CLEANSE-02",
+    "date": "2025-01-09",
+    "units_on_hand": 604,
+    "units_sold": 20
+  },
+  {
+    "sku_id": "SKN-SERUM-01",
+    "date": "2025-01-10",
+    "units_on_hand": 2160,
+    "units_sold": 40
+  },
+  {
+    "sku_id": "SKN-CLEANSE-02",
+    "date": "2025-01-10",
+    "units_on_hand": 584,
+    "units_sold": 20
+  },
+  {
+    "sku_id": "SKN-SERUM-01",
+    "date": "2025-01-11",
+    "units_on_hand": 2120,
+    "units_sold": 40
+  },
+  {
+    "sku_id": "SKN-CLEANSE-02",
+    "date": "2025-01-11",
+    "units_on_hand": 564,
+    "units_sold": 20
+  },
+  {
+    "sku_id": "SKN-SERUM-01",
+    "date": "2025-01-12",
+    "units_on_hand": 2080,
+    "units_sold": 40
+  },
+  {
+    "sku_id": "SKN-CLEANSE-02",
+    "date": "2025-01-12",
+    "units_on_hand": 544,
+    "units_sold": 20
+  },
+  {
+    "sku_id": "SKN-SERUM-01",
+    "date": "2025-01-13",
+    "units_on_hand": 2040,
+    "units_sold": 40
+  },
+  {
+    "sku_id": "SKN-CLEANSE-02",
+    "date": "2025-01-13",
+    "units_on_hand": 524,
+    "units_sold": 20
+  },
+  {
+    "sku_id": "SKN-SERUM-01",
+    "date": "2025-01-14",
+    "units_on_hand": 2000,
+    "units_sold": 40
+  },
+  {
+    "sku_id": "SKN-CLEANSE-02",
+    "date": "2025-01-14",
+    "units_on_hand": 504,
+    "units_sold": 20
+  },
+  {
+    "sku_id": "SKN-SERUM-01",
+    "date": "2025-01-15",
+    "units_on_hand": 1960,
+    "units_sold": 40
+  },
+  {
+    "sku_id": "SKN-CLEANSE-02",
+    "date": "2025-01-15",
+    "units_on_hand": 484,
+    "units_sold": 20
+  },
+  {
+    "sku_id": "SKN-SERUM-01",
+    "date": "2025-01-16",
+    "units_on_hand": 1920,
+    "units_sold": 40
+  },
+  {
+    "sku_id": "SKN-CLEANSE-02",
+    "date": "2025-01-16",
+    "units_on_hand": 464,
+    "units_sold": 20
+  },
+  {
+    "sku_id": "SKN-SERUM-01",
+    "date": "2025-01-17",
+    "units_on_hand": 1880,
+    "units_sold": 40
+  },
+  {
+    "sku_id": "SKN-CLEANSE-02",
+    "date": "2025-01-17",
+    "units_on_hand": 444,
+    "units_sold": 20
+  },
+  {
+    "sku_id": "SKN-SERUM-01",
+    "date": "2025-01-18",
+    "units_on_hand": 1840,
+    "units_sold": 40
+  },
+  {
+    "sku_id": "SKN-CLEANSE-02",
+    "date": "2025-01-18",
+    "units_on_hand": 424,
+    "units_sold": 20
+  },
+  {
+    "sku_id": "SKN-SERUM-01",
+    "date": "2025-01-19",
+    "units_on_hand": 1800,
+    "units_sold": 40
+  },
+  {
+    "sku_id": "SKN-CLEANSE-02",
+    "date": "2025-01-19",
+    "units_on_hand": 404,
+    "units_sold": 20
+  },
+  {
+    "sku_id": "SKN-SERUM-01",
+    "date": "2025-01-20",
+    "units_on_hand": 1760,
+    "units_sold": 40
+  },
+  {
+    "sku_id": "SKN-CLEANSE-02",
+    "date": "2025-01-20",
+    "units_on_hand": 384,
+    "units_sold": 20
+  },
+  {
+    "sku_id": "SKN-SERUM-01",
+    "date": "2025-01-21",
+    "units_on_hand": 1720,
+    "units_sold": 40
+  },
+  {
+    "sku_id": "SKN-CLEANSE-02",
+    "date": "2025-01-21",
+    "units_on_hand": 364,
+    "units_sold": 20
+  },
+  {
+    "sku_id": "SKN-SERUM-01",
+    "date": "2025-01-22",
+    "units_on_hand": 1680,
+    "units_sold": 40
+  },
+  {
+    "sku_id": "SKN-CLEANSE-02",
+    "date": "2025-01-22",
+    "units_on_hand": 344,
+    "units_sold": 20
+  },
+  {
+    "sku_id": "SKN-SERUM-01",
+    "date": "2025-01-23",
+    "units_on_hand": 1640,
+    "units_sold": 40
+  },
+  {
+    "sku_id": "SKN-CLEANSE-02",
+    "date": "2025-01-23",
+    "units_on_hand": 324,
+    "units_sold": 20
+  },
+  {
+    "sku_id": "SKN-SERUM-01",
+    "date": "2025-01-24",
+    "units_on_hand": 1600,
+    "units_sold": 40
+  },
+  {
+    "sku_id": "SKN-CLEANSE-02",
+    "date": "2025-01-24",
+    "units_on_hand": 304,
+    "units_sold": 20
+  },
+  {
+    "sku_id": "SKN-SERUM-01",
+    "date": "2025-01-25",
+    "units_on_hand": 1560,
+    "units_sold": 40
+  },
+  {
+    "sku_id": "SKN-CLEANSE-02",
+    "date": "2025-01-25",
+    "units_on_hand": 284,
+    "units_sold": 20
+  },
+  {
+    "sku_id": "SKN-SERUM-01",
+    "date": "2025-01-26",
+    "units_on_hand": 1520,
+    "units_sold": 40
+  },
+  {
+    "sku_id": "SKN-CLEANSE-02",
+    "date": "2025-01-26",
+    "units_on_hand": 264,
+    "units_sold": 20
+  },
+  {
+    "sku_id": "SKN-SERUM-01",
+    "date": "2025-01-27",
+    "units_on_hand": 1480,
+    "units_sold": 40
+  },
+  {
+    "sku_id": "SKN-CLEANSE-02",
+    "date": "2025-01-27",
+    "units_on_hand": 244,
+    "units_sold": 20
+  },
+  {
+    "sku_id": "SKN-SERUM-01",
+    "date": "2025-01-28",
+    "units_on_hand": 1440,
+    "units_sold": 40
+  },
+  {
+    "sku_id": "SKN-CLEANSE-02",
+    "date": "2025-01-28",
+    "units_on_hand": 224,
+    "units_sold": 20
+  },
+  {
+    "sku_id": "SKN-SERUM-01",
+    "date": "2025-01-29",
+    "units_on_hand": 1400,
+    "units_sold": 40
+  },
+  {
+    "sku_id": "SKN-CLEANSE-02",
+    "date": "2025-01-29",
+    "units_on_hand": 204,
+    "units_sold": 20
+  },
+  {
+    "sku_id": "SKN-SERUM-01",
+    "date": "2025-01-30",
+    "units_on_hand": 1360,
+    "units_sold": 40
+  },
+  {
+    "sku_id": "SKN-CLEANSE-02",
+    "date": "2025-01-30",
+    "units_on_hand": 184,
+    "units_sold": 20
+  },
+  {
+    "sku_id": "SKN-SERUM-01",
+    "date": "2025-01-31",
+    "units_on_hand": 1320,
+    "units_sold": 40
+  },
+  {
+    "sku_id": "SKN-CLEANSE-02",
+    "date": "2025-01-31",
+    "units_on_hand": 164,
+    "units_sold": 20
+  },
+  {
+    "sku_id": "SKN-SERUM-01",
+    "date": "2025-02-01",
+    "units_on_hand": 1280,
+    "units_sold": 40
+  },
+  {
+    "sku_id": "SKN-CLEANSE-02",
+    "date": "2025-02-01",
+    "units_on_hand": 144,
+    "units_sold": 20
+  },
+  {
+    "sku_id": "SKN-SERUM-01",
+    "date": "2025-02-02",
+    "units_on_hand": 1240,
+    "units_sold": 40
+  },
+  {
+    "sku_id": "SKN-CLEANSE-02",
+    "date": "2025-02-02",
+    "units_on_hand": 124,
+    "units_sold": 20
+  },
+  {
+    "sku_id": "SKN-SERUM-01",
+    "date": "2025-02-03",
+    "units_on_hand": 1200,
+    "units_sold": 40
+  },
+  {
+    "sku_id": "SKN-CLEANSE-02",
+    "date": "2025-02-03",
+    "units_on_hand": 104,
+    "units_sold": 20
+  },
+  {
+    "sku_id": "SKN-SERUM-01",
+    "date": "2025-02-04",
+    "units_on_hand": 1160,
+    "units_sold": 40
+  },
+  {
+    "sku_id": "SKN-CLEANSE-02",
+    "date": "2025-02-04",
+    "units_on_hand": 84,
+    "units_sold": 20
+  },
+  {
+    "sku_id": "SKN-SERUM-01",
+    "date": "2025-02-05",
+    "units_on_hand": 1120,
+    "units_sold": 40
+  },
+  {
+    "sku_id": "SKN-CLEANSE-02",
+    "date": "2025-02-05",
+    "units_on_hand": 64,
+    "units_sold": 20
+  },
+  {
+    "sku_id": "SKN-SERUM-01",
+    "date": "2025-02-06",
+    "units_on_hand": 1080,
+    "units_sold": 40
+  },
+  {
+    "sku_id": "SKN-CLEANSE-02",
+    "date": "2025-02-06",
+    "units_on_hand": 44,
+    "units_sold": 20
+  },
+  {
+    "sku_id": "SKN-SERUM-01",
+    "date": "2025-02-07",
+    "units_on_hand": 1040,
+    "units_sold": 40
+  },
+  {
+    "sku_id": "SKN-CLEANSE-02",
+    "date": "2025-02-07",
+    "units_on_hand": 24,
+    "units_sold": 20
+  },
+  {
+    "sku_id": "SKN-SERUM-01",
+    "date": "2025-02-08",
+    "units_on_hand": 1000,
+    "units_sold": 40
+  },
+  {
+    "sku_id": "SKN-CLEANSE-02",
+    "date": "2025-02-08",
+    "units_on_hand": 4,
+    "units_sold": 20
+  }
+]

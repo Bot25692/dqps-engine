@@ -1,157 +1,248 @@
-import { overviewData } from "@/lib/demo/overview-data";
-import { loadAnalysisData } from "@/lib/db/load-analysis-data";
 import { PageHeader } from "@/components/page-header";
 import { MainContent } from "@/components/main-content";
+import { StatCard } from "@/components/stat-card";
 import { PortfolioChart } from "@/components/portfolio-chart";
-import { ANALYSIS_FROM, ANALYSIS_AS_OF } from "@/lib/run-analysis";
+import { AlertCard } from "@/components/alert-card";
+import { connection } from "next/server";
+import { getRuntimeRepo } from "@/lib/db/runtime-repo";
+import { loadAnalysisInputs } from "@/lib/run-analysis";
+import { overviewData } from "@/lib/demo/overview-data";
 
-export const dynamic = "force-dynamic";
+export const instant = false;
 
+/* ─── Overview page (/) ──────────────────────────────────────────────────── */
+/* All metrics sourced from fixtures via overviewData(). No math in the UI.   */
 export default async function OverviewPage() {
-  const analysisData = await loadAnalysisData(ANALYSIS_FROM, ANALYSIS_AS_OF);
-  const data = await overviewData(analysisData);
-  const stats = data?.kpiStats || [];
+  await connection();
+  const repo = await getRuntimeRepo();
+  const { kpiStats, portfolioTimeSeries, attentionItem, opportunityItem, metadata } =
+    overviewData(await repo.run(loadAnalysisInputs));
 
-  const getStockDays = (item: any) =>
-    item?.stockRunwayDays ?? item?.stockCoverDays ?? item?.stock_cover ?? 0;
+  const subtitle =
+    `${
+          metadata.dayCount
+            ? `Day ${metadata.dayCount} (as-of ${metadata.asOfDate})`
+            : `As-of ${metadata.asOfDate}`
+        } · ${metadata.platformCount} Platform${
+          metadata.platformCount === 1 ? "" : "s"
+        } · ${metadata.skuCount} SKU${
+          metadata.skuCount === 1 ? "" : "s"
+        } · INR`;
+
+  const startDate = portfolioTimeSeries[0]?.day ?? "No metrics";
+  const endDate = portfolioTimeSeries.at(-1)?.day ?? "No metrics";
+
+  /* ── Court Sneaker: Stock Risk ── */
+  const attentionMetrics = [
+    { label: "Platform", value: attentionItem.platform, mono: false },
+    {
+      label: "ROAS",
+      value: `${attentionItem.roas.toFixed(1)}×`,
+      trend: "good" as const,
+      mono: true,
+    },
+    {
+      label: "Inventory",
+      value: `${attentionItem.inventoryUnits} units`,
+      trend: "problem" as const,
+      mono: true,
+    },
+    {
+      label: "Stock Runway",
+      value: `${
+        attentionItem.stockRunwayDays === Infinity
+          ? "Ample"
+          : `${attentionItem.stockRunwayDays.toFixed(1)} days`
+      }`,
+      trend:
+        attentionItem.stockRunwayDays < 5
+          ? ("problem" as const)
+          : ("neutral" as const),
+      mono: true,
+    },
+    {
+      label: "Margin",
+      value: `${attentionItem.marginPct.toFixed(0)}%`,
+      mono: true,
+    },
+    {
+      label: "Status",
+      value: attentionItem.statusLabel,
+      trend:
+        attentionItem.stockRunwayDays < 5
+          ? ("problem" as const)
+          : ("neutral" as const),
+    },
+  ];
+
+  /* ── Premium T-Shirt: Growth Opportunity ── */
+  const oppStockDays = (opportunityItem as { stockRunwayDays?: number }).stockRunwayDays;
+  const oppStockDisplay =
+    oppStockDays != null && oppStockDays !== Infinity
+      ? `${oppStockDays.toFixed(1)} days`
+      : `${opportunityItem.inventoryUnits} units`;
+
+  const opportunityMetrics = [
+    { label: "Platform", value: opportunityItem.platform, mono: false },
+    {
+      label: "ROAS",
+      value: `${opportunityItem.roas.toFixed(1)}×`,
+      trend: "good" as const,
+      mono: true,
+    },
+    {
+      label: "Inventory",
+      value: `${opportunityItem.inventoryUnits} units`,
+      trend: "good" as const,
+      mono: true,
+    },
+    {
+      label: "Margin",
+      value: `${opportunityItem.marginPct.toFixed(0)}%`,
+      trend: "good" as const,
+      mono: true,
+    },
+    {
+      label: "Stock cover",
+      value: oppStockDisplay,
+      trend: "good" as const,
+      mono: true,
+    },
+  ];
 
   return (
-    <MainContent>
+    <>
       <PageHeader
-        subtitle="Real-time KPI metrics, active campaign allocations, and target performance."
-        title="Decision Workspace Overview"
+        title="Overview"
+        subtitle={subtitle}
+        eyebrow="PORTFOLIO INTELLIGENCE"
+        actions={
+          <div className="flex items-center gap-3">
+            {/* Decision workflow breadcrumb */}
+            <div
+              className="hidden xl:flex items-center gap-1.5 text-xs"
+              style={{ color: "var(--text-faint)" }}
+            >
+              {[
+                "Detect",
+                "Diagnose",
+                "Decide",
+                "Approve",
+                "Simulate",
+                "Learn",
+              ].map((step, i) => (
+                <span key={step} className="flex items-center gap-1.5">
+                  {i > 0 && (
+                    <span style={{ color: "var(--line-strong)" }}>›</span>
+                  )}
+                  <span
+                    style={{
+                      color:
+                        i === 0 ? "var(--orange)" : "var(--text-faint)",
+                      fontWeight: i === 0 ? 600 : 400,
+                    }}
+                  >
+                    {step}
+                  </span>
+                </span>
+              ))}
+            </div>
+          </div>
+        }
       />
 
-      <div className="p-6 space-y-6">
-
-        {/* KPI Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-          {stats.map((stat: any, idx: number) => (
-            <div
-              key={stat.label || idx}
-              className="p-4 bg-slate-900 border border-slate-800 rounded-lg"
-            >
-              <span className="text-xs text-slate-400 block uppercase font-medium">
-                {stat.label}
-              </span>
-
-              <span className="text-2xl font-bold text-white mt-1 block">
-                {stat.value}
-              </span>
-            </div>
+      <MainContent>
+        {repo.status.banner && <p role="status">{repo.status.banner}</p>}
+        {/* ── 1. KPI Summary ────────────────────────────────────────────── */}
+        <section className="kpi-grid" aria-label="Portfolio performance">
+          {kpiStats.map((stat, index) => (
+            <StatCard
+              key={stat.label}
+              label={stat.label}
+              value={stat.value}
+              sub={stat.sub}
+              trend={stat.trend}
+              staggerIndex={index}
+            />
           ))}
-        </div>
+        </section>
 
-        {/* Portfolio Performance Chart */}
-        <div className="p-5 bg-slate-900 border border-slate-800 rounded-lg">
-          <div className="mb-4">
-            <h2 className="text-base font-semibold text-white">
-              Portfolio Performance
-            </h2>
-
-            <p className="text-xs text-slate-400 mt-1">
-              Revenue, contribution profit, and ad spend over time
-            </p>
-          </div>
-
-          <PortfolioChart data={data.portfolioTimeSeries} />
-        </div>
-
-        {/* Highlight Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-
-          {/* Stock Risk */}
-          {data?.attentionItem && (
-            <div className="p-5 bg-slate-900 border border-amber-500/30 rounded-lg">
-              <div className="flex justify-between items-start mb-2">
-                <h3 className="font-semibold text-white">
-                  {data.attentionItem.name || "Court Sneaker"}
-                </h3>
-
-                <span className="px-2 py-0.5 text-xs font-semibold bg-amber-500/10 text-amber-400 border border-amber-500/20 rounded">
-                  STOCK RISK
-                </span>
+        {/* ── 2. Performance Panel & Signal Stack (2-Column Grid) ───────── */}
+        <section className="overview-grid" aria-label="Performance and Signals">
+          {/* Left: Portfolio Performance Chart */}
+          <article className="panel performance-panel">
+            <div className="panel-heading chart-heading">
+              <div>
+                <div className="panel-kicker">
+                  <span className="kicker-line" aria-hidden="true" />
+                  Portfolio performance
+                </div>
+                <h2>Profitability, over time</h2>
+                <p>Revenue, contribution profit and ad spend</p>
               </div>
-
-              <p className="text-xs text-slate-400 mb-4">
-                {data.attentionItem.sku} · {data.attentionItem.platform}
-              </p>
-
-              <div className="grid grid-cols-3 gap-2 text-sm pt-2 border-t border-slate-800">
-                <div>
-                  <span className="text-xs text-slate-500 block">ROAS</span>
-                  <span className="font-semibold text-white">
-                    {data.attentionItem.roas}x
-                  </span>
-                </div>
-
-                <div>
-                  <span className="text-xs text-slate-500 block">Margin</span>
-                  <span className="font-semibold text-white">
-                    {data.attentionItem.marginPct}%
-                  </span>
-                </div>
-
-                <div>
-                  <span className="text-xs text-slate-500 block">
-                    Stock cover
-                  </span>
-
-                  <span className="font-semibold text-amber-400">
-                    {getStockDays(data.attentionItem)}d
-                  </span>
-                </div>
-              </div>
+              <span className="date-range">
+                {startDate} <span>—</span> {endDate}
+              </span>
             </div>
-          )}
 
-          {/* Opportunity */}
-          {data?.opportunityItem && (
-            <div className="p-5 bg-slate-900 border border-emerald-500/30 rounded-lg">
-              <div className="flex justify-between items-start mb-2">
-                <h3 className="font-semibold text-white">
-                  {data.opportunityItem.name || "Premium T-Shirt"}
-                </h3>
-
-                <span className="px-2 py-0.5 text-xs font-semibold bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 rounded">
-                  OPPORTUNITY
-                </span>
-              </div>
-
-              <p className="text-xs text-slate-400 mb-4">
-                {data.opportunityItem.sku} · {data.opportunityItem.platform}
-              </p>
-
-              <div className="grid grid-cols-3 gap-2 text-sm pt-2 border-t border-slate-800">
-                <div>
-                  <span className="text-xs text-slate-500 block">ROAS</span>
-                  <span className="font-semibold text-white">
-                    {data.opportunityItem.roas}x
-                  </span>
-                </div>
-
-                <div>
-                  <span className="text-xs text-slate-500 block">Margin</span>
-                  <span className="font-semibold text-white">
-                    {data.opportunityItem.marginPct}%
-                  </span>
-                </div>
-
-                <div>
-                  <span className="text-xs text-slate-500 block">
-                    Stock cover
-                  </span>
-
-                  <span className="font-semibold text-emerald-400">
-                    {getStockDays(data.opportunityItem)}d
-                  </span>
-                </div>
-              </div>
+            <div className="chart-wrap">
+              <PortfolioChart data={portfolioTimeSeries} />
             </div>
-          )}
-        </div>
 
-      </div>
-    </MainContent>
+            <div className="chart-legend">
+              <span>
+                <i className="legend-dot revenue-dot" />
+                Revenue
+              </span>
+              <span>
+                <i className="legend-dot profit-dot" />
+                Contribution profit
+              </span>
+              <span>
+                <i className="legend-dot spend-dot" />
+                Ad spend
+              </span>
+            </div>
+
+            <div className="chart-footnote">
+              Portfolio Performance <span>·</span> Contribution profit = Revenue × margin − Ad Spend
+            </div>
+          </article>
+
+          {/* Right: Signal Stack */}
+          <aside className="signal-stack" aria-label="Campaign signals">
+            {/* Stock Risk: Court Sneaker (or dynamic attention item) */}
+            <AlertCard
+              sectionLabel="Stock risk"
+              sectionTrend="problem"
+              name={attentionItem.name}
+              sku={attentionItem.sku}
+              platform={attentionItem.platform}
+              statusLabel={attentionItem.statusLabel}
+              statusTrend={attentionItem.statusTrend}
+              metrics={attentionMetrics}
+              insight={attentionItem.insight}
+              index="01"
+              ctaLabel="View Analysis"
+              ctaHref="/recommendations"
+            />
+
+            {/* Growth Opportunity: Premium T-Shirt (or dynamic opportunity item) */}
+            <AlertCard
+              sectionLabel="Opportunity"
+              sectionTrend="good"
+              name={opportunityItem.name}
+              sku={opportunityItem.sku}
+              platform={opportunityItem.platform}
+              statusLabel={opportunityItem.statusLabel}
+              statusTrend={opportunityItem.statusTrend}
+              metrics={opportunityMetrics}
+              insight={opportunityItem.insight}
+              index="02"
+            />
+          </aside>
+        </section>
+      </MainContent>
+    </>
   );
 }

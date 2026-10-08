@@ -3,26 +3,13 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-/* ─── Navigation items ────────────────────────────────────────────────────── */
 const navItems = [
   {
     href: "/",
     label: "Overview",
     icon: (
-      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-        <rect x="1" y="1" width="6" height="6" rx="1" stroke="currentColor" strokeWidth="1.5"/>
-        <rect x="9" y="1" width="6" height="6" rx="1" stroke="currentColor" strokeWidth="1.5"/>
-        <rect x="1" y="9" width="6" height="6" rx="1" stroke="currentColor" strokeWidth="1.5"/>
-        <rect x="9" y="9" width="6" height="6" rx="1" stroke="currentColor" strokeWidth="1.5"/>
-      </svg>
-    ),
-  },
-  {
-    href: "/recommendations",
-    label: "Recommendations",
-    icon: (
-      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-        <path d="M8 1.5L9.8 5.2L14 5.8L11 8.7L11.6 13L8 11L4.4 13L5 8.7L2 5.8L6.2 5.2L8 1.5Z" stroke="currentColor" strokeWidth="1.4" strokeLinejoin="round"/>
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+        <path d="M3 3h8v8H3zM13 3h8v5h-8zM13 10h8v11h-8zM3 13h8v8H3z"/>
       </svg>
     ),
   },
@@ -30,9 +17,17 @@ const navItems = [
     href: "/campaigns",
     label: "Campaigns",
     icon: (
-      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-        <path d="M2 12L5 7L7 9L10 5L14 10" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
-        <rect x="1" y="1" width="14" height="14" rx="1.5" stroke="currentColor" strokeWidth="1.2" strokeDasharray="2 0"/>
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+        <rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18M8 4v5M16 4v5M8 14h3M8 17h8"/>
+      </svg>
+    ),
+  },
+  {
+    href: "/recommendations",
+    label: "Recommendations",
+    icon: (
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+        <path d="M12 3 3.5 7.5 12 12l8.5-4.5L12 3Z"/><path d="m4 12 8 4.3 8-4.3M4 16.5l8 4 8-4"/>
       </svg>
     ),
   },
@@ -40,9 +35,8 @@ const navItems = [
     href: "/learning",
     label: "Learning",
     icon: (
-      <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-        <circle cx="8" cy="8" r="6.5" stroke="currentColor" strokeWidth="1.4"/>
-        <path d="M8 4.5V8.5L10.5 10.5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+        <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2Z"/><path d="M9 7h6M9 11h6"/>
       </svg>
     ),
   },
@@ -58,128 +52,111 @@ export function Sidebar() {
 
   return (
     <aside
-      className="flex flex-col shrink-0 h-full"
+      className="hidden md:flex flex-col shrink-0 h-full select-none"
       style={{
-        width: "var(--sidebar-width, 220px)",
-        backgroundColor: "var(--sidebar-bg)",
-        borderRight: "1px solid var(--border-subtle)",
+        width: "var(--sidebar-width, 244px)",
+        backgroundColor: "#0b0f14",
+        borderRight: "1px solid var(--line)",
+        padding: "24px 16px 16px",
       }}
+      aria-label="Primary navigation"
     >
-      {/* ── Brand ─────────────────────────────────────────────────────────── */}
-      <div
-        className="px-4 pt-5 pb-4"
-        style={{ borderBottom: "1px solid var(--border-subtle)" }}
-      >
-        {/* Product mark */}
-        <div className="flex items-center gap-2 mb-3">
-          {/* Orange square logo mark */}
-          <div
-            className="flex items-center justify-center rounded"
-            style={{
-              width: 28,
-              height: 28,
-              background: "linear-gradient(135deg, #f97316 0%, #ea580c 100%)",
-              flexShrink: 0,
-            }}
-          >
-            <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-              <path d="M3 11L7 3L11 11H3Z" fill="white" fillOpacity="0.9"/>
-            </svg>
-          </div>
-          <div>
-            <p
-              className="text-sm font-bold tracking-wider leading-none"
-              style={{ color: "var(--text-primary)", letterSpacing: "0.12em" }}
-            >
-              A.D.A.P.T.
-            </p>
-          </div>
-        </div>
-        <p
-          className="text-xs leading-snug"
-          style={{ color: "var(--text-tertiary)", fontSize: "10px" }}
+      {/* ── Brand Lockup ─────────────────────────────────────────────────── */}
+      <Link href="/" className="flex items-center gap-3 px-1 min-h-[44px]">
+        <span
+          className="grid place-items-center w-9 h-9 rounded-xl text-[var(--orange-soft)]"
+          style={{
+            border: "1px solid rgba(239, 135, 87, 0.39)",
+            background: "linear-gradient(145deg, rgba(239, 135, 87, 0.15), rgba(239, 135, 87, 0.03))",
+          }}
+          aria-hidden="true"
         >
-          Advertising Decision Automation
-          <br />
-          for Profitable Targeting
-        </p>
-      </div>
+          <svg width="22" height="22" viewBox="0 0 36 36" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round">
+            <path d="M18 4.5 32 30H4L18 4.5Z" />
+            <path d="M11 19.5h14M14 15h8" />
+          </svg>
+        </span>
+        <span className="flex flex-col">
+          <strong className="font-display text-[15px] font-bold tracking-[0.09em] leading-tight text-[var(--text)]">
+            A.D.A.P.T.
+          </strong>
+          <small className="text-[10px] text-[var(--text-muted)] tracking-[0.015em]">
+            Decision Workspace
+          </small>
+        </span>
+      </Link>
 
-      {/* ── Nav label ─────────────────────────────────────────────────────── */}
-      <div className="px-4 pt-4 pb-1">
-        <p
-          className="text-xs font-semibold uppercase tracking-widest"
-          style={{ color: "var(--text-tertiary)", fontSize: "9px", letterSpacing: "0.15em" }}
-        >
-          Decision Workspace
-        </p>
-      </div>
+      <div className="h-px my-5" style={{ background: "linear-gradient(90deg, var(--line-strong), transparent)" }} />
 
-      {/* ── Navigation ────────────────────────────────────────────────────── */}
-      <nav className="flex-1 px-2 pb-4 space-y-0.5" aria-label="Main navigation">
+      <p className="px-3 mb-2 font-mono text-[9px] text-[var(--text-faint)] tracking-[0.17em] uppercase">
+        WORKSPACE
+      </p>
+
+      {/* ── Primary Navigation ───────────────────────────────────────────── */}
+      <nav className="grid gap-1">
         {navItems.map((item) => {
           const active = isActive(item.href);
           return (
             <Link
               key={item.href}
               href={item.href}
-              aria-current={active ? "page" : undefined}
-              className="flex items-center gap-2.5 rounded-md px-3 py-2 text-sm font-medium transition-all duration-150 group"
-              style={{
-                backgroundColor: active ? "var(--brand-orange-glow)" : "transparent",
-                color: active ? "var(--brand-orange)" : "var(--text-secondary)",
-                border: active ? "1px solid rgba(249,115,22,0.2)" : "1px solid transparent",
-              }}
-              onMouseEnter={(e) => {
-                if (!active) {
-                  e.currentTarget.style.backgroundColor = "var(--bg-hover)";
-                  e.currentTarget.style.color = "var(--text-primary)";
-                }
-              }}
-              onMouseLeave={(e) => {
-                if (!active) {
-                  e.currentTarget.style.backgroundColor = "transparent";
-                  e.currentTarget.style.color = "var(--text-secondary)";
-                }
-              }}
+              className={`relative flex items-center gap-3 min-h-[42px] px-3 rounded-lg text-xs font-medium transition-all ${
+                active
+                  ? "text-[#ffd1b9] bg-gradient-to-r from-[rgba(239,135,87,0.12)] to-[rgba(239,135,87,0.03)] border border-[rgba(239,135,87,0.18)]"
+                  : "text-[var(--text-muted)] hover:text-[var(--text)] hover:bg-[rgba(255,255,255,0.02)] border border-transparent"
+              }`}
             >
-              <span
-                className="shrink-0 transition-colors"
-                style={{
-                  color: active ? "var(--brand-orange)" : "var(--text-tertiary)",
-                }}
-              >
-                {item.icon}
-              </span>
-              <span className="truncate">{item.label}</span>
               {active && (
                 <span
-                  className="ml-auto shrink-0 w-1.5 h-1.5 rounded-full"
-                  style={{ backgroundColor: "var(--brand-orange)" }}
+                  className="absolute left-[-1px] top-2.5 bottom-2.5 w-[2px] rounded-r bg-[var(--orange)]"
+                  aria-hidden="true"
                 />
               )}
+              <span className="grid place-items-center w-5 h-5 shrink-0">
+                {item.icon}
+              </span>
+              <span>{item.label}</span>
             </Link>
           );
         })}
       </nav>
 
-      {/* ── Status footer ─────────────────────────────────────────────────── */}
+      <div className="flex-1" />
+
+      {/* ── Concept Callout Note ─────────────────────────────────────────── */}
       <div
-        className="px-4 py-3 text-xs"
-        style={{ borderTop: "1px solid var(--border-subtle)", color: "var(--text-tertiary)" }}
+        className="flex items-center gap-2.5 p-3 rounded-xl mb-3"
+        style={{
+          border: "1px solid var(--line)",
+          background: "linear-gradient(135deg, rgba(239, 135, 87, 0.07), rgba(14, 19, 26, 0.55))",
+        }}
       >
-        {/* Engine status */}
-        <div className="flex items-center gap-2 mb-1.5">
-          <span
-            className="w-1.5 h-1.5 rounded-full shrink-0"
-            style={{ backgroundColor: "var(--color-good)", boxShadow: "0 0 4px var(--color-good)" }}
-          />
-          <span style={{ color: "var(--color-good)", fontWeight: 500, fontSize: "10px" }}>
-            Decision Engine Ready
+        <span
+          className="grid place-items-center w-6 h-6 rounded-lg text-[var(--orange-soft)] font-display text-sm shrink-0"
+          style={{ background: "rgba(239, 135, 87, 0.11)" }}
+          aria-hidden="true"
+        >
+          Δ
+        </span>
+        <div className="grid gap-0.5 text-[9px]">
+          <strong className="text-[var(--text)] font-semibold leading-tight">
+            High ROAS ≠ automatically scale
+          </strong>
+          <span className="text-[var(--text-muted)] leading-tight">
+            Inventory still sets the limit.
           </span>
         </div>
-        <p style={{ fontSize: "10px" }}>Day 45 · INR · Fixtures</p>
-        <p style={{ fontSize: "10px", marginTop: 2 }}>DataQuest 3.0 · Team M.A.R.K.A.N.</p>
+      </div>
+
+      {/* ── Footer Status ────────────────────────────────────────────────── */}
+      <div
+        className="flex items-center justify-between px-2 pt-3 border-t border-[var(--line)] text-[9px] text-[var(--text-faint)]"
+      >
+        <div className="flex items-center gap-2">
+          <span className="w-1.5 h-1.5 rounded-full bg-[var(--orange)] shadow-[0_0_0_3px_rgba(239,135,87,0.1)]" />
+          <span>Standalone Prototype</span>
+        </div>
+        <span>Team M.A.R.K.A.N.</span>
       </div>
     </aside>
   );

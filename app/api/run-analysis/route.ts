@@ -17,7 +17,7 @@ export async function POST(request: Request): Promise<Response> {
     const inputs = await repo.run(loadAnalysisInputs);
     // Guardrail failures stay outside the repository's fallback/retry boundary.
     const result = await runAnalysis(repo, { inputs });
-    return Response.json({ asOf: ANALYSIS_AS_OF, counts: result.counts,
+    return Response.json({ asOf: result.asOf ?? ANALYSIS_AS_OF, counts: result.counts,
       topRecommendation: result.topRecommendation, elapsedMs: performance.now() - started,
       ...repo.status });
     });

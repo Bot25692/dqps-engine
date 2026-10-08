@@ -1,22 +1,9 @@
-export const dynamic = 'force-dynamic';
-/**
- * Learning page — predicted vs actual simulated contribution profit.
- *
- * Data sources:
- *   - Outcomes from FixtureRepo (persisted after simulate)
- *   - Confidence weights from FixtureRepo
- *   - M5 confidence update formula (pure, from lib/integration/confidence.ts)
- *
- * No business logic inside this page. No hardcoded numbers.
- */
-
-// Allow this route to block at prerender (it reads from the filesystem at request time).
-// See: next.js docs — route-segment-config/instant.md
+export const instant = false;
 
 import { PageHeader } from "@/components/page-header";
 import { MainContent } from "@/components/main-content";
 import { getRuntimeRepo } from "@/lib/db/runtime-repo";
-import { ANALYSIS_AS_OF } from "@/lib/run-analysis";
+
 import { LearningView } from "@/components/learning/learning-view";
 import type { Outcome } from "@/lib/types";
 import { connection } from "next/server";
@@ -35,13 +22,20 @@ export default async function LearningPage() {
     .sort((a: Outcome, b: Outcome) => b.created_at.localeCompare(a.created_at))
     .slice(0, 10);
 
+  const asOf =
+    recommendations[0]?.created_at?.slice(0, 10) ??
+    latestOutcomes[0]?.created_at?.slice(0, 10) ??
+    "No analysis yet";
+
   return (
     <>
       <PageHeader
         title="Learning"
-        subtitle={`Prediction accuracy and confidence tracking — as of ${ANALYSIS_AS_OF}`}
+        subtitle={`Prediction accuracy and confidence tracking — as of ${asOf}`}
+        eyebrow="CLOSED-LOOP SYSTEM"
       />
       <MainContent>
+        {repo.status.banner && <p role="status">{repo.status.banner}</p>}
         <LearningView
           outcomes={latestOutcomes}
           currentConfidence={confidenceWeights?.weight ?? 0.75}

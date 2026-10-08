@@ -1,0 +1,16 @@
+[
+  {
+    "id": "cmp-serum-meta",
+    "name": "Serum - Meta Scale",
+    "sku_id": "SKN-SERUM-01",
+    "platform": "meta",
+    "daily_budget": 12000
+  },
+  {
+    "id": "cmp-cleanse-google",
+    "name": "Cleanser - Google Search",
+    "sku_id": "SKN-CLEANSE-02",
+    "platform": "google",
+    "daily_budget": 8000
+  }
+]

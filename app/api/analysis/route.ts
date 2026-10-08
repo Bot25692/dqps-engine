@@ -32,7 +32,7 @@ export async function GET(): Promise<Response> {
 
     return Response.json({
       ok: true,
-      asOf: ANALYSIS_AS_OF,
+      asOf: topRec?.created_at?.slice(0, 10) ?? ANALYSIS_AS_OF,
       topRecommendation: topRec,
       stockAnomalies: stockAnomalies.slice(0, 3),
       campaigns,

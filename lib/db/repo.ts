@@ -11,6 +11,7 @@ export interface Repo {
   getAnomalies(): Promise<T.Anomaly[]>;
   getRecommendations(): Promise<T.Recommendation[]>;
   getOutcomes(): Promise<T.Outcome[]>;
+  getActionLog(): Promise<T.ActionLogEntry[]>;
   saveAnomalies(rows: T.Anomaly[]): Promise<void>;
   saveRecommendations(rows: T.Recommendation[]): Promise<void>;
   logAction(entry: T.ActionLogEntry): Promise<void>;

@@ -1,0 +1,632 @@
+[
+  {
+    "campaign_id": "cmp-serum-meta",
+    "date": "2025-01-05",
+    "spend": 12000,
+    "revenue": 48000,
+    "impressions": 40000,
+    "clicks": 1200,
+    "orders": 40
+  },
+  {
+    "campaign_id": "cmp-cleanse-google",
+    "date": "2025-01-05",
+    "spend": 8000,
+    "revenue": 16000,
+    "impressions": 20000,
+    "clicks": 600,
+    "orders": 20
+  },
+  {
+    "campaign_id": "cmp-serum-meta",
+    "date": "2025-01-06",
+    "spend": 12000,
+    "revenue": 48000,
+    "impressions": 40000,
+    "clicks": 1200,
+    "orders": 40
+  },
+  {
+    "campaign_id": "cmp-cleanse-google",
+    "date": "2025-01-06",
+    "spend": 8000,
+    "revenue": 16000,
+    "impressions": 20000,
+    "clicks": 600,
+    "orders": 20
+  },
+  {
+    "campaign_id": "cmp-serum-meta",
+    "date": "2025-01-07",
+    "spend": 12000,
+    "revenue": 48000,
+    "impressions": 40000,
+    "clicks": 1200,
+    "orders": 40
+  },
+  {
+    "campaign_id": "cmp-cleanse-google",
+    "date": "2025-01-07",
+    "spend": 8000,
+    "revenue": 16000,
+    "impressions": 20000,
+    "clicks": 600,
+    "orders": 20
+  },
+  {
+    "campaign_id": "cmp-serum-meta",
+    "date": "2025-01-08",
+    "spend": 12000,
+    "revenue": 48000,
+    "impressions": 40000,
+    "clicks": 1200,
+    "orders": 40
+  },
+  {
+    "campaign_id": "cmp-cleanse-google",
+    "date": "2025-01-08",
+    "spend": 8000,
+    "revenue": 16000,
+    "impressions": 20000,
+    "clicks": 600,
+    "orders": 20
+  },
+  {
+    "campaign_id": "cmp-serum-meta",
+    "date": "2025-01-09",
+    "spend": 12000,
+    "revenue": 48000,
+    "impressions": 40000,
+    "clicks": 1200,
+    "orders": 40
+  },
+  {
+    "campaign_id": "cmp-cleanse-google",
+    "date": "2025-01-09",
+    "spend": 8000,
+    "revenue": 16000,
+    "impressions": 20000,
+    "clicks": 600,
+    "orders": 20
+  },
+  {
+    "campaign_id": "cmp-serum-meta",
+    "date": "2025-01-10",
+    "spend": 12000,
+    "revenue": 48000,
+    "impressions": 40000,
+    "clicks": 1200,
+    "orders": 40
+  },
+  {
+    "campaign_id": "cmp-cleanse-google",
+    "date": "2025-01-10",
+    "spend": 8000,
+    "revenue": 16000,
+    "impressions": 20000,
+    "clicks": 600,
+    "orders": 20
+  },
+  {
+    "campaign_id": "cmp-serum-meta",
+    "date": "2025-01-11",
+    "spend": 12000,
+    "revenue": 48000,
+    "impressions": 40000,
+    "clicks": 1200,
+    "orders": 40
+  },
+  {
+    "campaign_id": "cmp-cleanse-google",
+    "date": "2025-01-11",
+    "spend": 8000,
+    "revenue": 16000,
+    "impressions": 20000,
+    "clicks": 600,
+    "orders": 20
+  },
+  {
+    "campaign_id": "cmp-serum-meta",
+    "date": "2025-01-12",
+    "spend": 12000,
+    "revenue": 48000,
+    "impressions": 40000,
+    "clicks": 1200,
+    "orders": 40
+  },
+  {
+    "campaign_id": "cmp-cleanse-google",
+    "date": "2025-01-12",
+    "spend": 8000,
+    "revenue": 16000,
+    "impressions": 20000,
+    "clicks": 600,
+    "orders": 20
+  },
+  {
+    "campaign_id": "cmp-serum-meta",
+    "date": "2025-01-13",
+    "spend": 12000,
+    "revenue": 48000,
+    "impressions": 40000,
+    "clicks": 1200,
+    "orders": 40
+  },
+  {
+    "campaign_id": "cmp-cleanse-google",
+    "date": "2025-01-13",
+    "spend": 8000,
+    "revenue": 16000,
+    "impressions": 20000,
+    "clicks": 600,
+    "orders": 20
+  },
+  {
+    "campaign_id": "cmp-serum-meta",
+    "date": "2025-01-14",
+    "spend": 12000,
+    "revenue": 48000,
+    "impressions": 40000,
+    "clicks": 1200,
+    "orders": 40
+  },
+  {
+    "campaign_id": "cmp-cleanse-google",
+    "date": "2025-01-14",
+    "spend": 8000,
+    "revenue": 16000,
+    "impressions": 20000,
+    "clicks": 600,
+    "orders": 20
+  },
+  {
+    "campaign_id": "cmp-serum-meta",
+    "date": "2025-01-15",
+    "spend": 12000,
+    "revenue": 48000,
+    "impressions": 40000,
+    "clicks": 1200,
+    "orders": 40
+  },
+  {
+    "campaign_id": "cmp-cleanse-google",
+    "date": "2025-01-15",
+    "spend": 8000,
+    "revenue": 16000,
+    "impressions": 20000,
+    "clicks": 600,
+    "orders": 20
+  },
+  {
+    "campaign_id": "cmp-serum-meta",
+    "date": "2025-01-16",
+    "spend": 12000,
+    "revenue": 48000,
+    "impressions": 40000,
+    "clicks": 1200,
+    "orders": 40
+  },
+  {
+    "campaign_id": "cmp-cleanse-google",
+    "date": "2025-01-16",
+    "spend": 8000,
+    "revenue": 16000,
+    "impressions": 20000,
+    "clicks": 600,
+    "orders": 20
+  },
+  {
+    "campaign_id": "cmp-serum-meta",
+    "date": "2025-01-17",
+    "spend": 12000,
+    "revenue": 48000,
+    "impressions": 40000,
+    "clicks": 1200,
+    "orders": 40
+  },
+  {
+    "campaign_id": "cmp-cleanse-google",
+    "date": "2025-01-17",
+    "spend": 8000,
+    "revenue": 16000,
+    "impressions": 20000,
+    "clicks": 600,
+    "orders": 20
+  },
+  {
+    "campaign_id": "cmp-serum-meta",
+    "date": "2025-01-18",
+    "spend": 12000,
+    "revenue": 48000,
+    "impressions": 40000,
+    "clicks": 1200,
+    "orders": 40
+  },
+  {
+    "campaign_id": "cmp-cleanse-google",
+    "date": "2025-01-18",
+    "spend": 8000,
+    "revenue": 16000,
+    "impressions": 20000,
+    "clicks": 600,
+    "orders": 20
+  },
+  {
+    "campaign_id": "cmp-serum-meta",
+    "date": "2025-01-19",
+    "spend": 12000,
+    "revenue": 48000,
+    "impressions": 40000,
+    "clicks": 1200,
+    "orders": 40
+  },
+  {
+    "campaign_id": "cmp-cleanse-google",
+    "date": "2025-01-19",
+    "spend": 8000,
+    "revenue": 16000,
+    "impressions": 20000,
+    "clicks": 600,
+    "orders": 20
+  },
+  {
+    "campaign_id": "cmp-serum-meta",
+    "date": "2025-01-20",
+    "spend": 12000,
+    "revenue": 48000,
+    "impressions": 40000,
+    "clicks": 1200,
+    "orders": 40
+  },
+  {
+    "campaign_id": "cmp-cleanse-google",
+    "date": "2025-01-20",
+    "spend": 8000,
+    "revenue": 16000,
+    "impressions": 20000,
+    "clicks": 600,
+    "orders": 20
+  },
+  {
+    "campaign_id": "cmp-serum-meta",
+    "date": "2025-01-21",
+    "spend": 12000,
+    "revenue": 48000,
+    "impressions": 40000,
+    "clicks": 1200,
+    "orders": 40
+  },
+  {
+    "campaign_id": "cmp-cleanse-google",
+    "date": "2025-01-21",
+    "spend": 8000,
+    "revenue": 16000,
+    "impressions": 20000,
+    "clicks": 600,
+    "orders": 20
+  },
+  {
+    "campaign_id": "cmp-serum-meta",
+    "date": "2025-01-22",
+    "spend": 12000,
+    "revenue": 48000,
+    "impressions": 40000,
+    "clicks": 1200,
+    "orders": 40
+  },
+  {
+    "campaign_id": "cmp-cleanse-google",
+    "date": "2025-01-22",
+    "spend": 8000,
+    "revenue": 16000,
+    "impressions": 20000,
+    "clicks": 600,
+    "orders": 20
+  },
+  {
+    "campaign_id": "cmp-serum-meta",
+    "date": "2025-01-23",
+    "spend": 12000,
+    "revenue": 48000,
+    "impressions": 40000,
+    "clicks": 1200,
+    "orders": 40
+  },
+  {
+    "campaign_id": "cmp-cleanse-google",
+    "date": "2025-01-23",
+    "spend": 8000,
+    "revenue": 16000,
+    "impressions": 20000,
+    "clicks": 600,
+    "orders": 20
+  },
+  {
+    "campaign_id": "cmp-serum-meta",
+    "date": "2025-01-24",
+    "spend": 12000,
+    "revenue": 48000,
+    "impressions": 40000,
+    "clicks": 1200,
+    "orders": 40
+  },
+  {
+    "campaign_id": "cmp-cleanse-google",
+    "date": "2025-01-24",
+    "spend": 8000,
+    "revenue": 16000,
+    "impressions": 20000,
+    "clicks": 600,
+    "orders": 20
+  },
+  {
+    "campaign_id": "cmp-serum-meta",
+    "date": "2025-01-25",
+    "spend": 12000,
+    "revenue": 48000,
+    "impressions": 40000,
+    "clicks": 1200,
+    "orders": 40
+  },
+  {
+    "campaign_id": "cmp-cleanse-google",
+    "date": "2025-01-25",
+    "spend": 8000,
+    "revenue": 16000,
+    "impressions": 20000,
+    "clicks": 600,
+    "orders": 20
+  },
+  {
+    "campaign_id": "cmp-serum-meta",
+    "date": "2025-01-26",
+    "spend": 12000,
+    "revenue": 48000,
+    "impressions": 40000,
+    "clicks": 1200,
+    "orders": 40
+  },
+  {
+    "campaign_id": "cmp-cleanse-google",
+    "date": "2025-01-26",
+    "spend": 8000,
+    "revenue": 16000,
+    "impressions": 20000,
+    "clicks": 600,
+    "orders": 20
+  },
+  {
+    "campaign_id": "cmp-serum-meta",
+    "date": "2025-01-27",
+    "spend": 12000,
+    "revenue": 48000,
+    "impressions": 40000,
+    "clicks": 1200,
+    "orders": 40
+  },
+  {
+    "campaign_id": "cmp-cleanse-google",
+    "date": "2025-01-27",
+    "spend": 8000,
+    "revenue": 16000,
+    "impressions": 20000,
+    "clicks": 600,
+    "orders": 20
+  },
+  {
+    "campaign_id": "cmp-serum-meta",
+    "date": "2025-01-28",
+    "spend": 12000,
+    "revenue": 48000,
+    "impressions": 40000,
+    "clicks": 1200,
+    "orders": 40
+  },
+  {
+    "campaign_id": "cmp-cleanse-google",
+    "date": "2025-01-28",
+    "spend": 8000,
+    "revenue": 16000,
+    "impressions": 20000,
+    "clicks": 600,
+    "orders": 20
+  },
+  {
+    "campaign_id": "cmp-serum-meta",
+    "date": "2025-01-29",
+    "spend": 12000,
+    "revenue": 48000,
+    "impressions": 40000,
+    "clicks": 1200,
+    "orders": 40
+  },
+  {
+    "campaign_id": "cmp-cleanse-google",
+    "date": "2025-01-29",
+    "spend": 8000,
+    "revenue": 16000,
+    "impressions": 20000,
+    "clicks": 600,
+    "orders": 20
+  },
+  {
+    "campaign_id": "cmp-serum-meta",
+    "date": "2025-01-30",
+    "spend": 12000,
+    "revenue": 48000,
+    "impressions": 40000,
+    "clicks": 1200,
+    "orders": 40
+  },
+  {
+    "campaign_id": "cmp-cleanse-google",
+    "date": "2025-01-30",
+    "spend": 8000,
+    "revenue": 16000,
+    "impressions": 20000,
+    "clicks": 600,
+    "orders": 20
+  },
+  {
+    "campaign_id": "cmp-serum-meta",
+    "date": "2025-01-31",
+    "spend": 12000,
+    "revenue": 48000,
+    "impressions": 40000,
+    "clicks": 1200,
+    "orders": 40
+  },
+  {
+    "campaign_id": "cmp-cleanse-google",
+    "date": "2025-01-31",
+    "spend": 8000,
+    "revenue": 16000,
+    "impressions": 20000,
+    "clicks": 600,
+    "orders": 20
+  },
+  {
+    "campaign_id": "cmp-serum-meta",
+    "date": "2025-02-01",
+    "spend": 12000,
+    "revenue": 48000,
+    "impressions": 40000,
+    "clicks": 1200,
+    "orders": 40
+  },
+  {
+    "campaign_id": "cmp-cleanse-google",
+    "date": "2025-02-01",
+    "spend": 8000,
+    "revenue": 16000,
+    "impressions": 20000,
+    "clicks": 600,
+    "orders": 20
+  },
+  {
+    "campaign_id": "cmp-serum-meta",
+    "date": "2025-02-02",
+    "spend": 12000,
+    "revenue": 48000,
+    "impressions": 40000,
+    "clicks": 1200,
+    "orders": 40
+  },
+  {
+    "campaign_id": "cmp-cleanse-google",
+    "date": "2025-02-02",
+    "spend": 8000,
+    "revenue": 16000,
+    "impressions": 20000,
+    "clicks": 600,
+    "orders": 20
+  },
+  {
+    "campaign_id": "cmp-serum-meta",
+    "date": "2025-02-03",
+    "spend": 12000,
+    "revenue": 48000,
+    "impressions": 40000,
+    "clicks": 1200,
+    "orders": 40
+  },
+  {
+    "campaign_id": "cmp-cleanse-google",
+    "date": "2025-02-03",
+    "spend": 8000,
+    "revenue": 16000,
+    "impressions": 20000,
+    "clicks": 600,
+    "orders": 20
+  },
+  {
+    "campaign_id": "cmp-serum-meta",
+    "date": "2025-02-04",
+    "spend": 12000,
+    "revenue": 48000,
+    "impressions": 40000,
+    "clicks": 1200,
+    "orders": 40
+  },
+  {
+    "campaign_id": "cmp-cleanse-google",
+    "date": "2025-02-04",
+    "spend": 8000,
+    "revenue": 16000,
+    "impressions": 20000,
+    "clicks": 600,
+    "orders": 20
+  },
+  {
+    "campaign_id": "cmp-serum-meta",
+    "date": "2025-02-05",
+    "spend": 12000,
+    "revenue": 48000,
+    "impressions": 40000,
+    "clicks": 1200,
+    "orders": 40
+  },
+  {
+    "campaign_id": "cmp-cleanse-google",
+    "date": "2025-02-05",
+    "spend": 8000,
+    "revenue": 16000,
+    "impressions": 20000,
+    "clicks": 600,
+    "orders": 20
+  },
+  {
+    "campaign_id": "cmp-serum-meta",
+    "date": "2025-02-06",
+    "spend": 12000,
+    "revenue": 48000,
+    "impressions": 40000,
+    "clicks": 1200,
+    "orders": 40
+  },
+  {
+    "campaign_id": "cmp-cleanse-google",
+    "date": "2025-02-06",
+    "spend": 8000,
+    "revenue": 16000,
+    "impressions": 20000,
+    "clicks": 600,
+    "orders": 20
+  },
+  {
+    "campaign_id": "cmp-serum-meta",
+    "date": "2025-02-07",
+    "spend": 12000,
+    "revenue": 48000,
+    "impressions": 40000,
+    "clicks": 1200,
+    "orders": 40
+  },
+  {
+    "campaign_id": "cmp-cleanse-google",
+    "date": "2025-02-07",
+    "spend": 8000,
+    "revenue": 16000,
+    "impressions": 20000,
+    "clicks": 600,
+    "orders": 20
+  },
+  {
+    "campaign_id": "cmp-serum-meta",
+    "date": "2025-02-08",
+    "spend": 12000,
+    "revenue": 48000,
+    "impressions": 40000,
+    "clicks": 1200,
+    "orders": 40
+  },
+  {
+    "campaign_id": "cmp-cleanse-google",
+    "date": "2025-02-08",
+    "spend": 8000,
+    "revenue": 16000,
+    "impressions": 20000,
+    "clicks": 600,
+    "orders": 20
+  }
+]
