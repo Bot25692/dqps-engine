@@ -4,8 +4,9 @@ export type WorkflowStage = 'PENDING' | 'APPROVED' | 'SIMULATING' | 'COMPLETED' 
 
 /** A status label alone is not proof that simulation produced a saved outcome. */
 export function hasCompletedOutcome(rec: Recommendation, outcome: Outcome): boolean {
-  return rec.status === 'executed' && outcome.recommendation_id === rec.id
-    && outcome.id === `${rec.id}:outcome` && outcome.horizon_days === 3
+  return rec.status === 'executed'
+    && outcome.recommendation_id === rec.id
+    && outcome.horizon_days === 3
     && [outcome.actual, outcome.predicted, outcome.error_pct].every(Number.isFinite);
 }
 

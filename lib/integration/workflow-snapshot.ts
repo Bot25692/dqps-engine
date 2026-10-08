@@ -5,19 +5,46 @@ import { hasCompletedOutcome } from '../presentation/workflow-state';
 /** Reconcile authenticated cold-start recovery with the active dataset's Repo.
  * Local browser data and unpaired fixture outcomes are never completion evidence.
  */
-export function workflowSnapshot(recommendations: Recommendation[], outcomes: Outcome[], session: SessionPayload | null, dataset: string) {
+export function workflowSnapshot(
+  recommendations: Recommendation[],
+  outcomes: Outcome[],
+  session: SessionPayload | null,
+  dataset: string
+) {
   const activeSession = session?.dataset === dataset ? session : null;
+
   const recs = recommendations.map(rec => {
-    if (rec.status !== 'pending' || activeSession?.recommendationId !== rec.id) return rec;
-    if (activeSession.status === 'executed' && !activeSession.outcome) return rec;
-    return {...rec, status:activeSession.status,
-      confidence:activeSession.confidenceUpdate?.previousConfidence ?? rec.confidence};
+    // 1. If activeSession has executed this recommendation with an outcome, reconcile it
+    if (activeSession?.recommendationId === rec.id && activeSession.status === 'executed' && activeSession.outcome) {
+      return {
+        ...rec,
+        status: 'executed' as const,
+        confidence: activeSession.confidenceUpdate?.previousConfidence ?? rec.confidence,
+      };
+    }
+    // 2. If activeSession has recorded approval
+    if (activeSession?.recommendationId === rec.id && activeSession.status === 'approved' && rec.status === 'pending') {
+      return {
+        ...rec,
+        status: 'approved' as const,
+      };
+    }
+    return rec;
   });
-  const eligible = outcomes.filter(outcome => recs.some(rec => hasCompletedOutcome(rec, outcome)));
-  if (activeSession?.status === 'executed' && activeSession.outcome
-      && recs.some(rec => hasCompletedOutcome(rec, activeSession.outcome!))
-      && !eligible.some(row => row.id === activeSession.outcome!.id)) {
-    eligible.push(activeSession.outcome);
+
+  const eligibleMap = new Map<string, Outcome>();
+  for (const outcome of outcomes) {
+    if (recs.some(rec => hasCompletedOutcome(rec, outcome))) {
+      eligibleMap.set(outcome.id, outcome);
+    }
   }
-  return {recommendations:recs, outcomes:eligible};
+
+  if (activeSession?.status === 'executed' && activeSession.outcome) {
+    const o = activeSession.outcome;
+    if (recs.some(rec => hasCompletedOutcome(rec, o))) {
+      eligibleMap.set(o.id, o);
+    }
+  }
+
+  return { recommendations: recs, outcomes: Array.from(eligibleMap.values()) };
 }
