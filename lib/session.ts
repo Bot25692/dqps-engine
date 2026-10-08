@@ -28,11 +28,25 @@ export const SessionPayloadSchema = z.strictObject({
 
 export type SessionPayload = z.infer<typeof SessionPayloadSchema>;
 
-const DEFAULT_SECRET = 'adapt-session-in-memory-key-32-chars-ok!';
+let ephemeralProdSecret: Buffer | null = null;
 
 function getEncryptionKey(): Buffer {
-  const secret = process.env.ADAPT_SESSION_SECRET || DEFAULT_SECRET;
-  return createHash('sha256').update(secret).digest();
+  const secret = process.env.ADAPT_SESSION_SECRET;
+  if (secret && secret.length >= 16) {
+    return createHash('sha256').update(secret).digest();
+  }
+
+  // In production or Vercel, NEVER use a predictable hardcoded string
+  if (process.env.NODE_ENV === 'production' || process.env.VERCEL) {
+    if (!ephemeralProdSecret) {
+      console.warn('[SECURITY WARNING] ADAPT_SESSION_SECRET is not set in production. Using ephemeral random 256-bit key to prevent predictable encryption.');
+      ephemeralProdSecret = randomBytes(32);
+    }
+    return ephemeralProdSecret;
+  }
+
+  // Local development / testing fallback only
+  return createHash('sha256').update('adapt-dev-secret-only-for-local-testing').digest();
 }
 
 /**

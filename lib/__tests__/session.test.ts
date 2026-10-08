@@ -49,6 +49,25 @@ describe('Cryptographic Session Security', () => {
     expect(unsealSession(corruptedToken)).toBeNull();
   });
 
+  it('uses ADAPT_SESSION_SECRET when configured', () => {
+    const origSecret = process.env.ADAPT_SESSION_SECRET;
+    try {
+      process.env.ADAPT_SESSION_SECRET = 'my-custom-super-secret-key-for-test-32char';
+      const token = sealSession({
+        recommendationId: 'rec_custom',
+        status: 'pending' as const,
+      });
+      const unsealed = unsealSession(token);
+      expect(unsealed?.recommendationId).toBe('rec_custom');
+
+      // Different secret cannot decrypt
+      process.env.ADAPT_SESSION_SECRET = 'different-secret-key-32chars-now!';
+      expect(unsealSession(token)).toBeNull();
+    } finally {
+      process.env.ADAPT_SESSION_SECRET = origSecret;
+    }
+  });
+
   it('rejects payload with invalid schema', () => {
     // Arbitrary base64 string
     expect(unsealSession('invalid-not-even-base64')).toBeNull();
