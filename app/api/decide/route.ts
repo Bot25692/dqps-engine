@@ -1,6 +1,6 @@
 import { z } from 'zod';
 import { boundary } from '@/lib/simulation/boundary';
-import { getRecord } from '@/lib/simulation/approval-store';
+import { getRecord, restoreApproval } from '@/lib/simulation/approval-store';
 import { mapRecommendationToSimulation, type CampaignEnrichment } from '@/lib/integration/adapter';
 import { updateConfidence, computePredictionError } from '@/lib/integration/confidence';
 import { getRuntimeRepo, withDecisionLock } from '@/lib/db/runtime-repo';
@@ -10,17 +10,17 @@ import { OutcomeSchema, RecommendationSchema, type ActionLogEntry } from '@/lib/
 import type { Repo } from '@/lib/db/repo';
 
 const RequestSchema = z.object({
-  recommendationId: z.string().min(1),
+  recommendationId: z.string().min(1).optional(),
   action: z.enum(['register', 'approve', 'reject', 'simulate', 'reset']),
   seed: z.number().int().optional(),
   recommendation: RecommendationSchema.optional(),
-});
+}).refine(body => body.action === 'reset' || !!body.recommendationId);
 const logged = new Set<string>();
 
 // Stable IDs plus serialized actions keep duplicate clicks from creating duplicate logs.
 async function logOnce(repo: Repo, recommendationId: string, action: ActionLogEntry['action']) {
   const id = `${recommendationId}:${action}`;
-  if (logged.has(id)) return;
+  if (logged.has(id) || (await repo.getActionLog()).some(entry => entry.id === id)) return;
   await repo.logAction({ id, recommendation_id: recommendationId,
     created_at: new Date().toISOString(), actor: action === 'executed' ? 'simulation' : 'human', action, note: '' });
   logged.add(id);
@@ -34,7 +34,8 @@ export async function POST(request: Request): Promise<Response> {
   const parsed = RequestSchema.safeParse(body);
   if (!parsed.success) return Response.json({ ok: false, error: 'Invalid decision request' }, { status: 400 });
   return withDecisionLock(async () => {
-    const { recommendationId, action, seed, recommendation } = parsed.data;
+    const { action, seed, recommendation } = parsed.data;
+    const recommendationId = parsed.data.recommendationId ?? 'demo';
     const fail = (error: string, status = 409) => Response.json({ ok: false, recommendationId, error }, { status });
     try {
       const repo = await getRuntimeRepo();
@@ -71,6 +72,14 @@ export async function POST(request: Request): Promise<Response> {
         return fail('Recommendation already has a persisted outcome');
       }
       if (rec.status !== 'approved' && rec.status !== 'executed') return fail('Human approval is required');
+      if (!getRecord(rec.id)) {
+        const actions = (await repo.getActionLog()).filter(entry => entry.recommendation_id === rec.id);
+        const approval = actions.find(entry => entry.action === 'approved' && entry.actor === 'human');
+        if (!approval || actions.some(entry => entry.action === 'rejected')) {
+          return fail('Saved human approval unavailable. Reset the demo and approve again.');
+        }
+        restoreApproval(rec.id, Date.parse(approval.created_at));
+      }
       // Reuse a completed result only to retry a failed persistence operation, never rerun it.
       let simulationResult = getRecord(rec.id)?.simulationResult;
       if (!simulationResult) {

@@ -99,7 +99,7 @@ export function AlertCard({
             </svg>
           </span>
           <span>
-            Strong media return. <strong>{insight}</strong>
+            <strong>{insight}</strong>
           </span>
         </div>
       ) : (

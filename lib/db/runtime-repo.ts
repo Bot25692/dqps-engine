@@ -7,7 +7,8 @@ const shared = globalThis as typeof globalThis & { adaptRuntime?: Runtime };
 // Keep the demo's existing in-memory Repo across route/page bundles and requests.
 // This is process-local demo state; durable deployments use the Supabase Repo.
 function runtime(): Runtime {
-  return shared.adaptRuntime ??= { repo: createRepo({ fixtureSeed: 1 }), queue: Promise.resolve() };
+  return shared.adaptRuntime ??= { repo: createRepo({ fixtureSeed: 1,
+    fixtureDirectory: process.env.ADAPT_FIXTURE_DIRECTORY || undefined }), queue: Promise.resolve() };
 }
 
 // Generate Builder A's actual recommendation once, rather than showing legacy fixture claims.

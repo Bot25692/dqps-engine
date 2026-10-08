@@ -3,7 +3,7 @@ import { MainContent } from "@/components/main-content";
 import { connection } from "next/server";
 import { getRuntimeRepo } from "@/lib/db/runtime-repo";
 import { loadAnalysisInputs } from "@/lib/run-analysis";
-import type { Campaign, Sku, MetricRow, InventoryRow } from "@/lib/types";
+import { buildCampaignRows } from "@/lib/demo/campaign-data";
 
 export const instant = false;
 
@@ -13,89 +13,6 @@ function fmtINR(n: number): string {
 }
 
 /* ─── Build campaign rows from fixture data ──────────────────────────────── */
-interface CampaignRow {
-  campaign: Campaign;
-  sku: Sku;
-  avgDailySpend: number;
-  avgDailyRevenue: number;
-  roas: number;
-  stockRunwayDays: number;
-  inventoryUnits: number;
-  flag: "stock-critical" | "stock-low" | "negative-margin" | "none";
-}
-
-function buildCampaignRows(
-  campaigns: Campaign[],
-  skus: Sku[],
-  metrics: MetricRow[],
-  inventory: InventoryRow[]
-): CampaignRow[] {
-  const skuMap = new Map(skus.map((s) => [s.id, s]));
-
-  // Latest 7-day metric window per campaign
-  const dates = [...new Set(metrics.map((m) => m.date))].sort();
-  const last7Dates = new Set(dates.slice(-7));
-
-  return campaigns
-    .map((c) => {
-      const sku = skuMap.get(c.sku_id)!;
-      const recentMetrics = metrics.filter(
-        (m) => m.campaign_id === c.id && last7Dates.has(m.date)
-      );
-      const totalSpend = recentMetrics.reduce((s, m) => s + m.spend, 0);
-      const totalRevenue = recentMetrics.reduce((s, m) => s + m.revenue, 0);
-      const days = recentMetrics.length || 1;
-      const avgDailySpend = totalSpend / days;
-      const avgDailyRevenue = totalRevenue / days;
-      const roas = avgDailySpend > 0 ? avgDailyRevenue / avgDailySpend : 0;
-
-      // Latest inventory snapshot for this SKU
-      const skuInventory = inventory
-        .filter((inv) => inv.sku_id === c.sku_id)
-        .sort((a, b) => b.date.localeCompare(a.date));
-      const latestInv = skuInventory[0];
-      const inventoryUnits = latestInv?.units_on_hand ?? 0;
-      const avgDailySold =
-        skuInventory.slice(0, 7).reduce((s, i) => s + i.units_sold, 0) / 7;
-      const stockRunwayDays =
-        avgDailySold > 0 ? inventoryUnits / avgDailySold : 999;
-
-      // Break-even ROAS = 1 / margin_rate
-      const breakEvenRoas = sku ? 1 / sku.margin_rate : 2;
-      const flag: CampaignRow["flag"] =
-        stockRunwayDays < 3
-          ? "stock-critical"
-          : stockRunwayDays < 5
-          ? "stock-low"
-          : roas < breakEvenRoas
-          ? "negative-margin"
-          : "none";
-
-      return {
-        campaign: c,
-        sku: sku ?? { id: c.sku_id, name: c.sku_id, margin_rate: 0.5 },
-        avgDailySpend,
-        avgDailyRevenue,
-        roas,
-        stockRunwayDays,
-        inventoryUnits,
-        flag,
-      };
-    })
-    .sort((a, b) => {
-      // Critical first, then by spend descending
-      const urgency = {
-        "stock-critical": 0,
-        "stock-low": 1,
-        "negative-margin": 2,
-        none: 3,
-      };
-      if (urgency[a.flag] !== urgency[b.flag])
-        return urgency[a.flag] - urgency[b.flag];
-      return b.avgDailySpend - a.avgDailySpend;
-    });
-}
-
 export default async function CampaignsPage() {
   await connection();
   const repo = await getRuntimeRepo();
@@ -107,13 +24,11 @@ export default async function CampaignsPage() {
 
   const platforms = new Set(campaigns.map((c) => c.platform)).size;
   const dates = [...new Set(metrics.map((m) => m.date))].sort();
-  const asOf = dates.at(-1) ?? "2026-10-07";
+  const asOf = dates.at(-1) ?? "No metrics";
   const dayCount = dates.length;
 
   const subtitle =
-    asOf === "2026-10-07" && dayCount === 45
-      ? `${campaigns.length} campaigns · 4 platforms · INR · Day 45 as-of`
-      : `${campaigns.length} campaigns · ${platforms} platform${
+    `${campaigns.length} campaigns · ${platforms} platform${
           platforms === 1 ? "" : "s"
         } · INR · ${dayCount ? `Day ${dayCount} (as-of ${asOf})` : `as-of ${asOf}`}`;
 
@@ -147,6 +62,7 @@ export default async function CampaignsPage() {
       />
 
       <MainContent>
+        {repo.status.banner && <p role="status">{repo.status.banner}</p>}
         <section className="panel campaigns-panel">
           <div className="table-topline">
             <div>
@@ -215,7 +131,7 @@ export default async function CampaignsPage() {
                         <span
                           className="font-mono-num font-semibold"
                           style={{
-                            color: r.roas >= 3.0 ? "var(--green)" : "var(--text-secondary)",
+                            color: r.roas >= r.breakEvenRoas ? "var(--green)" : "var(--red)",
                           }}
                         >
                           {r.roas.toFixed(1)}×
@@ -274,7 +190,7 @@ export default async function CampaignsPage() {
                               fontSize: 9,
                             }}
                           >
-                            ACTIVE
+                            {r.flag === 'negative-margin' ? 'NEGATIVE PROFIT' : 'ACTIVE'}
                           </span>
                         )}
                       </td>

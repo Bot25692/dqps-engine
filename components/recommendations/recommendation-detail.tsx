@@ -18,7 +18,8 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import type { Recommendation, Anomaly, Campaign, Sku } from "@/lib/types";
+import type { Recommendation, Anomaly, Campaign, Sku, Outcome } from "@/lib/types";
+import { presentOutcome } from "@/lib/integration/presentation";
 import type { SimulationResult } from "@/lib/simulation/types";
 
 interface Props {
@@ -26,6 +27,8 @@ interface Props {
   stockAnomalies: Anomaly[];
   campaigns: Campaign[];
   skus: Sku[];
+  outcome?: Outcome | null;
+  currentRunways?: Record<string, number | null>;
 }
 
 type WorkflowStatus =
@@ -67,6 +70,8 @@ export function RecommendationDetail({
   stockAnomalies,
   campaigns,
   skus,
+  outcome,
+  currentRunways = {},
 }: Props) {
   const router = useRouter();
   const [status, setStatus] = useState<WorkflowStatus>(
@@ -78,8 +83,20 @@ export function RecommendationDetail({
       ? "rejected"
       : "idle"
   );
-  const [simResult, setSimResult] = useState<SimulateResponse | null>(null);
+  const [simResult, setSimResult] = useState<SimulateResponse | null>(outcome && recommendation ? presentOutcome(outcome, recommendation) : null);
   const [error, setError] = useState<string | null>(null);
+  const [busy, setBusy] = useState(false);
+
+  async function handleAnalyze() {
+    setBusy(true); setError(null);
+    try {
+      const response = await fetch('/api/run-analysis', { method: 'POST' });
+      const result = await response.json();
+      if (!response.ok) throw new Error(result.error ?? 'Analysis failed');
+      router.refresh();
+    } catch (error) { setError(error instanceof Error ? error.message : 'Analysis failed'); }
+    finally { setBusy(false); }
+  }
 
   const rec = recommendation;
   const recId = rec?.id ?? "no-recommendation";
@@ -133,6 +150,7 @@ export function RecommendationDetail({
       setSimResult(res);
       setStatus(res.ok ? "simulated" : "error");
       if (!res.ok) setError(res.error ?? "Simulation failed");
+      else window.location.reload(); // Load the saved outcome and clear stale Learning snapshots.
     } catch (e) {
       setError(String(e));
       setStatus("error");
@@ -140,15 +158,17 @@ export function RecommendationDetail({
   }
 
   async function handleReset() {
+    try {
     const result = await callDecide("reset");
     if (!result.ok) {
       setError(result.error ?? "Reset failed");
       return;
     }
-    router.refresh();
+    window.location.reload(); // Reset invalidates every visited workflow page.
     setStatus("idle");
     setSimResult(null);
     setError(null);
+    } catch (error) { setError(error instanceof Error ? error.message : 'Reset failed'); }
   }
 
   /* ── Empty state ── */
@@ -162,12 +182,10 @@ export function RecommendationDetail({
           No pending recommendation
         </p>
         <p className="text-sm mt-1.5 text-[var(--text-muted)]">
-          Run analysis via{" "}
-          <code className="font-mono text-xs px-1.5 py-0.5 rounded bg-[var(--surface-raised)] text-[var(--cyan)]">
-            POST /api/run-analysis
-          </code>{" "}
-          to generate one.
+          Analysis may return no eligible move under the guardrails.
         </p>
+        <button className="button button-secondary" disabled={busy} onClick={handleAnalyze}>{busy ? 'Analyzing…' : 'Run Analysis'}</button>
+        {error && <p role="alert">{error}</p>}
       </div>
     );
   }
@@ -190,17 +208,19 @@ export function RecommendationDetail({
   const donorCamp = primaryDonor ? campaignMap.get(primaryDonor.campaign_id) : null;
   const donorSku = donorCamp ? skuMap.get(donorCamp.sku_id) : null;
 
-  const detectedDate = topAnomaly?.date ?? rec.created_at?.slice(0, 10) ?? "2026-10-01";
-  const runwayDays = topAnomaly ? `${topAnomaly.observed.toFixed(1)} days` : "4.7 days";
-  const warningDays = topAnomaly ? `${topAnomaly.baseline.toFixed(0)} days` : "7 days";
-  const zScore = topAnomaly ? `${topAnomaly.z_score.toFixed(2)}σ` : "2.85σ";
-  const targetCampaignId = topAnomaly?.campaign_id ?? primaryDonor?.campaign_id ?? "CMP-SNK-01";
+  const detectedDate = topAnomaly?.date ?? rec.created_at.slice(0, 10);
+  const runwayDays = topAnomaly ? `${topAnomaly.observed.toFixed(1)} days` : "Unavailable";
+  const warningDays = topAnomaly ? `${topAnomaly.baseline.toFixed(0)} days` : "Unavailable";
+  const zScore = topAnomaly ? `${topAnomaly.z_score.toFixed(2)}σ` : "Not applicable";
+  const targetCampaignId = topAnomaly?.campaign_id ?? primaryDonor?.campaign_id ?? "Unavailable";
 
   const confidenceBand =
     rec.confidence >= 0.8 ? "HIGH" : rec.confidence >= 0.6 ? "MEDIUM" : "LOW";
 
   return (
     <div className="space-y-4">
+      <button className="button button-secondary" disabled={busy || status !== 'idle'} onClick={handleAnalyze}>{busy ? 'Analyzing…' : 'Run Analysis'}</button>
+      <p className="text-xs text-[var(--text-muted)]">Simulated execution only. Current stock cover: {currentRunways[targetCampaignId] == null ? 'Unavailable' : `${currentRunways[targetCampaignId]!.toFixed(1)} days`}. Evidence below records cover at detection.</p>
       {error && (
         <div
           className="rounded-lg p-3 text-sm font-mono"
@@ -238,14 +258,13 @@ export function RecommendationDetail({
               </div>
 
               <h2>
-                High ROAS.
+                {topAnomaly ? 'Stock evidence.' : 'Profit opportunity.'}
                 <br />
-                <span>Inventory is the constraint.</span>
+                <span>{topAnomaly ? 'Inventory is the constraint.' : 'Review the engine recommendation.'}</span>
               </h2>
 
               <p className="diagnosis-copy">
-                {donorSku?.name ?? "Court Sneaker"} is performing strongly.
-                Available inventory cannot sustain the current media demand pace.
+                {rec.explanation}
               </p>
 
               <div className="evidence-stats">
@@ -352,8 +371,8 @@ export function RecommendationDetail({
                   <div>
                     <h3>{donorCamp?.name ?? primaryDonor.campaign_id}</h3>
                     <p>
-                      {donorCamp?.platform ?? "Meta"} <i>·</i>{" "}
-                      {donorSku?.id ?? donorCamp?.sku_id ?? "SNK-01"} <i>·</i>{" "}
+                      {donorCamp?.platform ?? "Unavailable"} <i>·</i>{" "}
+                      {donorSku?.id ?? donorCamp?.sku_id ?? "Unavailable"} <i>·</i>{" "}
                       {primaryDonor.campaign_id}
                     </p>
                   </div>
@@ -584,13 +603,10 @@ export function RecommendationDetail({
                 status === "simulated" ? "" : "result-pending"
               }`}
             >
-              <span>Actual outcome</span>
+              <span>Actual Simulated outcome</span>
               <strong>
                 {status === "simulated"
-                  ? `+${fmtINR(
-                      simResult?.actualGain ??
-                        rec.expected_profit_gain_per_day * 3
-                    )}`
+                  ? simResult?.actualGain == null ? 'Unavailable — inspect Learning' : fmtINR(simResult.actualGain)
                   : "Pending simulation"}
               </strong>
             </div>

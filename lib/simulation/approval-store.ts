@@ -236,6 +236,16 @@ export function getRecord(recommendationId: string): ApprovalRecord | undefined 
   return store.get(recommendationId);
 }
 
+/** Restore only a server-verified, persisted human approval; never renew its TTL. */
+export function restoreApproval(recommendationId: string, approvedAt: number): void {
+  if (!Number.isFinite(approvedAt) || approvedAt <= 0 || approvedAt > Date.now()) {
+    throw new Error('Invalid persisted approval time');
+  }
+  if (!store.has(recommendationId)) store.set(recommendationId, {
+    recommendationId, status: 'approved', createdAt: approvedAt, actionAt: approvedAt,
+  });
+}
+
 // ── Demo reset ────────────────────────────────────────────────────────────────
 
 /**

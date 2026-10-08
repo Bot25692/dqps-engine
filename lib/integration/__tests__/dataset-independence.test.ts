@@ -51,6 +51,7 @@ class MemoryRepo implements Repo {
   async getAnomalies() { return structuredClone(this.anomalies); }
   async getRecommendations() { return structuredClone(this.recommendations); }
   async getOutcomes() { return structuredClone(this.outcomes); }
+  async getActionLog() { return structuredClone(this.actionLogs); }
   async saveAnomalies(rows: T.Anomaly[]) { this.anomalies = structuredClone(rows); }
   async saveRecommendations(rows: T.Recommendation[]) { this.recommendations = structuredClone(rows); }
   async logAction(entry: T.ActionLogEntry) { this.actionLogs.push(structuredClone(entry)); }

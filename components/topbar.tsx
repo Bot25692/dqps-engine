@@ -51,7 +51,7 @@ export function Topbar() {
         <span className="meta-mark" />
         <span>INR</span>
         <span className="meta-separator" />
-        <span>Fixtures</span>
+        <span>Simulated</span>
       </div>
     </header>
   );

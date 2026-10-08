@@ -14,7 +14,7 @@ export function overviewData(data: { campaigns: Campaign[]; skus: Sku[]; metrics
   const skuMap = new Map(data.skus.map(sku => [sku.id, sku]));
   const campaignMap = new Map(data.campaigns.map(campaign => [campaign.id, campaign]));
   const dates = [...new Set(data.metrics.map(row => row.date))].sort();
-  const latest = dates.at(-1) ?? '2026-10-07';
+  const latest = dates.at(-1) ?? 'No metrics';
   const daily = dates.map(date => {
     const rows = data.metrics.filter(row => row.date === date);
     return { day: date, revenue: rows.reduce((sum, row) => sum + row.revenue, 0),
@@ -22,7 +22,8 @@ export function overviewData(data: { campaigns: Campaign[]; skus: Sku[]; metrics
       profit: rows.reduce((sum, row) => {
         const c = campaignMap.get(row.campaign_id);
         const s = c ? skuMap.get(c.sku_id) : undefined;
-        return sum + (row.revenue * (s?.margin_rate ?? 0.5) - row.spend);
+        if (!s) throw new Error('Missing SKU margin for observed campaign');
+        return sum + (row.revenue * s.margin_rate - row.spend);
       }, 0) };
   });
   const current = daily.at(-1) ?? { revenue: 0, spend: 0, profit: 0, day: latest };
@@ -55,8 +56,8 @@ export function overviewData(data: { campaigns: Campaign[]; skus: Sku[]; metrics
 
   const allItems = data.skus.map(s => buildItem(s.id)).filter((item): item is NonNullable<ReturnType<typeof buildItem>> => item !== null);
 
-  // Preserve Golden Path exact baseline if SNK-01 is present; otherwise pick lowest stock runway
-  let attentionBase = skuMap.has('SNK-01') ? buildItem('SNK-01') : null;
+  // Rank observed stock risk independently of product identifiers.
+  let attentionBase: ReturnType<typeof buildItem> = null;
   if (!attentionBase && allItems.length) {
     attentionBase = [...allItems].sort((a, b) => a.stockRunwayDays - b.stockRunwayDays || a.id.localeCompare(b.id))[0];
   }
@@ -73,8 +74,8 @@ export function overviewData(data: { campaigns: Campaign[]; skus: Sku[]; metrics
     insight: `${activeAttention.inventoryUnits} units remain with ${activeAttention.stockRunwayDays === Infinity ? 'ample' : activeAttention.stockRunwayDays.toFixed(1)} days of all-channel stock cover. Stock risk takes priority over ROAS.`,
   };
 
-  // Preserve Golden Path exact baseline if TEE-PRM is present; otherwise pick ample stock runway with highest margin/ROAS
-  let opportunityBase = skuMap.has('TEE-PRM') ? buildItem('TEE-PRM') : null;
+  // Present a stock-covered candidate; only the optimizer can authorize a transfer.
+  let opportunityBase: ReturnType<typeof buildItem> = null;
   if (!opportunityBase && allItems.length) {
     const candidates = allItems.filter(i => i.id !== activeAttention.id && i.stockRunwayDays >= 7);
     if (candidates.length) {

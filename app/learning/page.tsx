@@ -3,7 +3,7 @@ export const instant = false;
 import { PageHeader } from "@/components/page-header";
 import { MainContent } from "@/components/main-content";
 import { getRuntimeRepo } from "@/lib/db/runtime-repo";
-import { ANALYSIS_AS_OF } from "@/lib/run-analysis";
+
 import { LearningView } from "@/components/learning/learning-view";
 import type { Outcome } from "@/lib/types";
 import { connection } from "next/server";
@@ -25,7 +25,7 @@ export default async function LearningPage() {
   const asOf =
     recommendations[0]?.created_at?.slice(0, 10) ??
     latestOutcomes[0]?.created_at?.slice(0, 10) ??
-    ANALYSIS_AS_OF;
+    "No analysis yet";
 
   return (
     <>
@@ -35,6 +35,7 @@ export default async function LearningPage() {
         eyebrow="CLOSED-LOOP SYSTEM"
       />
       <MainContent>
+        {repo.status.banner && <p role="status">{repo.status.banner}</p>}
         <LearningView
           outcomes={latestOutcomes}
           currentConfidence={confidenceWeights?.weight ?? 0.75}

@@ -15,9 +15,9 @@
  */
 
 import type { Outcome, Recommendation } from "@/lib/types";
-import { updateConfidence } from "@/lib/integration/confidence";
+import { presentOutcome } from "@/lib/integration/presentation";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useState } from "react";
 
 interface Props {
   outcomes: Outcome[];
@@ -37,7 +37,7 @@ export function LearningView({
   currentConfidence,
   recommendations,
 }: Props) {
-  const router = useRouter();
+  const [resetError, setResetError] = useState<string | null>(null);
   const recMap = new Map(recommendations.map((r) => [r.id, r]));
 
   const steps = [
@@ -56,24 +56,30 @@ export function LearningView({
     .sort((a, b) => a.created_at.localeCompare(b.created_at))
     .map((outcome) => {
       const rec = recMap.get(outcome.recommendation_id);
-      const errorFraction = outcome.error_pct / 100;
-      const update = updateConfidence({ currentConfidence, errorFraction });
+      const update = presentOutcome(outcome, rec ?? { confidence: 0.75 } as Recommendation).confidenceUpdate;
       return { outcome, rec, update };
     });
 
   const latest = trajectory[trajectory.length - 1];
 
   async function handleReset() {
-    await fetch("/api/decide", {
+    setResetError(null);
+    try {
+    const response = await fetch("/api/decide", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ action: "reset" }),
     });
-    router.refresh();
+    const result = await response.json();
+    if (!response.ok || !result.ok) throw new Error(result.error ?? 'Reset failed');
+    // Clear visited-route snapshots as well as the current Learning page.
+    window.location.reload();
+    } catch (error) { setResetError(error instanceof Error ? error.message : 'Reset failed'); }
   }
 
   return (
     <div className="space-y-4">
+      {resetError && <p role="alert">{resetError}</p>}
       {/* ── 1. Learning Steps Progress Header ── */}
       <section className="learning-steps" aria-label="Learning loop">
         {steps.map((step, index) => {
@@ -204,7 +210,7 @@ export function LearningView({
 
             <article className="comparison-card actual-card">
               <span className="comparison-label">Actual simulated outcome</span>
-              <strong>+{fmtINR(latest.outcome.actual)}</strong>
+              <strong>{fmtINR(latest.outcome.actual)}</strong>
               <small>Deterministic simulation · 3 days</small>
             </article>
           </div>
@@ -213,7 +219,7 @@ export function LearningView({
           <div className="confidence-comparison">
             <div>
               <span>Confidence before</span>
-              <strong>{fmtPct(currentConfidence)}</strong>
+              <strong>{fmtPct(latest.update.previousConfidence)}</strong>
             </div>
             <span className="confidence-arrow" aria-hidden="true">
               →

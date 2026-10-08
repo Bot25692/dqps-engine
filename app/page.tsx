@@ -19,9 +19,7 @@ export default async function OverviewPage() {
     overviewData(await repo.run(loadAnalysisInputs));
 
   const subtitle =
-    metadata.asOfDate === "2026-10-07" && metadata.skuCount === 8
-      ? "Day 45 · D2C Apparel & Footwear · 4 Platforms · 8 SKUs · INR"
-      : `${
+    `${
           metadata.dayCount
             ? `Day ${metadata.dayCount} (as-of ${metadata.asOfDate})`
             : `As-of ${metadata.asOfDate}`
@@ -31,8 +29,8 @@ export default async function OverviewPage() {
           metadata.skuCount === 1 ? "" : "s"
         } · INR`;
 
-  const startDate = portfolioTimeSeries[0]?.day ?? "08 SEP 2026";
-  const endDate = portfolioTimeSeries.at(-1)?.day ?? "07 OCT 2026";
+  const startDate = portfolioTimeSeries[0]?.day ?? "No metrics";
+  const endDate = portfolioTimeSeries.at(-1)?.day ?? "No metrics";
 
   /* ── Court Sneaker: Stock Risk ── */
   const attentionMetrics = [
@@ -154,6 +152,7 @@ export default async function OverviewPage() {
       />
 
       <MainContent>
+        {repo.status.banner && <p role="status">{repo.status.banner}</p>}
         {/* ── 1. KPI Summary ────────────────────────────────────────────── */}
         <section className="kpi-grid" aria-label="Portfolio performance">
           {kpiStats.map((stat, index) => (

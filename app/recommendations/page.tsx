@@ -3,7 +3,7 @@ export const instant = false;
 import { PageHeader } from "@/components/page-header";
 import { MainContent } from "@/components/main-content";
 import { getRuntimeRepo } from "@/lib/db/runtime-repo";
-import { ANALYSIS_AS_OF } from "@/lib/run-analysis";
+import { loadAnalysisInputs, getDatasetDates, allocationState } from "@/lib/run-analysis";
 import { RecommendationDetail } from "@/components/recommendations/recommendation-detail";
 import { connection } from "next/server";
 
@@ -11,12 +11,14 @@ export default async function RecommendationsPage() {
   await connection();
   // Fetch from fixture repo (server component — safe)
   const repo = await getRuntimeRepo();
-  const [recommendations, anomalies, campaigns, skus] =
+  const [recommendations, anomalies, campaigns, skus, outcomes, inputs] =
     await Promise.all([
       repo.getRecommendations(),
       repo.getAnomalies(),
       repo.getCampaigns(),
       repo.getSkus(),
+      repo.getOutcomes(),
+      repo.run(loadAnalysisInputs),
     ]);
 
   const topRec =
@@ -29,7 +31,8 @@ export default async function RecommendationsPage() {
     .sort((a, b) => b.z_score - a.z_score)
     .slice(0, 5);
 
-  const asOf = topRec?.created_at?.slice(0, 10) ?? ANALYSIS_AS_OF;
+  const asOf = getDatasetDates(inputs.metrics, inputs.inventory).asOf;
+  const currentRunways = Object.fromEntries(allocationState(inputs).campaigns.map(c => [c.id, Number.isFinite(c.sku.runway) ? c.sku.runway : null]));
 
   return (
     <>
@@ -39,11 +42,15 @@ export default async function RecommendationsPage() {
         eyebrow="REALLOCATION ENGINE"
       />
       <MainContent>
+        {repo.status.banner && <p role="status">{repo.status.banner}</p>}
         <RecommendationDetail
+          key={`${topRec?.id}:${topRec?.status}`}
           recommendation={topRec}
           stockAnomalies={stockAnomalies}
           campaigns={campaigns}
           skus={skus}
+          outcome={outcomes.find(row => row.recommendation_id === topRec?.id)}
+          currentRunways={currentRunways}
         />
       </MainContent>
     </>
