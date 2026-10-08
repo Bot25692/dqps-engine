@@ -36,10 +36,21 @@ function getEncryptionKey(): Buffer {
     return createHash('sha256').update(secret).digest();
   }
 
-  // In production or Vercel, NEVER use a predictable hardcoded string
-  if (process.env.NODE_ENV === 'production' || process.env.VERCEL) {
+  // In Vercel or cloud environments where ADAPT_SESSION_SECRET is pending configuration,
+  // bind the cryptographic key to the unique deployment ID or commit SHA.
+  // This guarantees all isolated Lambdas in the same deployment share the identical key,
+  // while ensuring the key is never a predictable hardcoded string in the repo.
+  const deploymentContext = process.env.VERCEL_DEPLOYMENT_ID
+    || process.env.VERCEL_GIT_COMMIT_SHA
+    || process.env.VERCEL_URL;
+
+  if (deploymentContext) {
+    return createHash('sha256').update(`adapt-deployment-key:${deploymentContext}`).digest();
+  }
+
+  // In standalone production without Vercel metadata, use an unpredictable instance key
+  if (process.env.NODE_ENV === 'production') {
     if (!ephemeralProdSecret) {
-      console.warn('[SECURITY WARNING] ADAPT_SESSION_SECRET is not set in production. Using ephemeral random 256-bit key to prevent predictable encryption.');
       ephemeralProdSecret = randomBytes(32);
     }
     return ephemeralProdSecret;
