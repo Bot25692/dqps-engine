@@ -313,18 +313,19 @@ export async function POST(request: Request): Promise<Response> {
           errorFraction,
         });
 
-      // saveOutcome is the completion marker.
-      // Repositories upsert this stable ID on retry.
+      // Save the updated confidence.
       await repo.setConfidence({
         recommendation_type: rec.type,
         weight: confidenceUpdate.newConfidence,
         updated_at: outcome.created_at,
       });
 
+      // Save the updated confidence in the recommendation itself.
       await repo.saveRecommendations([
         {
           ...rec,
           status: 'executed',
+          confidence: confidenceUpdate.newConfidence,
         },
       ]);
 
