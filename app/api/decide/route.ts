@@ -170,7 +170,7 @@ export async function POST(request: Request): Promise<Response> {
       });
       return Response.json({ ok: true, recommendationId: rec.id, status: 'simulated', simulationResult,
         predictedGainPerDay, predictedTotal: outcome.predicted, actualGain,
-        errorFraction, errorPct: outcome.error_pct, confidenceUpdate }, {
+        errorFraction, errorPct: outcome.error_pct, confidenceUpdate, outcome }, {
         headers: {
           'Set-Cookie': `adapt_session=${token}; Path=/; Max-Age=86400; SameSite=Lax; HttpOnly`,
         },

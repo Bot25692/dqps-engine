@@ -31,6 +31,7 @@ interface Props {
   skus: Sku[];
   outcome?: Outcome | null;
   currentRunways?: Record<string, number | null>;
+  dataset?: string;
 }
 
 interface SimulateResponse {
@@ -46,6 +47,7 @@ interface SimulateResponse {
     accuracy: number;
     newConfidence: number;
   } | null;
+  outcome?: Outcome;
   error?: string;
 }
 
@@ -59,6 +61,7 @@ export function RecommendationDetail({
   skus,
   outcome,
   currentRunways = {},
+  dataset = "apparel",
 }: Props) {
   const router = useRouter();
   const [status, setStatus] = useState<WorkflowStage>(workflowStage(recommendation, outcome));
@@ -132,8 +135,23 @@ export function RecommendationDetail({
       }
       setSimResult(res);
       setStatus('COMPLETED');
-      // The API has persisted the real outcome and applied M5 once. No browser
-      // outcome copy and no automatic navigation that hides the completed step.
+      try {
+        const outcomeRecord: Outcome = res.outcome ?? {
+          id: `${rec.id}:outcome`,
+          recommendation_id: rec.id,
+          created_at: new Date().toISOString(),
+          predicted: res.predictedTotal!,
+          actual: res.actualGain!,
+          error_pct: res.errorPct!,
+          horizon_days: 3,
+        };
+        localStorage.setItem("adapt_client_outcome", JSON.stringify({
+          dataset,
+          recommendationId: rec.id,
+          outcome: outcomeRecord,
+          confidenceUpdate: res.confidenceUpdate,
+        }));
+      } catch {}
       router.refresh();
     } catch (e) {
       setError(e instanceof Error ? e.message : String(e));

@@ -36,6 +36,7 @@ export default async function LearningPage() {
         outcomes={latestOutcomes}
         currentConfidence={currentConfidence}
         recommendations={snapshot.recommendations}
+        dataset={currentDataset}
       />
     </>
   );

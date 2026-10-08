@@ -55,6 +55,7 @@ export default async function RecommendationsPage() {
           skus={skus}
           outcome={effectiveOutcome}
           currentRunways={currentRunways}
+          dataset={currentDataset}
         />
 
     </>
