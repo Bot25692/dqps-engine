@@ -11,6 +11,7 @@ import type { Repo } from '@/lib/db/repo';
 import { sealSession, unsealSession } from '@/lib/session';
 
 const RequestSchema = z.object({
+  dataset: z.enum(['apparel', 'skincare']).optional(),
   recommendationId: z.string().min(1).optional(),
   action: z.enum(['register', 'approve', 'reject', 'simulate', 'reset']),
   seed: z.number().int().optional(),
@@ -34,12 +35,16 @@ export async function POST(request: Request): Promise<Response> {
   catch { return Response.json({ ok: false, error: 'Invalid JSON body' }, { status: 400 }); }
   const parsed = RequestSchema.safeParse(body);
   if (!parsed.success) return Response.json({ ok: false, error: 'Invalid decision request' }, { status: 400 });
+  const cookieHeader = request.headers.get('cookie') || '';
+  const matchDataset = cookieHeader.match(/adapt_dataset=([^;]+)/);
+  const datasetKey = parsed.data.dataset || (matchDataset?.[1] === 'skincare' ? 'skincare' : 'apparel');
+
   return withDecisionLock(async () => {
     const { action, seed, recommendation } = parsed.data;
     const recommendationId = parsed.data.recommendationId ?? 'demo';
     const fail = (error: string, status = 409) => Response.json({ ok: false, recommendationId, error }, { status });
     try {
-      const repo = await getRuntimeRepo();
+      const repo = await getRuntimeRepo(datasetKey);
       if (action === 'reset') {
         await repo.resetDecisions();
         await runAnalysis(repo);
@@ -71,6 +76,7 @@ export async function POST(request: Request): Promise<Response> {
         const weight = await repo.getConfidence(rec.type);
         await repo.saveRecommendations([{ ...rec, status, confidence: weight?.weight ?? .75 }]);
         const token = sealSession({
+          dataset: datasetKey,
           recommendationId: rec.id,
           status,
           approvedAt: action === 'approve' ? new Date().toISOString() : undefined,
@@ -138,6 +144,7 @@ export async function POST(request: Request): Promise<Response> {
       await logOnce(repo, rec.id, 'executed');
       await repo.saveOutcome(outcome);
       const token = sealSession({
+        dataset: datasetKey,
         recommendationId: rec.id,
         status: 'executed',
         outcome,

@@ -3,6 +3,7 @@ import { z } from 'zod';
 import { OutcomeSchema } from './types';
 
 export const SessionPayloadSchema = z.strictObject({
+  dataset: z.enum(['apparel', 'skincare']).optional(),
   recommendationId: z.string().min(1),
   status: z.enum(['pending', 'approved', 'rejected', 'executed']),
   approvedAt: z.string().optional(),
@@ -36,19 +37,9 @@ function getEncryptionKey(): Buffer {
     return createHash('sha256').update(secret).digest();
   }
 
-  // In Vercel or cloud environments where ADAPT_SESSION_SECRET is pending configuration,
-  // bind the cryptographic key to the unique deployment ID or commit SHA.
-  // This guarantees all isolated Lambdas in the same deployment share the identical key,
-  // while ensuring the key is never a predictable hardcoded string in the repo.
-  const deploymentContext = process.env.VERCEL_DEPLOYMENT_ID
-    || process.env.VERCEL_GIT_COMMIT_SHA
-    || process.env.VERCEL_URL;
-
-  if (deploymentContext) {
-    return createHash('sha256').update(`adapt-deployment-key:${deploymentContext}`).digest();
-  }
-
-  // In standalone production without Vercel metadata, use an unpredictable instance key
+  // Public deployment metadata is not a secret. An unconfigured production
+  // instance gets a random key; stable cross-instance sessions require
+  // ADAPT_SESSION_SECRET configured by the deployment owner.
   if (process.env.NODE_ENV === 'production') {
     if (!ephemeralProdSecret) {
       ephemeralProdSecret = randomBytes(32);

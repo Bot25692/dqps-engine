@@ -1,6 +1,7 @@
 "use client";
 
 import { usePathname } from "next/navigation";
+import { DatasetSelector } from "./dataset-selector";
 
 const routeMeta: Record<string, { title: string; iconPath: string }> = {
   "/": {
@@ -47,11 +48,14 @@ export function Topbar() {
         <span className="crumb-slash">/</span>
         <span className="topbar-section">{current.title}</span>
       </div>
-      <div className="topbar-meta">
-        <span className="meta-mark" />
-        <span>INR</span>
-        <span className="meta-separator" />
-        <span>Simulated</span>
+      <div className="flex items-center gap-2.5">
+        <DatasetSelector />
+        <div className="topbar-meta hidden sm:flex">
+          <span className="meta-mark" />
+          <span>INR</span>
+          <span className="meta-separator" />
+          <span>Simulated</span>
+        </div>
       </div>
     </header>
   );

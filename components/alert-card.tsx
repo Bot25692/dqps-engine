@@ -132,10 +132,10 @@ export function AlertCard({
         </div>
       </div>
 
-      {isRisk && (
+      {isRisk ? (
         <div className="signal-bottom">
           <span>High ROAS ≠ automatically scale</span>
-          {ctaHref && (
+          {ctaHref ? (
             <Link
               className="text-link"
               href={ctaHref}
@@ -154,7 +154,29 @@ export function AlertCard({
                 <path d="M5 12h14M13 6l6 6-6 6" />
               </svg>
             </Link>
-          )}
+          ) : null}
+        </div>
+      ) : (
+        <div className="signal-bottom signal-opportunity-bottom">
+          <span>Inventory ample · Eligible for scale</span>
+          <Link
+            className="text-link"
+            href={ctaHref ?? "/campaigns"}
+          >
+            {ctaLabel ?? "View Campaigns"}{" "}
+            <svg
+              className="link-arrow"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.7"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              aria-hidden="true"
+            >
+              <path d="M5 12h14M13 6l6 6-6 6" />
+            </svg>
+          </Link>
         </div>
       )}
     </article>

@@ -12,10 +12,15 @@ import { getRuntimeRepo } from "@/lib/db/runtime-repo";
 import { ANALYSIS_AS_OF } from "@/lib/run-analysis";
 import { connection } from "next/server";
 
-export async function GET(): Promise<Response> {
+export async function GET(request?: Request): Promise<Response> {
   await connection();
   try {
-    const repo = await getRuntimeRepo();
+    let datasetKey: string | undefined;
+    if (request?.url) {
+      const url = new URL(request.url);
+      datasetKey = url.searchParams.get('dataset') || undefined;
+    }
+    const repo = await getRuntimeRepo(datasetKey);
     const [recommendations, anomalies, campaigns, skus] = await Promise.all([
       repo.getRecommendations(),
       repo.getAnomalies(),

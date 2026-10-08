@@ -1,9 +1,7 @@
 export const instant = false;
 
-import { PageHeader } from "@/components/page-header";
-import { MainContent } from "@/components/main-content";
 import { getRuntimeRepo } from "@/lib/db/runtime-repo";
-import { loadAnalysisInputs, getDatasetDates, allocationState } from "@/lib/run-analysis";
+import { loadAnalysisInputs, allocationState } from "@/lib/run-analysis";
 import { RecommendationDetail } from "@/components/recommendations/recommendation-detail";
 import { connection } from "next/server";
 import { cookies } from "next/headers";
@@ -14,14 +12,19 @@ export default async function RecommendationsPage() {
   await connection();
   const cookieStore = await cookies();
   const sessionCookie = cookieStore.get("adapt_session")?.value;
+  const currentDataset = cookieStore.get("adapt_dataset")?.value === "skincare" ? "skincare" : "apparel";
+  let sessionRecId: string | null = null;
   let cookieOutcome: Outcome | null = null;
   let cookieRecStatus: string | null = null;
   let cookieConfidence: number | null = null;
   if (sessionCookie) {
     const session = unsealSession(sessionCookie);
-    if (session?.outcome) cookieOutcome = session.outcome;
-    if (session?.status) cookieRecStatus = session.status;
-    if (session?.confidence?.weight) cookieConfidence = session.confidence.weight;
+    if (session && (!session.dataset || session.dataset === currentDataset)) {
+      sessionRecId = session.recommendationId;
+      if (session.outcome) cookieOutcome = session.outcome;
+      if (session.status) cookieRecStatus = session.status;
+      if (session.confidenceUpdate) cookieConfidence = session.confidenceUpdate.previousConfidence;
+    }
   }
 
   // Fetch from fixture repo (server component — safe)
@@ -42,7 +45,7 @@ export default async function RecommendationsPage() {
     null;
 
   let effectiveRec = topRec;
-  if (effectiveRec && cookieRecStatus && effectiveRec.status === "pending") {
+  if (effectiveRec && cookieRecStatus && effectiveRec.status === "pending" && sessionRecId === effectiveRec.id) {
     effectiveRec = {
       ...effectiveRec,
       status: cookieRecStatus as Recommendation["status"],
@@ -61,7 +64,6 @@ export default async function RecommendationsPage() {
     .sort((a, b) => b.z_score - a.z_score)
     .slice(0, 5);
 
-  const asOf = getDatasetDates(inputs.metrics, inputs.inventory).asOf;
   const currentRunways = Object.fromEntries(
     allocationState(inputs).campaigns.map((c) => [
       c.id,
@@ -71,13 +73,7 @@ export default async function RecommendationsPage() {
 
   return (
     <>
-      <PageHeader
-        title="Recommendations"
-        subtitle={`Budget reallocation recommendations — as of ${asOf}`}
-        eyebrow="REALLOCATION ENGINE"
-      />
-      <MainContent>
-        {repo.status.banner && <p role="status">{repo.status.banner}</p>}
+        {repo.status.banner && <p role="status" className="host-notice">{repo.status.banner}</p>}
         <RecommendationDetail
           key={`${effectiveRec?.id}:${effectiveRec?.status}`}
           recommendation={effectiveRec}
@@ -87,7 +83,7 @@ export default async function RecommendationsPage() {
           outcome={effectiveOutcome}
           currentRunways={currentRunways}
         />
-      </MainContent>
+
     </>
   );
 }
