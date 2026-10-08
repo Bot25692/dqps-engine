@@ -17,7 +17,22 @@
 import type { Outcome, Recommendation } from "@/lib/types";
 import { presentOutcome } from "@/lib/integration/presentation";
 import Link from "next/link";
-import { useState } from "react";
+import { useState, useSyncExternalStore } from "react";
+
+function subscribe(callback: () => void) {
+  window.addEventListener("storage", callback);
+  return () => window.removeEventListener("storage", callback);
+}
+function getSnapshot(): string | null {
+  try {
+    return localStorage.getItem("adapt_client_outcome");
+  } catch {
+    return null;
+  }
+}
+function getServerSnapshot(): string | null {
+  return null;
+}
 
 interface Props {
   outcomes: Outcome[];
@@ -38,6 +53,15 @@ export function LearningView({
   recommendations,
 }: Props) {
   const [resetError, setResetError] = useState<string | null>(null);
+  const clientStoreRaw = useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
+  let clientOutcome: Outcome | null = null;
+  if (clientStoreRaw) {
+    try {
+      const parsed = JSON.parse(clientStoreRaw);
+      if (parsed.outcome) clientOutcome = parsed.outcome;
+    } catch {}
+  }
+
   const recMap = new Map(recommendations.map((r) => [r.id, r]));
 
   const steps = [
@@ -48,10 +72,11 @@ export function LearningView({
     "Update confidence",
   ];
 
-  const hasOutcomes = outcomes.length > 0;
+  const effectiveOutcomes = outcomes.length > 0 ? outcomes : (clientOutcome ? [clientOutcome] : []);
+  const hasOutcomes = effectiveOutcomes.length > 0;
 
   /* ── Compute confidence trajectory ── */
-  const trajectory = outcomes
+  const trajectory = effectiveOutcomes
     .slice()
     .sort((a, b) => a.created_at.localeCompare(b.created_at))
     .map((outcome) => {
@@ -65,15 +90,19 @@ export function LearningView({
   async function handleReset() {
     setResetError(null);
     try {
-    const response = await fetch("/api/decide", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ action: "reset" }),
-    });
-    const result = await response.json();
-    if (!response.ok || !result.ok) throw new Error(result.error ?? 'Reset failed');
-    // Clear visited-route snapshots as well as the current Learning page.
-    window.location.reload();
+      try {
+        localStorage.removeItem("adapt_client_outcome");
+        sessionStorage.removeItem("adapt_client_outcome");
+      } catch {}
+      const response = await fetch("/api/decide", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ action: "reset" }),
+      });
+      const result = await response.json();
+      if (!response.ok || !result.ok) throw new Error(result.error ?? 'Reset failed');
+      // Clear visited-route snapshots as well as the current Learning page.
+      window.location.reload();
     } catch (error) { setResetError(error instanceof Error ? error.message : 'Reset failed'); }
   }
 

@@ -8,6 +8,7 @@ import { allocationState, loadAnalysisInputs, runAnalysis } from '@/lib/run-anal
 import { revenue } from '@/lib/analysis/optimize';
 import { OutcomeSchema, RecommendationSchema, type ActionLogEntry } from '@/lib/types';
 import type { Repo } from '@/lib/db/repo';
+import { sealSession, unsealSession } from '@/lib/session';
 
 const RequestSchema = z.object({
   recommendationId: z.string().min(1).optional(),
@@ -44,7 +45,10 @@ export async function POST(request: Request): Promise<Response> {
         await runAnalysis(repo);
         boundary.reset();
         logged.clear();
-        return Response.json({ ok: true, recommendationId, status: 'reset' });
+        return Response.json(
+          { ok: true, recommendationId, status: 'reset' },
+          { headers: { 'Set-Cookie': 'adapt_session=; Path=/; Max-Age=0; SameSite=Lax' } }
+        );
       }
       const rec = (await repo.getRecommendations()).find(row => row.id === recommendationId);
       if (!rec) return fail('Unknown recommendation', 404);
@@ -66,16 +70,36 @@ export async function POST(request: Request): Promise<Response> {
         // Keep the confidence used for this outcome in the recommendation snapshot.
         const weight = await repo.getConfidence(rec.type);
         await repo.saveRecommendations([{ ...rec, status, confidence: weight?.weight ?? .75 }]);
-        return Response.json(result);
+        const token = sealSession({
+          recommendationId: rec.id,
+          status,
+          approvedAt: action === 'approve' ? new Date().toISOString() : undefined,
+        });
+        return Response.json(result, {
+          headers: {
+            'Set-Cookie': `adapt_session=${token}; Path=/; Max-Age=86400; SameSite=Lax; HttpOnly`,
+          },
+        });
       }
       if ((await repo.getOutcomes()).some(row => row.recommendation_id === rec.id)) {
         return fail('Recommendation already has a persisted outcome');
       }
       if (rec.status !== 'approved' && rec.status !== 'executed') return fail('Human approval is required');
       if (!getRecord(rec.id)) {
-        const actions = (await repo.getActionLog()).filter(entry => entry.recommendation_id === rec.id);
-        const approval = actions.find(entry => entry.action === 'approved' && entry.actor === 'human');
-        if (!approval || actions.some(entry => entry.action === 'rejected')) {
+        let approval = (await repo.getActionLog()).filter(entry => entry.recommendation_id === rec.id)
+          .find(entry => entry.action === 'approved' && entry.actor === 'human');
+        if (!approval) {
+          const cookieHeader = request.headers.get('cookie') || '';
+          const match = cookieHeader.match(/adapt_session=([^;]+)/);
+          if (match) {
+            const session = unsealSession(match[1]);
+            if (session && session.recommendationId === rec.id && session.status === 'approved' && session.approvedAt) {
+              approval = { id: `${rec.id}:approved`, recommendation_id: rec.id, created_at: session.approvedAt, actor: 'human', action: 'approved', note: '' };
+              await logOnce(repo, rec.id, 'approved');
+            }
+          }
+        }
+        if (!approval || (await repo.getActionLog()).some(entry => entry.action === 'rejected')) {
           return fail('Saved human approval unavailable. Reset the demo and approve again.');
         }
         restoreApproval(rec.id, Date.parse(approval.created_at));
@@ -113,9 +137,25 @@ export async function POST(request: Request): Promise<Response> {
       await repo.saveRecommendations([{ ...rec, status: 'executed' }]);
       await logOnce(repo, rec.id, 'executed');
       await repo.saveOutcome(outcome);
+      const token = sealSession({
+        recommendationId: rec.id,
+        status: 'executed',
+        outcome,
+        confidence: { recommendation_type: rec.type, weight: confidenceUpdate.newConfidence },
+        simulatedAt: outcome.created_at,
+        predictedGainPerDay,
+        predictedTotal: outcome.predicted,
+        actualGain,
+        errorPct: outcome.error_pct,
+        confidenceUpdate,
+      });
       return Response.json({ ok: true, recommendationId: rec.id, status: 'simulated', simulationResult,
         predictedGainPerDay, predictedTotal: outcome.predicted, actualGain,
-        errorFraction, errorPct: outcome.error_pct, confidenceUpdate });
+        errorFraction, errorPct: outcome.error_pct, confidenceUpdate }, {
+        headers: {
+          'Set-Cookie': `adapt_session=${token}; Path=/; Max-Age=86400; SameSite=Lax; HttpOnly`,
+        },
+      });
     } catch {
       return fail('Decision could not be completed. Please retry.', 500);
     }

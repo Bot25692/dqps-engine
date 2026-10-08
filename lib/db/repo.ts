@@ -1,4 +1,4 @@
-import { readFile } from 'node:fs/promises';
+import { readFile, writeFile, mkdir, unlink, rename } from 'node:fs/promises';
 import { join } from 'node:path';
 import { z } from 'zod';
 import * as T from '../types';
@@ -63,16 +63,85 @@ function upsert<R>(rows: R[], additions: R[], key: keyof R): R[] {
   return [...indexed.values()];
 }
 
-// Each instance owns in-memory decisions; source JSON is never overwritten.
+export type FixtureRepoInit =
+  | string
+  | { seed?: number; directory?: string; storageDir?: string | null };
+
+// Each instance owns in-memory decisions with optional disk overlay persistence across serverless container recycling.
 export class FixtureRepo implements Repo {
   private readonly ready: Promise<Data>;
   private baseline!: Data;
+  private readonly storageDir: string | null;
+  private readonly directory?: string;
+  private readonly seed?: number;
 
-  constructor(directory: string | { seed: number } = join(process.cwd(), 'fixtures')) {
-    this.ready = (typeof directory === 'string' ? loadFixtures(directory) : loadSeedFixtures(directory.seed)).then(data => {
+  constructor(options: FixtureRepoInit = join(process.cwd(), 'fixtures')) {
+    let dir: string | undefined;
+    let seed: number | undefined;
+    let storage: string | null | undefined;
+
+    if (typeof options === 'string') {
+      dir = options;
+    } else {
+      dir = options.directory;
+      seed = options.seed;
+      storage = options.storageDir;
+    }
+
+    this.directory = dir;
+    this.seed = seed;
+    this.storageDir = storage === null ? null : (storage ?? (process.env.ADAPT_STORAGE_DIR || null));
+
+    const loader = seed !== undefined ? loadSeedFixtures(seed) : loadFixtures(dir ?? join(process.cwd(), 'fixtures'));
+    this.ready = loader.then(async data => {
       this.baseline = structuredClone(data);
+      if (this.storageDir) {
+        try {
+          const content = await readFile(this.getOverlayPath(), 'utf8');
+          const overlay = JSON.parse(content);
+          if (Array.isArray(overlay.anomalies)) data.anomalies = upsert(data.anomalies, fixtureSchemas.anomalies.parse(overlay.anomalies), 'id');
+          if (Array.isArray(overlay.recommendations)) data.recommendations = upsert(data.recommendations, fixtureSchemas.recommendations.parse(overlay.recommendations), 'id');
+          if (Array.isArray(overlay.action_log)) {
+            const parsed = fixtureSchemas.action_log.parse(overlay.action_log);
+            for (const item of parsed) {
+              if (!data.action_log.some(r => r.id === item.id)) data.action_log.push(item);
+            }
+          }
+          if (Array.isArray(overlay.outcomes)) data.outcomes = upsert(data.outcomes, fixtureSchemas.outcomes.parse(overlay.outcomes), 'id');
+          if (Array.isArray(overlay.campaign_state)) data.campaign_state = upsert(data.campaign_state, fixtureSchemas.campaign_state.parse(overlay.campaign_state), 'campaign_id');
+          if (Array.isArray(overlay.confidence_weights)) data.confidence_weights = upsert(data.confidence_weights, fixtureSchemas.confidence_weights.parse(overlay.confidence_weights), 'recommendation_type');
+        } catch {
+          // No overlay file yet or read error - keep baseline
+        }
+      }
       return data;
     });
+  }
+
+  private getOverlayPath(): string {
+    const key = this.seed !== undefined ? `seed-${this.seed}` : (this.directory ? this.directory.replace(/[^a-zA-Z0-9_-]/g, '_') : 'default');
+    return join(this.storageDir!, `overlay-${key}.json`);
+  }
+
+  private async persistOverlay(data: Data): Promise<void> {
+    if (!this.storageDir) return;
+    try {
+      await mkdir(this.storageDir, { recursive: true });
+      const target = this.getOverlayPath();
+      const tmp = `${target}.${Date.now()}.${Math.random().toString(36).slice(2)}.tmp`;
+      const payload = {
+        anomalies: data.anomalies,
+        recommendations: data.recommendations,
+        action_log: data.action_log,
+        outcomes: data.outcomes,
+        campaign_state: data.campaign_state,
+        confidence_weights: data.confidence_weights,
+      };
+      await writeFile(tmp, JSON.stringify(payload, null, 2), 'utf8');
+      await rename(tmp, target);
+    } catch {
+      // Graceful fallback if storage write fails
+    }
   }
 
   // Return copies so callers cannot mutate repository state through reads.
@@ -94,22 +163,26 @@ export class FixtureRepo implements Repo {
     const parsed = fixtureSchemas.anomalies.parse(rows);
     const data = await this.ready;
     data.anomalies = upsert(data.anomalies, parsed, 'id');
+    await this.persistOverlay(data);
   }
   async saveRecommendations(rows: T.Recommendation[]) {
     const parsed = fixtureSchemas.recommendations.parse(rows);
     const data = await this.ready;
     data.recommendations = upsert(data.recommendations, parsed, 'id');
+    await this.persistOverlay(data);
   }
   async logAction(entry: T.ActionLogEntry) {
     const parsed = T.ActionLogEntrySchema.parse(entry);
     const data = await this.ready;
     if (data.action_log.some(row => row.id === parsed.id)) throw new Error('Duplicate action ID');
     data.action_log.push(parsed);
+    await this.persistOverlay(data);
   }
   async saveOutcome(outcome: T.Outcome) {
     const parsed = T.OutcomeSchema.parse(outcome);
     const data = await this.ready;
     data.outcomes = upsert(data.outcomes, [parsed], 'id');
+    await this.persistOverlay(data);
   }
   async getCampaignState(campaignId: string) {
     return (await this.read('campaign_state')).find(row => row.campaign_id === campaignId) ?? null;
@@ -118,6 +191,7 @@ export class FixtureRepo implements Repo {
     const parsed = T.CampaignStateSchema.parse(state);
     const data = await this.ready;
     data.campaign_state = upsert(data.campaign_state, [parsed], 'campaign_id');
+    await this.persistOverlay(data);
   }
   async getConfidence(type: T.ConfidenceWeight['recommendation_type']) {
     return (await this.read('confidence_weights')).find(row => row.recommendation_type === type) ?? null;
@@ -126,11 +200,17 @@ export class FixtureRepo implements Repo {
     const parsed = T.ConfidenceWeightSchema.parse(weight);
     const data = await this.ready;
     data.confidence_weights = upsert(data.confidence_weights, [parsed], 'recommendation_type');
+    await this.persistOverlay(data);
   }
 
   // Restore all seeded decisions, logs, outcomes, budgets, and confidence weights.
   async resetDecisions() {
     const data = await this.ready;
     Object.assign(data, structuredClone(this.baseline));
+    if (this.storageDir) {
+      try {
+        await unlink(this.getOverlayPath());
+      } catch {}
+    }
   }
 }

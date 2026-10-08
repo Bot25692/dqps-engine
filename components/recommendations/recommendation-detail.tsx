@@ -149,8 +149,27 @@ export function RecommendationDetail({
       const res: SimulateResponse = await callDecide("simulate", { seed: SEED });
       setSimResult(res);
       setStatus(res.ok ? "simulated" : "error");
-      if (!res.ok) setError(res.error ?? "Simulation failed");
-      else window.location.reload(); // Load the saved outcome and clear stale Learning snapshots.
+      if (!res.ok) {
+        setError(res.error ?? "Simulation failed");
+      } else {
+        try {
+          const outcomeRecord = {
+            id: `${rec.id}:outcome`,
+            recommendation_id: rec.id,
+            created_at: new Date(res.simulationResult?.simulatedAt || Date.now()).toISOString(),
+            predicted: res.predictedTotal ?? rec.expected_profit_gain_per_day * 3,
+            actual: res.actualGain ?? 0,
+            error_pct: res.errorPct ?? 0,
+            horizon_days: 3,
+          };
+          localStorage.setItem("adapt_client_outcome", JSON.stringify({
+            outcome: outcomeRecord,
+            confidenceUpdate: res.confidenceUpdate,
+            simulationResult: res.simulationResult,
+          }));
+        } catch {}
+        window.location.reload(); // Load the saved outcome and clear stale Learning snapshots.
+      }
     } catch (e) {
       setError(String(e));
       setStatus("error");
@@ -159,15 +178,19 @@ export function RecommendationDetail({
 
   async function handleReset() {
     try {
-    const result = await callDecide("reset");
-    if (!result.ok) {
-      setError(result.error ?? "Reset failed");
-      return;
-    }
-    window.location.reload(); // Reset invalidates every visited workflow page.
-    setStatus("idle");
-    setSimResult(null);
-    setError(null);
+      try {
+        localStorage.removeItem("adapt_client_outcome");
+        sessionStorage.removeItem("adapt_client_outcome");
+      } catch {}
+      const result = await callDecide("reset");
+      if (!result.ok) {
+        setError(result.error ?? "Reset failed");
+        return;
+      }
+      window.location.reload(); // Reset invalidates every visited workflow page.
+      setStatus("idle");
+      setSimResult(null);
+      setError(null);
     } catch (error) { setError(error instanceof Error ? error.message : 'Reset failed'); }
   }
 
@@ -219,8 +242,10 @@ export function RecommendationDetail({
 
   return (
     <div className="space-y-4">
-      <button className="button button-secondary" disabled={busy || status !== 'idle'} onClick={handleAnalyze}>{busy ? 'Analyzing…' : 'Run Analysis'}</button>
-      <p className="text-xs text-[var(--text-muted)]">Simulated execution only. Current stock cover: {currentRunways[targetCampaignId] == null ? 'Unavailable' : `${currentRunways[targetCampaignId]!.toFixed(1)} days`}. Evidence below records cover at detection.</p>
+      <div className="recommendation-toolbar">
+        <button className="button button-secondary" disabled={busy || status !== 'idle'} onClick={handleAnalyze}>{busy ? 'Analyzing…' : 'Run Analysis'}</button>
+        <p className="toolbar-disclaimer">Simulated execution only. Current stock cover: <b>{currentRunways[targetCampaignId] == null ? 'Unavailable' : `${currentRunways[targetCampaignId]!.toFixed(1)} days`}</b>. Evidence below records cover at detection.</p>
+      </div>
       {error && (
         <div
           className="rounded-lg p-3 text-sm font-mono"
